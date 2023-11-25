@@ -30,6 +30,12 @@ module.exports = {
                 950: '#210B4C',
             },
         },
+        extend: {
+            fontFamily: {
+                sans: ['var(--font-satoshi)'],
+                mono: ['var(--font-roboto-mono)'],
+            },
+        },
     },
     plugins: [],
 };
