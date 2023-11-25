@@ -23,9 +23,7 @@
             "~app/*": ["src/app/*"],
             "~components/*": ["src/components/*"],
             "~hooks/*": ["src/hooks/*"],
-            "~locales/*": ["src/locales/*"],
             "~styles/*": ["src/styles/*"],
-            "~tests/*": ["src/tests/*"],
             "~types/*": ["src/types/*"],
             "~utils/*": ["src/utils/*"],
             "~/*": ["src/*"]
