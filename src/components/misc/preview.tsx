@@ -85,7 +85,7 @@ const Preview = () => {
                 Emulated screen width: {Math.round((1920 / 100) * currentPercentage)}px
             </div>
             <div
-                className="absolute left-0 mt-16 2xl:mt-12 w-[1920px] overflow-hidden"
+                className="absolute left-0 mt-16 2xl:mt-12 w-[1920px] overflow-hidden pointer-events-none"
                 ref={screenContainerRef}>
                 <animated.div
                     className="relative h-full rounded-lg bg-neutral-800 pt-12 pb-8 border border-neutral-700 overflow-hidden scale-0 origin-top-left"
