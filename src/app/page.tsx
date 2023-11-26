@@ -1,3 +1,4 @@
+import Actions from '~/components/misc/actions';
 import Preview from '~/components/misc/preview';
 
 const Page = () => {
@@ -7,12 +8,7 @@ const Page = () => {
                 <Preview />
             </div>
             <div className="flex flex-col border border-neutral-800 rounded-xl h-[calc(100vh-16rem)] md:max-w-sm flex-[0.4] overflow-hidden">
-                <span className="block p-4">
-                    Actions <span className="text-neutral-600">(not implemented yet)</span>
-                </span>
-                <div className="p-4 text-sm">
-                    Current implementation: clamp(1rem, -1.3333rem + 7.7778vw, 8rem)
-                </div>
+                <Actions />
             </div>
         </div>
     );
