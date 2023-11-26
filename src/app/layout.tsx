@@ -10,7 +10,7 @@ import '~/styles/global.css';
 const RootLayout = ({ children }: PropsWithChildren) => {
     return (
         <html className={`${satoshiFont.variable} ${robotoMonoFont.variable}`}>
-            <body className="bg-neutral-950 text-neutral-50 font-sans">
+            <body className="bg-neutral-950 text-neutral-50 font-sans overflow-x-hidden">
                 <div className="flex flex-col gap-4 md:gap-8 m-4 md:mt-8 md:mx-auto md:max-w-[120rem] md:px-12">
                     <Header />
                     {children}
