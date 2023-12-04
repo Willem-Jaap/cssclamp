@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { useFormContext } from 'react-hook-form';
 
+import NumberInput from '~/components/form/number-input';
 import { Button } from '~/components/ui/button';
 import {
     DropdownMenu,
@@ -16,28 +17,80 @@ import {
     DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
 import { type Mode, type Settings } from '~/hooks/useSettings';
+import getTailwindValue from '~/utils/getTailwindValue';
 
 const Actions = () => {
-    const { register, watch, setValue } = useFormContext<Settings>();
+    const { register, watch, getValues, setValue } = useFormContext<Settings>();
 
-    const rem = (px: number) => px / 16;
+    const remify = (px: number) => px / 16;
     const toFixed = (num: number) => parseFloat(num.toFixed(3));
 
-    const maximumValue = rem(watch('maximumValue'));
-    const minimumValue = rem(watch('minimumValue'));
-    const maximumViewport = rem(watch('maximumViewport'));
-    const minimumViewport = rem(watch('minimumViewport'));
+    const getValue = (value: number, mode: Mode) => {
+        if (mode === 'rem') {
+            return value;
+        }
+
+        if (mode === 'tailwind') {
+            return getTailwindValue(value);
+        }
+
+        return remify(value);
+    };
+
+    const maximumValue = remify(watch('maximumValue'));
+    const minimumValue = remify(watch('minimumValue'));
+    const maximumViewport = remify(watch('maximumViewport'));
+    const minimumViewport = remify(watch('minimumViewport'));
 
     const slope = (maximumValue - minimumValue) / (maximumViewport - minimumViewport);
     const intersection = maximumValue - slope * maximumViewport;
 
-    const clamp = `clamp(${rem(watch('minimumValue'))}rem, ${toFixed(intersection)}rem + ${toFixed(
-        slope * 100,
-    )}vw, ${rem(watch('maximumValue'))}rem)`;
+    const mode = watch('mode');
+    const clamp = `clamp(${getValue(watch('minimumValue'), mode)}rem, ${toFixed(
+        intersection,
+    )}rem + ${toFixed(slope * 100)}vw, ${getValue(watch('maximumValue'), mode)}rem)`;
 
     useEffect(() => {
         setValue('clamp', clamp);
     }, [clamp, setValue]);
+
+    const onModeChange = (mode: string) => {
+        const previousValue = getValues('mode');
+        if (previousValue === mode) {
+            return;
+        }
+
+        // Move values from previous mode to new mode
+        if (mode === 'rem' && previousValue === 'px') {
+            setValue('minimumValue', remify(watch('minimumValue')));
+            setValue('maximumValue', remify(watch('maximumValue')));
+            setValue('minimumViewport', remify(watch('minimumViewport')));
+            setValue('maximumViewport', remify(watch('maximumViewport')));
+        }
+
+        if (mode === 'px' && previousValue === 'rem') {
+            setValue('minimumValue', watch('minimumValue') * 16);
+            setValue('maximumValue', watch('maximumValue') * 16);
+            setValue('minimumViewport', watch('minimumViewport') * 16);
+            setValue('maximumViewport', watch('maximumViewport') * 16);
+        }
+
+        if (mode === 'tailwind' && previousValue === 'rem') {
+            setValue('minimumValue', getTailwindValue(watch('minimumValue')));
+            setValue('maximumValue', getTailwindValue(watch('maximumValue')));
+            setValue('minimumViewport', getTailwindValue(watch('minimumViewport')));
+            setValue('maximumViewport', getTailwindValue(watch('maximumViewport')));
+        }
+
+        if (mode === 'rem' && previousValue === 'tailwind') {
+            setValue('minimumValue', remify(watch('minimumValue')));
+            setValue('maximumValue', remify(watch('maximumValue')));
+            setValue('minimumViewport', remify(watch('minimumViewport')));
+            setValue('maximumViewport', remify(watch('maximumViewport')));
+        }
+
+        setValue('mode', mode as Mode);
+    };
 
     return (
         <>
@@ -52,7 +105,7 @@ const Actions = () => {
                         <DropdownMenuSeparator />
                         <DropdownMenuRadioGroup
                             value={watch('mode')}
-                            onValueChange={mode => setValue('mode', mode as Mode)}
+                            onValueChange={onModeChange}
                             {...register('mode')}>
                             <DropdownMenuRadioItem value="rem">
                                 rem<sup className="text-neutral-400 ml-2">16px</sup>
@@ -77,70 +130,78 @@ const Actions = () => {
                 <h2 className="text-sm text-neutral-600">Clamp sizes</h2>
                 <div className="flex gap-2 items-center justify-between">
                     <label htmlFor="min-value">Minimum value: </label>
-                    <input
+                    <NumberInput
                         id="min-value"
-                        type="number"
-                        className="w-24 px-2 py-1 bg-neutral-900 border border-neutral-700 rounded-md"
                         min={0}
+                        mode={watch('mode')}
                         {...register('minimumValue')}
                     />
                 </div>
                 <div className="flex gap-2 items-center justify-between">
                     <label htmlFor="max-value">Maximum value: </label>
-                    <input
+                    <NumberInput
                         id="max-value"
-                        type="number"
-                        className="w-24 px-2 py-1 bg-neutral-900 border border-neutral-700 rounded-md"
                         min={0}
+                        mode={watch('mode')}
                         {...register('maximumValue')}
                     />
                 </div>
                 <h2 className="text-sm text-neutral-600 mt-4">Viewport settings</h2>
                 <div className="flex gap-2 items-center justify-between">
                     <label htmlFor="viewport-min">Minimum viewport width: </label>
-                    <input
+                    <NumberInput
                         id="viewport-min"
-                        type="number"
-                        className="w-24 px-2 py-1 bg-neutral-900 border border-neutral-700 rounded-md"
                         min={0}
+                        mode={watch('mode')}
                         {...register('minimumViewport')}
                     />
                 </div>
                 <div className="flex gap-2 items-center justify-between">
                     <label htmlFor="viewport-max">Maximum viewport width: </label>
-                    <input
+                    <NumberInput
                         id="viewport-max"
-                        type="number"
-                        className="w-24 px-2 py-1 bg-neutral-900 border border-neutral-700 rounded-md"
                         min={0}
+                        mode={watch('mode')}
                         {...register('maximumViewport')}
                     />
                 </div>
                 <h2 className="text-sm text-neutral-600 mt-4">Explained</h2>
+                {mode === 'tailwind' && (
+                    <p className="text-neutral-400 text-sm">
+                        Mentioned values are according to the default Tailwind spacing scale.{' '}
+                        <Link
+                            href="https://tailwindcss.com/docs/customizing-spacing#default-spacing-scale"
+                            target="_blank"
+                            rel="noreferrer">
+                            See reference ↗
+                        </Link>
+                    </p>
+                )}
+
                 <p className="text-neutral-400 text-sm">
                     When resizing the viewport the clamped value will be at least{' '}
                     <span className="text-neutral-100">
-                        {watch('minimumValue')} {watch('mode')}
+                        {watch('minimumValue')} {mode !== 'tailwind' && mode}
                     </span>{' '}
                     and at most{' '}
                     <span className="text-neutral-100">
-                        {watch('maximumValue')} {watch('mode')}
+                        {watch('maximumValue')} {mode !== 'tailwind' && mode}
                     </span>
                     . Between viewport widths of{' '}
                     <span className="text-neutral-100">
-                        {watch('minimumViewport')} {watch('mode')}
+                        {watch('minimumViewport')} {mode !== 'tailwind' && mode}
                     </span>{' '}
                     and{' '}
                     <span className="text-neutral-100">
-                        {watch('maximumViewport')} {watch('mode')}
+                        {watch('maximumViewport')} {mode !== 'tailwind' && mode}
                     </span>{' '}
                     the value will be clamped (fluid) between{' '}
                     <span className="text-neutral-100">
-                        {watch('minimumValue')} {watch('mode')}
+                        {watch('minimumValue')} {mode !== 'tailwind' && mode}
                     </span>{' '}
                     and{' '}
                     <span className="text-neutral-100">
-                        {watch('maximumValue')} {watch('mode')}
+                        {watch('maximumValue')} {mode !== 'tailwind' && mode}
                     </span>{' '}
                     linearly.
                 </p>

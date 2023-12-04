@@ -14,11 +14,11 @@ interface Settings {
 const useSettings = () => {
     const methods = useForm<Settings>({
         defaultValues: {
-            minimumValue: 16,
-            maximumValue: 128,
-            minimumViewport: 320,
-            maximumViewport: 1920,
-            mode: 'px',
+            minimumValue: 1,
+            maximumValue: 8,
+            minimumViewport: 20,
+            maximumViewport: 120,
+            mode: 'rem',
             clamp: '',
         },
     });
