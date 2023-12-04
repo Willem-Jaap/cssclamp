@@ -8,6 +8,7 @@ interface Settings {
     minimumViewport: number;
     maximumViewport: number;
     mode: Mode;
+    clamp: string;
 }
 
 const useSettings = () => {
@@ -17,7 +18,8 @@ const useSettings = () => {
             maximumValue: 128,
             minimumViewport: 320,
             maximumViewport: 1920,
-            mode: 'rem',
+            mode: 'px',
+            clamp: '',
         },
     });
 

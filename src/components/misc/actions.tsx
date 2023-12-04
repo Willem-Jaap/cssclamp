@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+
 import Link from 'next/link';
 import { useFormContext } from 'react-hook-form';
 
@@ -16,22 +18,26 @@ import {
 import { type Mode, type Settings } from '~/hooks/useSettings';
 
 const Actions = () => {
-    const { register, getValues, setValue } = useFormContext<Settings>();
+    const { register, watch, setValue } = useFormContext<Settings>();
 
     const rem = (px: number) => px / 16;
     const toFixed = (num: number) => parseFloat(num.toFixed(3));
 
-    const maximumValue = rem(getValues('maximumValue'));
-    const minimumValue = rem(getValues('minimumValue'));
-    const maximumViewport = rem(getValues('maximumViewport'));
-    const minimumViewport = rem(getValues('minimumViewport'));
+    const maximumValue = rem(watch('maximumValue'));
+    const minimumValue = rem(watch('minimumValue'));
+    const maximumViewport = rem(watch('maximumViewport'));
+    const minimumViewport = rem(watch('minimumViewport'));
 
     const slope = (maximumValue - minimumValue) / (maximumViewport - minimumViewport);
     const intersection = maximumValue - slope * maximumViewport;
 
-    const clamp = `clamp(${rem(getValues('minimumValue'))}rem, ${toFixed(
-        intersection,
-    )}rem + ${toFixed(slope * 100)}vw, ${rem(getValues('maximumValue'))}rem)`;
+    const clamp = `clamp(${rem(watch('minimumValue'))}rem, ${toFixed(intersection)}rem + ${toFixed(
+        slope * 100,
+    )}vw, ${rem(watch('maximumValue'))}rem)`;
+
+    useEffect(() => {
+        setValue('clamp', clamp);
+    }, [clamp, setValue]);
 
     return (
         <>
@@ -39,13 +45,13 @@ const Actions = () => {
                 <span className="whitespace-nowrap">Actions</span>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="secondary">Mode: {getValues('mode')}</Button>
+                        <Button variant="secondary">Mode: {watch('mode')}</Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-56">
                         <DropdownMenuLabel>Sizing mode</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuRadioGroup
-                            value={getValues('mode')}
+                            value={watch('mode')}
                             onValueChange={mode => setValue('mode', mode as Mode)}
                             {...register('mode')}>
                             <DropdownMenuRadioItem value="rem">
@@ -80,7 +86,7 @@ const Actions = () => {
                     />
                 </div>
                 <div className="flex gap-2 items-center justify-between">
-                    <label htmlFor="max-value">Minimum value: </label>
+                    <label htmlFor="max-value">Maximum value: </label>
                     <input
                         id="max-value"
                         type="number"
@@ -113,14 +119,29 @@ const Actions = () => {
                 <h2 className="text-sm text-neutral-600 mt-4">Explained</h2>
                 <p className="text-neutral-400 text-sm">
                     When resizing the viewport the clamped value will be at least{' '}
-                    <span className="text-neutral-100">{getValues('minimumValue')} rem</span> and at
-                    most <span className="text-neutral-100">{getValues('maximumValue')} rem</span>.
-                    Between viewport widths of{' '}
-                    <span className="text-neutral-100">{getValues('minimumViewport')} rem</span> and{' '}
-                    <span className="text-neutral-100">{getValues('maximumViewport')} rem</span> the
-                    value will be clamped (fluid) between{' '}
-                    <span className="text-neutral-100">{getValues('minimumValue')} rem</span> and{' '}
-                    <span className="text-neutral-100">{getValues('maximumValue')} rem</span>{' '}
+                    <span className="text-neutral-100">
+                        {watch('minimumValue')} {watch('mode')}
+                    </span>{' '}
+                    and at most{' '}
+                    <span className="text-neutral-100">
+                        {watch('maximumValue')} {watch('mode')}
+                    </span>
+                    . Between viewport widths of{' '}
+                    <span className="text-neutral-100">
+                        {watch('minimumViewport')} {watch('mode')}
+                    </span>{' '}
+                    and{' '}
+                    <span className="text-neutral-100">
+                        {watch('maximumViewport')} {watch('mode')}
+                    </span>{' '}
+                    the value will be clamped (fluid) between{' '}
+                    <span className="text-neutral-100">
+                        {watch('minimumValue')} {watch('mode')}
+                    </span>{' '}
+                    and{' '}
+                    <span className="text-neutral-100">
+                        {watch('maximumValue')} {watch('mode')}
+                    </span>{' '}
                     linearly.
                 </p>
                 <h2 className="text-sm text-neutral-600 mt-4">Output</h2>

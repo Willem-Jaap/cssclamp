@@ -3,12 +3,15 @@
 import { type ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import { animated, useSpring } from '@react-spring/web';
+import { useFormContext } from 'react-hook-form';
 
-interface ClampedProps {
-    clamp: string;
-}
+import { type Settings } from '~/hooks/useSettings';
+import cn from '~/utils/cn';
 
-const Clamped = ({ clamp }: ClampedProps) => {
+const Clamped = () => {
+    const { watch } = useFormContext<Settings>();
+    const clamp = watch('clamp').replace('vw', '%');
+
     return (
         <div
             className="border border-dashed border-neutral-400 text-lg px-2 py-1 bg-neutral-400 h-20"
@@ -103,10 +106,19 @@ const Preview = () => {
                             <div className="w-4 h-4 rounded-full bg-green-500" />
                         </div>
                     </div>
-                    <div className="absolute top-3 left-1/2 -translate-x-1/2 whitespace-nowrap text-lg max-2xl:hidden">
-                        Emulated screen width: {Math.round((1920 / 100) * currentPercentage)}px
+                    <div
+                        className={cn(
+                            'absolute top-2 whitespace-nowrap text-lg max-2xl:hidden',
+                            currentPercentage > 30 ? 'left-1/2 -translate-x-1/2' : 'right-4',
+                        )}>
+                        {currentPercentage > 30
+                            ? 'Emulated screen width: '
+                            : currentPercentage > 15
+                            ? 'Screen width: '
+                            : ''}
+                        {Math.round((1920 / 100) * currentPercentage)}px
                     </div>
-                    <Clamped clamp="clamp(1rem, -1.3333rem + 7.7778%, 8rem)" />
+                    <Clamped />
                 </animated.div>
             </div>
         </div>
