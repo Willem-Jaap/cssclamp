@@ -13,7 +13,7 @@
         "@react-spring/web": "^9.7.3",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.0.0",
-        "lucide-react": "^0.293.0",
+        "lucide-react": "^0.294.0",
         "next": "^14.0.3",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
