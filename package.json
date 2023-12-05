@@ -22,7 +22,7 @@
         "tailwindcss-animate": "^1.0.7"
     },
     "devDependencies": {
-        "@types/node": "20.10.0",
+        "@types/node": "20.10.3",
         "@types/react": "18.2.41",
         "autoprefixer": "^10.4.16",
         "eslint": "^8.55.0",
