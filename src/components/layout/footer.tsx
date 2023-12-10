@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 const Footer = () => {
     return (
-        <footer className="flex flex-col md:flex-row gap-2 justify-between border border-neutral-800 rounded-xl px-8 py-4">
+        <footer className="flex flex-col justify-between gap-2 rounded-xl border border-neutral-800 px-8 py-4 md:flex-row">
             <span className="text-neutral-400">© CSS Clamp - {new Date().getFullYear()} </span>
             <span className="text-neutral-400">
                 <Link
