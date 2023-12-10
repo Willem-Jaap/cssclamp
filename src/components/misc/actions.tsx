@@ -107,7 +107,7 @@ const Actions = () => {
                     <DropdownMenuTrigger asChild>
                         <Button variant="secondary">Mode: {watch('mode')}</Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56">
+                    <DropdownMenuContent className="w-56 mr-[clamp(2rem,_1.6rem_+_2vw,_4rem)]">
                         <DropdownMenuLabel>Sizing mode</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuRadioGroup
@@ -118,7 +118,9 @@ const Actions = () => {
                                 rem<sup className="text-neutral-400 ml-2">16px</sup>
                             </DropdownMenuRadioItem>
                             <DropdownMenuRadioItem value="px">px</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="tailwind">
+                            <DropdownMenuRadioItem
+                                className="opacity-20 pointer-events-none"
+                                value="tailwind">
                                 tailwind
                                 <sup className="text-neutral-400 ml-2">
                                     <Link

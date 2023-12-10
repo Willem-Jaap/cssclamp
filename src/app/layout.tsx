@@ -11,7 +11,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
     return (
         <html className={`${satoshiFont.variable} ${robotoMonoFont.variable}`}>
             <body className="bg-neutral-950 text-neutral-50 font-sans overflow-x-hidden">
-                <div className="flex flex-col gap-4 md:gap-8 m-4 md:mt-8 md:mx-auto md:max-w-[120rem] md:px-12">
+                <div className="flex flex-col gap-4 md:gap-8 mt-[clamp(1rem,_0.8rem_+_1vw,_2rem)] md:mx-auto md:max-w-[120rem] px-[clamp(1rem,_0.6rem_+_2vw,_3rem)]">
                     <Header />
                     {children}
                     <Footer />
