@@ -1,7 +1,6 @@
 'use client';
 
-import { type ChangeEvent, useEffect, useRef, useState } from 'react';
-
+import { useEffect, useRef, useState, type ChangeEvent } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 import { useFormContext } from 'react-hook-form';
 
@@ -14,7 +13,7 @@ const Clamped = () => {
 
     return (
         <div
-            className="border border-dashed border-neutral-400 text-lg px-2 py-1 bg-neutral-400 h-20"
+            className="h-20 border border-dashed border-neutral-400 bg-neutral-400 px-2 py-1 text-lg"
             style={{
                 margin: `0 ${clamp}`,
             }}
@@ -73,10 +72,10 @@ const Preview = () => {
 
     return (
         <div
-            className="flex flex-col items-center py-4 overflow-hidden min-h-[50vh]"
+            className="flex min-h-[50vh] flex-col items-center overflow-hidden py-4"
             ref={previewRef}>
             <input
-                className="w-40 mx-auto mb-4"
+                className="mx-auto mb-4 w-40"
                 type="range"
                 min="0"
                 max="100"
@@ -84,14 +83,14 @@ const Preview = () => {
                 defaultValue="60"
                 onChange={onChange}
             />
-            <div className="inline whitespace-nowrap 2xl:hidden text-xs mx-auto mb-4">
+            <div className="mx-auto mb-4 inline whitespace-nowrap text-xs 2xl:hidden">
                 Emulated screen width: {Math.round((1920 / 100) * currentPercentage)}px
             </div>
             <div
-                className="absolute left-0 mt-16 2xl:mt-12 w-[1920px] overflow-hidden pointer-events-none"
+                className="pointer-events-none absolute left-0 mt-16 w-[1920px] overflow-hidden 2xl:mt-12"
                 ref={screenContainerRef}>
                 <animated.div
-                    className="relative h-full rounded-lg bg-neutral-800 pt-12 pb-8 border border-neutral-700 overflow-hidden scale-0 origin-top-left"
+                    className="relative h-full origin-top-left scale-0 overflow-hidden rounded-lg border border-neutral-700 bg-neutral-800 pb-8 pt-12"
                     style={{
                         width: width.to(w => {
                             centerPreviewScreen();
@@ -99,11 +98,11 @@ const Preview = () => {
                         }),
                     }}
                     ref={screenRef}>
-                    <div className="absolute top-4 left-4">
+                    <div className="absolute left-4 top-4">
                         <div className="flex items-center gap-2">
-                            <div className="w-4 h-4 rounded-full bg-red-500" />
-                            <div className="w-4 h-4 rounded-full bg-yellow-500" />
-                            <div className="w-4 h-4 rounded-full bg-green-500" />
+                            <div className="h-4 w-4 rounded-full bg-red-500" />
+                            <div className="h-4 w-4 rounded-full bg-yellow-500" />
+                            <div className="h-4 w-4 rounded-full bg-green-500" />
                         </div>
                     </div>
                     <div
@@ -114,8 +113,8 @@ const Preview = () => {
                         {currentPercentage > 30
                             ? 'Emulated screen width: '
                             : currentPercentage > 15
-                            ? 'Screen width: '
-                            : ''}
+                              ? 'Screen width: '
+                              : ''}
                         {Math.round((1920 / 100) * currentPercentage)}px
                     </div>
                     <Clamped />

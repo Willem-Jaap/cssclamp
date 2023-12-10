@@ -10,11 +10,11 @@ const Page = () => {
     const methods = useSettings();
     return (
         <FormProvider {...methods}>
-            <div className="flex flex-col md:flex-row gap-4 md:gap-8">
-                <div className="border border-neutral-800 rounded-xl flex-1">
+            <div className="flex flex-col gap-4 md:flex-row md:gap-8">
+                <div className="flex-1 rounded-xl border border-neutral-800">
                     <Preview />
                 </div>
-                <div className="flex flex-col border border-neutral-800 rounded-xl h-[calc(100vh-16rem)] md:max-w-sm flex-[0.4] overflow-hidden">
+                <div className="flex h-[calc(100vh-16rem)] flex-[0.4] flex-col overflow-hidden rounded-xl border border-neutral-800 md:max-w-sm">
                     <Actions />
                 </div>
             </div>

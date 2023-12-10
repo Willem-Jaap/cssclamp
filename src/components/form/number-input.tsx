@@ -1,4 +1,4 @@
-import React, { type InputHTMLAttributes, forwardRef } from 'react';
+import React, { forwardRef, type InputHTMLAttributes } from 'react';
 
 import { type Mode } from '~/hooks/useSettings';
 import cn from '~/utils/cn';
@@ -16,7 +16,7 @@ const NumberInput = forwardRef<HTMLInputElement, Props>(({ className, ...props }
             <input
                 type="number"
                 className={cn(
-                    'w-24 pl-2 pr-8 py-1 bg-neutral-900 border border-neutral-700 rounded-md outline-none focus:border-neutral-600',
+                    'w-24 rounded-md border border-neutral-700 bg-neutral-900 py-1 pl-2 pr-8 outline-none focus:border-neutral-600',
                     className,
                 )}
                 min={0}
@@ -24,7 +24,7 @@ const NumberInput = forwardRef<HTMLInputElement, Props>(({ className, ...props }
                 {...props}
             />
             {mode !== 'tailwind' && (
-                <span className="absolute text-neutral-600 inset-y-0 top-0 right-0 flex items-center pr-2 pointer-events-none">
+                <span className="pointer-events-none absolute inset-y-0 right-0 top-0 flex items-center pr-2 text-neutral-600">
                     {mode}
                 </span>
             )}
