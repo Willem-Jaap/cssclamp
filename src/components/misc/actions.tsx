@@ -17,7 +17,7 @@ import {
     DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
 import { type Mode, type Settings } from '~/hooks/useSettings';
-import getTailwindValue from '~/utils/getTailwindValue';
+import { getTailwindByValue, getTailwindValue } from '~/utils/getTailwindValue';
 
 const Actions = () => {
     const { register, watch, getValues, setValue } = useFormContext<Settings>();
@@ -37,10 +37,17 @@ const Actions = () => {
         return remify(value);
     };
 
-    const maximumValue = remify(watch('maximumValue'));
-    const minimumValue = remify(watch('minimumValue'));
-    const maximumViewport = remify(watch('maximumViewport'));
-    const minimumViewport = remify(watch('minimumViewport'));
+    let maximumValue = remify(watch('maximumValue'));
+    let minimumValue = remify(watch('minimumValue'));
+    let maximumViewport = remify(watch('maximumViewport'));
+    let minimumViewport = remify(watch('minimumViewport'));
+
+    if (watch('mode') === 'rem') {
+        maximumValue = watch('maximumValue');
+        minimumValue = watch('minimumValue');
+        maximumViewport = watch('maximumViewport');
+        minimumViewport = watch('minimumViewport');
+    }
 
     const slope = (maximumValue - minimumValue) / (maximumViewport - minimumViewport);
     const intersection = maximumValue - slope * maximumViewport;
@@ -76,10 +83,10 @@ const Actions = () => {
         }
 
         if (mode === 'tailwind' && previousValue === 'rem') {
-            setValue('minimumValue', getTailwindValue(watch('minimumValue')));
-            setValue('maximumValue', getTailwindValue(watch('maximumValue')));
-            setValue('minimumViewport', getTailwindValue(watch('minimumViewport')));
-            setValue('maximumViewport', getTailwindValue(watch('maximumViewport')));
+            setValue('minimumValue', getTailwindByValue(remify(watch('minimumValue'))));
+            setValue('maximumValue', getTailwindByValue(remify(watch('maximumValue'))));
+            setValue('minimumViewport', getTailwindByValue(remify(watch('minimumViewport'))));
+            setValue('maximumViewport', getTailwindByValue(remify(watch('maximumViewport'))));
         }
 
         if (mode === 'rem' && previousValue === 'tailwind') {

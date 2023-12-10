@@ -49,4 +49,10 @@ const getTailwindValue = (value: number) => {
     return spacingScale[closestValue];
 };
 
-export default getTailwindValue;
+const getTailwindByValue = (value: number) => {
+    return Number(
+        Object.keys(spacingScale).find(key => spacingScale[Number(key)] === Number(value)),
+    );
+};
+
+export { getTailwindValue, getTailwindByValue };
