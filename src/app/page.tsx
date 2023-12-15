@@ -14,7 +14,7 @@ const Page = () => {
                 <div className="flex-1 rounded-xl border border-neutral-800">
                     <Preview />
                 </div>
-                <div className="flex h-[calc(100vh-16rem)] flex-[0.4] flex-col overflow-hidden rounded-xl border border-neutral-800 md:max-w-sm">
+                <div className="flex h-[calc(100vh-16rem)] flex-[0.4] flex-col overflow-hidden overflow-y-auto rounded-xl border border-neutral-800 md:max-w-sm">
                     <Actions />
                 </div>
             </div>
