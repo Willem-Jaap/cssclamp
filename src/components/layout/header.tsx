@@ -17,13 +17,6 @@ const Header = () => {
                             Guide
                         </Link>
                     </li>
-                    <li>
-                        <Link
-                            href="/deepdive"
-                            className="rounded-lg px-4 py-2 transition-colors duration-200 hover:bg-neutral-800">
-                            Deepdive
-                        </Link>
-                    </li>
                 </menu>
             </nav>
         </header>
