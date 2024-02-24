@@ -74,7 +74,6 @@ const Page = () => {
                 </li>
             </ul>
             <h2>Real world example</h2>
-
             <Example />
         </article>
     );
