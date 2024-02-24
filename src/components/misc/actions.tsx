@@ -215,7 +215,7 @@ const Actions = () => {
                 </p>
                 <h2 className="mt-4 text-sm text-neutral-600">Output</h2>
                 <p className="text-sm text-neutral-400">
-                    The following CSS will be generated:
+                    Add the following code to your CSS:
                     <br />
                     <span className="my-2 block w-fit rounded-md border border-neutral-700 bg-neutral-900 px-2 py-1 text-neutral-100">
                         {clamp}
