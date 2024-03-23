@@ -4,8 +4,19 @@ import { useEffect, useRef, useState, type ChangeEvent } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 import { useFormContext } from 'react-hook-form';
 
-import { type Settings } from '~/hooks/useSettings';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuRadioGroup,
+    DropdownMenuRadioItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '~/components/ui/dropdown-menu';
+import useSettings, { type PreviewMode, type Settings } from '~/hooks/useSettings';
 import cn from '~/utils/cn';
+
+import { Button } from '../ui/button';
 
 const Clamped = () => {
     const { watch } = useFormContext<Settings>();
@@ -25,6 +36,7 @@ const Preview = () => {
     const previewRef = useRef<HTMLDivElement>(null);
     const screenContainerRef = useRef<HTMLDivElement>(null);
     const screenRef = useRef<HTMLDivElement>(null);
+    const { watch, setValue } = useSettings();
     const [currentPercentage, setCurrentPercentage] = useState<number>(60);
     const [{ width }, api] = useSpring(() => ({
         width: 60,
@@ -70,9 +82,10 @@ const Preview = () => {
         };
     }, []);
 
+    console.log(watch());
     return (
         <div
-            className="flex min-h-[50vh] flex-col items-center overflow-hidden py-4"
+            className="relative flex min-h-[50vh] flex-col items-center overflow-hidden py-4"
             ref={previewRef}>
             <input
                 className="mx-auto mb-4 w-40"
@@ -83,6 +96,28 @@ const Preview = () => {
                 defaultValue="60"
                 onChange={onChange}
             />
+            <div className="absolute right-0 top-0 flex items-center justify-between gap-4 p-4">
+                <span className="whitespace-nowrap">Preview mode</span>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="secondary">
+                            {watch('previewMode') === 'container' ? 'Container' : 'Text'}
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="mr-[clamp(2rem,_1.6rem_+_2vw,_4rem)] w-56">
+                        <DropdownMenuLabel>Preview mode</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuRadioGroup
+                            value={watch('previewMode')}
+                            onValueChange={mode => setValue('previewMode', mode as PreviewMode)}>
+                            <DropdownMenuRadioItem value="container">
+                                Container
+                            </DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="text">Text</DropdownMenuRadioItem>
+                        </DropdownMenuRadioGroup>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
             <div className="mx-auto mb-4 inline whitespace-nowrap text-xs 2xl:hidden">
                 Emulated screen width: {Math.round((1920 / 100) * currentPercentage)}px
             </div>
