@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, useFormContext } from 'react-hook-form';
 
 type Mode = 'rem' | 'px' | 'tailwind';
 type PreviewMode = 'container' | 'text';
@@ -13,7 +13,7 @@ interface Settings {
     clamp: string;
 }
 
-const useSettings = () => {
+const useSettingsProvider = () => {
     const methods = useForm<Settings>({
         defaultValues: {
             minimumValue: 1,
@@ -29,5 +29,10 @@ const useSettings = () => {
     return methods;
 };
 
+const useSettings = () => {
+    return useFormContext<Settings>();
+};
+
 export type { Settings, Mode, PreviewMode };
+export { useSettingsProvider };
 export default useSettings;

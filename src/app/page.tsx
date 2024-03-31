@@ -4,10 +4,11 @@ import { FormProvider } from 'react-hook-form';
 
 import Actions from '~/components/misc/actions';
 import Preview from '~/components/misc/preview';
-import useSettings from '~/hooks/useSettings';
+import { useSettingsProvider } from '~/hooks/useSettings';
 
 const Page = () => {
-    const methods = useSettings();
+    const methods = useSettingsProvider();
+
     return (
         <FormProvider {...methods}>
             <div className="flex flex-col gap-4 md:flex-row md:gap-8">

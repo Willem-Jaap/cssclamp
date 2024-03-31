@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
-import { useFormContext } from 'react-hook-form';
 
 import NumberInput from '~/components/form/number-input';
 import { Button } from '~/components/ui/button';
@@ -15,11 +14,11 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
-import { type Mode, type Settings } from '~/hooks/useSettings';
+import useSettings, { type Mode } from '~/hooks/useSettings';
 import { getTailwindByValue, getTailwindValue } from '~/utils/getTailwindValue';
 
 const Actions = () => {
-    const { register, watch, getValues, setValue } = useFormContext<Settings>();
+    const { register, watch, getValues, setValue } = useSettings();
 
     const remify = (px: number) => px / 16;
     const toFixed = (num: number) => parseFloat(num.toFixed(3));

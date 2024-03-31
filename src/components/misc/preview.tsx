@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState, type ChangeEvent } from 'react';
 import { animated, useSpring } from '@react-spring/web';
-import { useFormContext } from 'react-hook-form';
 
+import { Button } from '~/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,14 +13,23 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
-import useSettings, { type PreviewMode, type Settings } from '~/hooks/useSettings';
+import useSettings, { type PreviewMode } from '~/hooks/useSettings';
 import cn from '~/utils/cn';
 
-import { Button } from '../ui/button';
-
 const Clamped = () => {
-    const { watch } = useFormContext<Settings>();
+    const { watch } = useSettings();
     const clamp = watch('clamp').replace('vw', '%');
+    if (watch('previewMode') === 'text') {
+        return (
+            <div
+                className="h-20 border border-dashed border-neutral-400 bg-neutral-400 px-2 py-1"
+                style={{
+                    fontSize: clamp,
+                }}>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+            </div>
+        );
+    }
 
     return (
         <div
@@ -54,12 +63,7 @@ const Preview = () => {
         const previewBoundingBox = previewRef.current.getBoundingClientRect();
         const screenBoundingBox = screenRef.current.getBoundingClientRect();
 
-        const translateXRequiredForCentering =
-            (previewBoundingBox.width - screenBoundingBox.width) / 2;
-
-        screenContainerRef.current.style.transform = `translateX(${
-            previewBoundingBox.x + translateXRequiredForCentering
-        }px)`;
+        screenRef.current.style.left = `${(previewBoundingBox.width - screenBoundingBox.width) / 2}px`;
     };
 
     useEffect(() => {
@@ -82,7 +86,6 @@ const Preview = () => {
         };
     }, []);
 
-    console.log(watch());
     return (
         <div
             className="relative flex min-h-[50vh] flex-col items-center overflow-hidden py-4"
