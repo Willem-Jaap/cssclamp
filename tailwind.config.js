@@ -32,8 +32,7 @@ module.exports = {
                 },
             },
             fontFamily: {
-                sans: ['var(--font-satoshi)'],
-                mono: ['var(--font-roboto-mono)'],
+                sans: ['var(--font-sans)'],
             },
             keyframes: {
                 'accordion-down': {
