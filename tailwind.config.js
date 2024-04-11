@@ -3,6 +3,18 @@ module.exports = {
     content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
     theme: {
         extend: {
+            fontSize: {
+                'xs': ['clamp(0.625rem, 0.59rem + 0.133vw, 0.75rem)', { lineHeight: '1.33' }],
+                'sm': ['clamp(0.75rem, 0.715rem + 0.133vw, 0.875rem)', { lineHeight: '1.33' }],
+                'base': ['clamp(0.925rem, 0.904rem + 0.08vw, 1rem)', { lineHeight: '1.33' }],
+                'lg': ['clamp(1rem, 0.965rem + 0.133vw, 1.125rem)', { lineHeight: '1.33' }],
+                'xl': ['clamp(1.125rem, 1.09rem + 0.133vw, 1.25rem)', { lineHeight: '1.33' }],
+                '2xl': ['clamp(1.25rem, 1.164rem + 0.332vw, 1.5625rem)', { lineHeight: '1.33' }],
+                '3xl': ['clamp(1.375rem, 1.219rem + 0.598vw, 1.9375rem)', { lineHeight: '1.4' }],
+                '4xl': ['clamp(1.5625rem, 1.32rem + 0.931vw, 2.4375rem)', { lineHeight: '1.4' }],
+                '5xl': ['clamp(2rem, 1.723rem + 1.064vw, 3rem)', { lineHeight: '1.4' }],
+                '6xl': ['clamp(2.625rem, 2.297rem + 1.263vw, 3.8125rem)', { lineHeight: '1.4' }],
+            },
             colors: {
                 neutral: {
                     50: '#F1F3F5',
