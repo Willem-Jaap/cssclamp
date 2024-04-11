@@ -185,35 +185,35 @@ const Actions = () => {
                     </p>
                 )}
 
-                <p className="text-sm text-neutral-400">
+                <p className="text-sm text-neutral-500">
                     When resizing the viewport the clamped value will be at least{' '}
-                    <span className="text-neutral-100">
+                    <span className="text-neutral-950">
                         {watch('minimumValue')} {mode !== 'tailwind' && mode}
                     </span>{' '}
                     and at most{' '}
-                    <span className="text-neutral-100">
+                    <span className="text-neutral-950">
                         {watch('maximumValue')} {mode !== 'tailwind' && mode}
                     </span>
                     . Between viewport widths of{' '}
-                    <span className="text-neutral-100">
+                    <span className="text-neutral-950">
                         {watch('minimumViewport')} {mode !== 'tailwind' && mode}
                     </span>{' '}
                     and{' '}
-                    <span className="text-neutral-100">
+                    <span className="text-neutral-950">
                         {watch('maximumViewport')} {mode !== 'tailwind' && mode}
                     </span>{' '}
                     the value will be clamped (fluid) between{' '}
-                    <span className="text-neutral-100">
+                    <span className="text-neutral-950">
                         {watch('minimumValue')} {mode !== 'tailwind' && mode}
                     </span>{' '}
                     and{' '}
-                    <span className="text-neutral-100">
+                    <span className="text-neutral-950">
                         {watch('maximumValue')} {mode !== 'tailwind' && mode}
                     </span>{' '}
                     linearly.
                 </p>
                 <h2 className="mt-4 text-sm text-neutral-600">Output</h2>
-                <p className="text-sm text-neutral-400">
+                <p className="text-sm text-neutral-500">
                     Add the following code to your CSS:
                     <br />
                     <span className="my-2 block w-fit rounded-md border border-neutral-700 bg-neutral-900 px-2 py-1 text-neutral-100">

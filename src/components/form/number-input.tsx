@@ -16,7 +16,7 @@ const NumberInput = forwardRef<HTMLInputElement, Props>(({ className, ...props }
             <input
                 type="number"
                 className={cn(
-                    'w-24 rounded-md border border-neutral-700 bg-neutral-900 py-1 pl-2 pr-8 outline-none focus:border-neutral-600',
+                    'w-24 rounded-md border border-neutral-300 bg-neutral-50 py-1 pl-2 pr-8 outline-none focus:border-neutral-400',
                     className,
                 )}
                 min={0}
