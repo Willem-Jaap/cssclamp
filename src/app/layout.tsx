@@ -25,9 +25,12 @@ const RootLayout = ({ children }: PropsWithChildren) => {
 };
 
 export const metadata: Metadata = {
-    title: 'CSS Clamp - The best CSS clamping tool for spacing and typography',
+    title: {
+        default: 'CSS Clamp - Responsive spacing and typography',
+        template: '%s | CSS Clamp',
+    },
     description:
-        'Create easy clamping for margins, paddings and typography with CSS & Tailwind output',
+        'A tool to help you visualize, understand and generate CSS Clamp() values for padding, margin, and font size. See a live preview, copy the code, and take control of your responsive layouts.',
     keywords: ['css', 'clamp', 'tailwind', 'spacing', 'typography'],
 };
 

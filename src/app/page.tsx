@@ -11,6 +11,13 @@ const Page = () => {
 
     return (
         <FormProvider {...methods}>
+            <div>
+                <h1 className="mt-8 text-4xl font-medium text-neutral-900">CSS Clamp Generator</h1>
+                <p className="mt-2 text-neutral-700">
+                    A tool to help you visualize, understand and generate CSS Clamp() values
+                </p>
+            </div>
+
             <div className="flex flex-col gap-4 md:flex-row md:gap-8">
                 <div className="flex-1 rounded-xl border border-neutral-800">
                     <Preview />
