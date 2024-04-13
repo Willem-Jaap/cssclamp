@@ -18,11 +18,11 @@ const Page = () => {
                 </p>
             </div>
 
-            <div className="flex flex-col gap-4 md:flex-row md:gap-8">
-                <div className="flex-1 rounded-xl border border-neutral-800">
+            <div className="grid-cols-15 flex gap-6 md:grid">
+                <div className="col-span-10 flex-1 rounded-xl border border-neutral-800">
                     <Preview />
                 </div>
-                <div className="flex h-[calc(100vh-16rem)] flex-[0.4] flex-col overflow-hidden overflow-y-auto rounded-xl border border-neutral-800 md:max-w-sm">
+                <div className="col-span-5 flex h-[calc(100vh-16rem)] w-full flex-col overflow-hidden overflow-y-auto rounded-xl border border-neutral-800">
                     <Actions />
                 </div>
             </div>

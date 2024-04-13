@@ -133,7 +133,7 @@ const Actions = () => {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="flex max-w-fit flex-col gap-2 px-4">
+            <div className="flex flex-col gap-2 px-4">
                 <h2 className="text-sm text-neutral-600">Clamp sizes</h2>
                 <div className="flex items-center justify-between gap-2">
                     <label htmlFor="min-value">Minimum value: </label>
