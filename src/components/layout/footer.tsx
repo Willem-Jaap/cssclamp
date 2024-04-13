@@ -1,8 +1,12 @@
 import Link from 'next/link';
 
+import FooterText from '~/components/layout/footer-text';
+
 const Footer = () => {
     return (
-        <footer className="mt-12 border-t border-t-neutral-200">
+        <footer
+            id="footer"
+            className="mt-12 max-w-[100vw] overflow-hidden border-t border-t-neutral-200">
             <div className="flex justify-between px-[clamp(1rem,_0.25rem_+_3.125vw,_4rem)] pt-16">
                 <p className="max-w-lg text-neutral-700">
                     A tool to help generate responsive clamp() expressions for padding, margin, or
@@ -19,9 +23,7 @@ const Footer = () => {
                     </Link>
                 </div>
             </div>
-            <span className="mt-24 block translate-y-6 whitespace-nowrap px-[clamp(1rem,_0.25rem_+_3.125vw,_4rem)] text-[8rem] font-medium leading-none">
-                CSS Clamp
-            </span>
+            <FooterText />
             <div className="relative border-t border-t-neutral-200 bg-neutral-50 px-[clamp(1rem,_0.25rem_+_3.125vw,_4rem)] py-4">
                 <span className="text-neutral-400">© CSS Clamp - {new Date().getFullYear()} </span>
 
