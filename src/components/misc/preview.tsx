@@ -52,6 +52,7 @@ const Preview = () => {
     }));
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         api.start({ width: Number(e.target.value) });
         setCurrentPercentage(Number(e.target.value));
     };
