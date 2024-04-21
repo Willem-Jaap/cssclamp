@@ -9,7 +9,7 @@ const Logo = () => {
                 width={40}
                 height={40}
             />
-            <span className="text-lg font-medium">CSS Clamp</span>
+            <span className="whitespace-nowrap text-lg font-medium">CSS Clamp</span>
         </div>
     );
 };
