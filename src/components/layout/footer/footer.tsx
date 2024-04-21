@@ -8,13 +8,13 @@ const Footer = () => {
         <footer
             id="footer"
             className="mt-12 max-w-[100vw] overflow-hidden border-t border-t-neutral-200">
-            <div className="grid grid-cols-15 gap-6 px-[clamp(1rem,_0.25rem_+_3.125vw,_4rem)] pt-16">
-                <p className="col-span-5 max-w-lg text-neutral-700">
+            <div className="grid grid-cols-15 gap-x-6 gap-y-16 px-[clamp(1rem,_0.25rem_+_3.125vw,_4rem)] pt-16">
+                <p className="col-span-5 max-w-lg text-neutral-700 max-sm:col-span-full">
                     A tool to help generate responsive clamp() expressions for padding, margin, or
                     font size. See a live preview, copy the code, and take control of your
                     responsive layouts.
                 </p>
-                <div className="col-span-6 col-end-[-1] flex justify-between">
+                <div className="col-span-6 col-end-[-1] flex justify-between max-sm:col-span-full">
                     <div className="flex flex-col gap-6">
                         <div className="text-lg font-medium">Quicklinks</div>
                         <ul className="flex flex-col gap-2 font-medium text-neutral-500">
@@ -61,10 +61,10 @@ const Footer = () => {
                 </div>
             </div>
             <FooterText />
-            <div className="relative border-t border-t-neutral-200 bg-neutral-50 px-[clamp(1rem,_0.25rem_+_3.125vw,_4rem)] py-4">
+            <div className="relative flex justify-between border-t border-t-neutral-200 bg-neutral-50 px-[clamp(1rem,_0.25rem_+_3.125vw,_4rem)] py-4 max-sm:flex-col sm:items-center">
                 <span className="text-neutral-400">© CSS Clamp - {new Date().getFullYear()} </span>
 
-                <span className="text-neutral-400">
+                <div className="text-neutral-400">
                     Crafted with <span>💖</span> by{' '}
                     <Link
                         href="https://willemjaap.com"
@@ -73,7 +73,7 @@ const Footer = () => {
                         className="underline hover:text-neutral-200">
                         Willem-Jaap
                     </Link>
-                </span>
+                </div>
             </div>
         </footer>
     );
