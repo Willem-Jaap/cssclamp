@@ -18,7 +18,7 @@ const Page = () => {
                 </p>
             </div>
 
-            <div className="grid-cols-15 flex gap-6 md:grid">
+            <div className="flex grid-cols-15 gap-6 md:grid">
                 <div className="col-span-10 flex-1 rounded-xl border border-neutral-800">
                     <Preview />
                 </div>

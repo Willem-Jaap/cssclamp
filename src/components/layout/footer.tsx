@@ -7,7 +7,7 @@ const Footer = () => {
         <footer
             id="footer"
             className="mt-12 max-w-[100vw] overflow-hidden border-t border-t-neutral-200">
-            <div className="grid-cols-15 grid gap-6 px-[clamp(1rem,_0.25rem_+_3.125vw,_4rem)] pt-16">
+            <div className="grid grid-cols-15 gap-6 px-[clamp(1rem,_0.25rem_+_3.125vw,_4rem)] pt-16">
                 <p className="col-span-5 max-w-lg text-neutral-700">
                     A tool to help generate responsive clamp() expressions for padding, margin, or
                     font size. See a live preview, copy the code, and take control of your
