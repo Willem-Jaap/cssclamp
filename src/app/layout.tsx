@@ -2,7 +2,7 @@ import type { PropsWithChildren } from 'react';
 import type { Metadata } from 'next';
 import { Analytics } from '@vercel/analytics/react';
 
-import Footer from '~/components/layout/footer';
+import Footer from '~/components/layout/footer/footer';
 import Header from '~/components/layout/header';
 
 import { albertSansFont } from '~/fonts';

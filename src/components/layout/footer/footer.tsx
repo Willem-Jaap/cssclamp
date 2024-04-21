@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
-import FooterText from '~/components/layout/footer-text';
+import FooterLink from '~/components/layout/footer/footer-link';
+import FooterText from '~/components/layout/footer/footer-text';
 
 const Footer = () => {
     return (
@@ -18,25 +19,13 @@ const Footer = () => {
                         <div className="text-lg font-medium">Quicklinks</div>
                         <ul className="flex flex-col gap-2 font-medium text-neutral-500">
                             <li>
-                                <Link
-                                    href="/"
-                                    className="underline-offset-2 hover:text-neutral-400 hover:underline">
-                                    Tool
-                                </Link>
+                                <FooterLink href="/">Tool</FooterLink>
                             </li>
                             <li>
-                                <Link
-                                    href="/guide"
-                                    className="underline-offset-2 hover:text-neutral-400 hover:underline">
-                                    How to use CSS Clamp
-                                </Link>
+                                <FooterLink href="/guide">How to use CSS Clamp</FooterLink>
                             </li>
                             <li>
-                                <Link
-                                    href="/examples"
-                                    className="underline-offset-2 hover:text-neutral-400 hover:underline">
-                                    Examples
-                                </Link>
+                                <FooterLink href="/examples">Examples</FooterLink>
                             </li>
                         </ul>
                     </div>
@@ -44,31 +33,28 @@ const Footer = () => {
                         <div className="text-lg font-medium">Connect</div>
                         <ul className="flex flex-col gap-2 font-medium text-neutral-500">
                             <li>
-                                <Link
+                                <FooterLink
                                     href="https://twitter.com/WillemJaap_"
                                     target="_blank"
-                                    rel="noreferrer"
-                                    className="underline-offset-2 hover:text-neutral-400 hover:underline">
+                                    rel="noreferrer">
                                     Twitter
-                                </Link>
+                                </FooterLink>
                             </li>
                             <li>
-                                <Link
+                                <FooterLink
                                     href="https://github.com/Willem-Jaap"
                                     target="_blank"
-                                    rel="noreferrer"
-                                    className="underline-offset-2 hover:text-neutral-400 hover:underline">
+                                    rel="noreferrer">
                                     Github
-                                </Link>
+                                </FooterLink>
                             </li>
                             <li>
-                                <Link
+                                <FooterLink
                                     href="https://pixelperfect.agency"
                                     target="_blank"
-                                    rel="noreferrer"
-                                    className="underline-offset-2 hover:text-neutral-400 hover:underline">
+                                    rel="noreferrer">
                                     Pixel Perfect Agency
-                                </Link>
+                                </FooterLink>
                             </li>
                         </ul>
                     </div>
