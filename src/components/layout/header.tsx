@@ -25,7 +25,7 @@ const Header = () => {
                                     fill="#F1F3F5"
                                 />
                             </svg>
-                            How to use CSS Clamp
+                            <span className="max-sm:sr-only">How to use CSS Clamp</span>
                         </Link>
                     </li>
                 </menu>
