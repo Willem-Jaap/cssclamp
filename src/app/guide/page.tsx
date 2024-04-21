@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'next/link';
 
 import Example from '~/app/guide/example';
@@ -33,10 +32,9 @@ const Page = () => {
             </pre>
             <p>
                 Lets take the following clamp as an example:{' '}
-                <code>clamp(clamp(1rem, 0.4rem + 3vw, 4rem) )</code>. When resizing the viewport the
-                clamped value will be at least 1 rem and at most 4 rem. Between viewport widths of
-                20 rem and 120 rem the value will be clamped (fluid) between 1 rem and 4 rem
-                linearly.
+                <code>clamp(1rem, 0.4rem + 3vw, 4rem)</code>. When resizing the viewport the clamped
+                value will be at least 1 rem and at most 4 rem. Between viewport widths of 20 rem
+                and 120 rem the value will be clamped (fluid) between 1 rem and 4 rem linearly.
             </p>
             <h2>To clamp or not to clamp?</h2>
             <p>
