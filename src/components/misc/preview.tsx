@@ -100,28 +100,7 @@ const Preview = () => {
                 defaultValue="60"
                 onChange={onChange}
             />
-            <div className="absolute right-0 top-0 flex items-center justify-between gap-4 p-4">
-                <span className="whitespace-nowrap">Preview mode</span>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="secondary">
-                            {watch('previewMode') === 'container' ? 'Container' : 'Text'}
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="mr-[clamp(2rem,_1.6rem_+_2vw,_4rem)] w-56">
-                        <DropdownMenuLabel>Preview mode</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuRadioGroup
-                            value={watch('previewMode')}
-                            onValueChange={mode => setValue('previewMode', mode as PreviewMode)}>
-                            <DropdownMenuRadioItem value="container">
-                                Container
-                            </DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="text">Text</DropdownMenuRadioItem>
-                        </DropdownMenuRadioGroup>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
+
             <div className="mx-auto mb-4 inline whitespace-nowrap text-xs 2xl:hidden">
                 Emulated screen width: {Math.round((1920 / 100) * currentPercentage)}px
             </div>
@@ -129,7 +108,7 @@ const Preview = () => {
                 className="pointer-events-none absolute left-0 mt-16 w-[1920px] overflow-hidden 2xl:mt-12"
                 ref={screenContainerRef}>
                 <animated.div
-                    className="relative h-full origin-top-left scale-0 overflow-hidden rounded-lg border border-neutral-700 bg-neutral-800 pb-8 pt-12"
+                    className="relative h-full origin-top-left scale-0 overflow-hidden rounded-lg border border-neutral-100 bg-neutral-50 pb-8 pt-12"
                     style={{
                         width: width.to(w => {
                             centerPreviewScreen();
