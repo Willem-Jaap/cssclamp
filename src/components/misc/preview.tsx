@@ -3,18 +3,7 @@
 import { useEffect, useRef, useState, type ChangeEvent } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 
-import { Button } from '~/components/ui/button';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuLabel,
-    DropdownMenuRadioGroup,
-    DropdownMenuRadioItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from '~/components/ui/dropdown-menu';
-import useSettings, { type PreviewMode } from '~/hooks/useSettings';
-import cn from '~/utils/cn';
+import useSettings from '~/hooks/useSettings';
 
 const Clamped = () => {
     const { watch } = useSettings();
@@ -45,7 +34,6 @@ const Preview = () => {
     const previewRef = useRef<HTMLDivElement>(null);
     const screenContainerRef = useRef<HTMLDivElement>(null);
     const screenRef = useRef<HTMLDivElement>(null);
-    const { watch, setValue } = useSettings();
     const [currentPercentage, setCurrentPercentage] = useState<number>(60);
     const [{ width }, api] = useSpring(() => ({
         width: 60,
@@ -89,23 +77,28 @@ const Preview = () => {
 
     return (
         <div
-            className="relative flex min-h-[50vh] flex-col items-center overflow-hidden py-4"
+            className="relative flex min-h-[50vh] flex-col items-center overflow-hidden"
             ref={previewRef}>
-            <input
-                className="mx-auto mb-4 w-40"
-                type="range"
-                min="0"
-                max="100"
-                step="1"
-                defaultValue="60"
-                onChange={onChange}
-            />
-
-            <div className="mx-auto mb-4 inline whitespace-nowrap text-xs 2xl:hidden">
-                Emulated screen width: {Math.round((1920 / 100) * currentPercentage)}px
+            <div className="flex w-full items-center justify-between gap-4 border-b border-b-neutral-100 p-5">
+                <div className="text-lg font-medium">Emulated screen width</div>
+                <div className="flex items-center gap-4">
+                    <input
+                        className="w-40 decoration-neutral-800"
+                        type="range"
+                        min="0"
+                        max="100"
+                        step="1"
+                        defaultValue="60"
+                        onChange={onChange}
+                    />
+                    <div className="rounded-lg border border-neutral-100 px-4 py-2 font-medium text-neutral-600">
+                        {Math.round((1920 / 100) * currentPercentage)}px
+                    </div>
+                </div>
             </div>
+
             <div
-                className="pointer-events-none absolute left-0 mt-16 w-[1920px] overflow-hidden 2xl:mt-12"
+                className="pointer-events-none absolute left-0 mt-32 w-[1920px] overflow-hidden 2xl:mt-40"
                 ref={screenContainerRef}>
                 <animated.div
                     className="relative h-full origin-top-left scale-0 overflow-hidden rounded-lg border border-neutral-100 bg-neutral-50 pb-8 pt-12"
@@ -122,18 +115,6 @@ const Preview = () => {
                             <div className="h-4 w-4 rounded-full bg-yellow-500" />
                             <div className="h-4 w-4 rounded-full bg-green-500" />
                         </div>
-                    </div>
-                    <div
-                        className={cn(
-                            'absolute top-2 whitespace-nowrap text-lg max-2xl:hidden',
-                            currentPercentage > 30 ? 'left-1/2 -translate-x-1/2' : 'right-4',
-                        )}>
-                        {currentPercentage > 30
-                            ? 'Emulated screen width: '
-                            : currentPercentage > 15
-                              ? 'Screen width: '
-                              : ''}
-                        {Math.round((1920 / 100) * currentPercentage)}px
                     </div>
                     <Clamped />
                 </animated.div>
