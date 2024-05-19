@@ -166,7 +166,7 @@ const Actions = () => {
                 <h3 className="font-medium">Viewport settings</h3>
                 <p className="mt-2 text-neutral-400">
                     Set the minimum and maximum screen sizes where the clamp expression takes
-                    effect. elements.
+                    effect.
                 </p>
                 <div className="mt-4 flex items-center justify-between gap-2">
                     <label htmlFor="viewport-min">Minimum viewport width: </label>
