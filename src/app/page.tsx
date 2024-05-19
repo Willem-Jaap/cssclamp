@@ -26,7 +26,7 @@ const Page = () => {
                 <div className="col-span-10 flex-1 rounded-xl border border-neutral-100">
                     <Preview />
                 </div>
-                <div className="col-span-5 flex h-[calc(100vh-16rem)] w-full flex-col overflow-hidden overflow-y-auto rounded-xl border border-neutral-100">
+                <div className="col-span-5 flex h-[calc(100vh-12rem)] w-full flex-col overflow-hidden overflow-y-auto rounded-xl border border-neutral-100">
                     <Actions />
                 </div>
             </div>
