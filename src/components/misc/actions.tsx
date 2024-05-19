@@ -99,8 +99,8 @@ const Actions = () => {
 
     return (
         <>
-            <div className="flex items-center justify-between gap-4 p-4">
-                <span className="whitespace-nowrap">Actions</span>
+            <div className="flex items-center justify-between gap-4 border-b border-b-neutral-200 p-5">
+                <h2 className="whitespace-nowrap text-lg font-medium">Actions</h2>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="secondary">Mode: {watch('mode')}</Button>
@@ -133,10 +133,16 @@ const Actions = () => {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="flex flex-col gap-2 px-4">
-                <h2 className="text-sm text-neutral-600">Clamp sizes</h2>
-                <div className="flex items-center justify-between gap-2">
-                    <label htmlFor="min-value">Minimum value: </label>
+            <div className="flex flex-col border-b border-b-neutral-200 p-5">
+                <h3 className="font-medium">Clamp sizes</h3>
+                <p className="mt-2 text-neutral-400">
+                    Define the minimum and maximum size (padding/margin or font size) for responsive
+                    elements.
+                </p>
+                <div className="mt-4 flex items-center justify-between gap-2">
+                    <label htmlFor="min-value" className="font-medium">
+                        Minimum value:
+                    </label>
                     <NumberInput
                         id="min-value"
                         min={0}
@@ -144,8 +150,10 @@ const Actions = () => {
                         {...register('minimumValue')}
                     />
                 </div>
-                <div className="flex items-center justify-between gap-2">
-                    <label htmlFor="max-value">Maximum value: </label>
+                <div className="mt-3 flex items-center justify-between gap-2">
+                    <label htmlFor="max-value" className="font-medium">
+                        Maximum value:
+                    </label>
                     <NumberInput
                         id="max-value"
                         min={0}
@@ -153,8 +161,14 @@ const Actions = () => {
                         {...register('maximumValue')}
                     />
                 </div>
-                <h2 className="mt-4 text-sm text-neutral-600">Viewport settings</h2>
-                <div className="flex items-center justify-between gap-2">
+            </div>
+            <div className="flex flex-col border-b border-b-neutral-200 p-5">
+                <h3 className="font-medium">Viewport settings</h3>
+                <p className="mt-2 text-neutral-400">
+                    Set the minimum and maximum screen sizes where the clamp expression takes
+                    effect. elements.
+                </p>
+                <div className="mt-4 flex items-center justify-between gap-2">
                     <label htmlFor="viewport-min">Minimum viewport width: </label>
                     <NumberInput
                         id="viewport-min"
@@ -163,7 +177,7 @@ const Actions = () => {
                         {...register('minimumViewport')}
                     />
                 </div>
-                <div className="flex items-center justify-between gap-2">
+                <div className="mt-3 flex items-center justify-between gap-2">
                     <label htmlFor="viewport-max">Maximum viewport width: </label>
                     <NumberInput
                         id="viewport-max"

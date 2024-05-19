@@ -80,7 +80,7 @@ const Preview = () => {
             className="relative flex min-h-[50vh] flex-col items-center overflow-hidden"
             ref={previewRef}>
             <div className="flex w-full items-center justify-between gap-4 border-b border-b-neutral-100 p-5">
-                <div className="text-lg font-medium">Emulated screen width</div>
+                <h2 className="text-lg font-medium">Emulated screen width</h2>
                 <div className="flex items-center gap-4">
                     <input
                         className="w-40 decoration-neutral-800"
@@ -91,12 +91,11 @@ const Preview = () => {
                         defaultValue="60"
                         onChange={onChange}
                     />
-                    <div className="rounded-lg border border-neutral-100 px-4 py-2 font-medium text-neutral-600">
+                    <div className="w-[calc(1.2rem_+_6ch)] rounded-lg border border-neutral-100 px-3 py-2 text-right font-medium text-neutral-600">
                         {Math.round((1920 / 100) * currentPercentage)}px
                     </div>
                 </div>
             </div>
-
             <div
                 className="pointer-events-none absolute left-0 mt-32 w-[1920px] overflow-hidden 2xl:mt-40"
                 ref={screenContainerRef}>
