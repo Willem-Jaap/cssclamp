@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useState, type ChangeEvent } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 
+import { Slider } from '~/components/ui/slider';
 import useSettings from '~/hooks/useSettings';
 
 const Clamped = () => {
@@ -39,10 +40,11 @@ const Preview = () => {
         width: 60,
     }));
 
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const onChange = (values: number[]) => {
+        const [value] = values;
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        api.start({ width: Number(e.target.value) });
-        setCurrentPercentage(Number(e.target.value));
+        api.start({ width: value });
+        setCurrentPercentage(value);
     };
 
     const centerPreviewScreen = () => {
@@ -82,14 +84,13 @@ const Preview = () => {
             <div className="flex w-full items-center justify-between gap-4 border-b border-b-neutral-100 p-5">
                 <h2 className="text-lg font-medium">Emulated screen width</h2>
                 <div className="flex items-center gap-4">
-                    <input
-                        className="w-40 decoration-neutral-800"
-                        type="range"
-                        min="0"
-                        max="100"
-                        step="1"
-                        defaultValue="60"
-                        onChange={onChange}
+                    <Slider
+                        className="w-40"
+                        min={0}
+                        max={100}
+                        step={1}
+                        defaultValue={[60]}
+                        onValueChange={onChange}
                     />
                     <div className="w-[calc(1.2rem_+_6ch)] rounded-lg border border-neutral-100 px-3 py-2 text-right font-medium text-neutral-600">
                         {Math.round((1920 / 100) * currentPercentage)}px
