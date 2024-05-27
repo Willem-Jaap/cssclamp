@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
-import { useFormContext } from 'react-hook-form';
 
 import NumberInput from '~/components/form/number-input';
 import { Button } from '~/components/ui/button';
@@ -15,11 +14,11 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
-import { type Mode, type Settings } from '~/hooks/useSettings';
+import useSettings, { type Mode } from '~/hooks/useSettings';
 import { getTailwindByValue, getTailwindValue } from '~/utils/getTailwindValue';
 
 const Actions = () => {
-    const { register, watch, getValues, setValue } = useFormContext<Settings>();
+    const { register, watch, getValues, setValue } = useSettings();
 
     const remify = (px: number) => px / 16;
     const toFixed = (num: number) => parseFloat(num.toFixed(3));
@@ -99,9 +98,9 @@ const Actions = () => {
     };
 
     return (
-        <>
-            <div className="flex items-center justify-between gap-4 p-4">
-                <span className="whitespace-nowrap">Actions</span>
+        <div className="flex h-full flex-col">
+            <div className="flex items-center justify-between gap-4 border-b border-b-neutral-200 p-5">
+                <h2 className="whitespace-nowrap text-lg font-medium">Actions</h2>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="secondary">Mode: {watch('mode')}</Button>
@@ -134,10 +133,16 @@ const Actions = () => {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="flex max-w-fit flex-col gap-2 px-4">
-                <h2 className="text-sm text-neutral-600">Clamp sizes</h2>
-                <div className="flex items-center justify-between gap-2">
-                    <label htmlFor="min-value">Minimum value: </label>
+            <div className="flex flex-col border-b border-b-neutral-200 p-5">
+                <h3 className="font-medium">Clamp sizes</h3>
+                <p className="mt-2 text-neutral-400">
+                    Define the minimum and maximum size (padding/margin or font size) for responsive
+                    elements.
+                </p>
+                <div className="mt-4 flex items-center justify-between gap-2">
+                    <label htmlFor="min-value" className="font-medium">
+                        Minimum value:
+                    </label>
                     <NumberInput
                         id="min-value"
                         min={0}
@@ -145,8 +150,10 @@ const Actions = () => {
                         {...register('minimumValue')}
                     />
                 </div>
-                <div className="flex items-center justify-between gap-2">
-                    <label htmlFor="max-value">Maximum value: </label>
+                <div className="mt-3 flex items-center justify-between gap-2">
+                    <label htmlFor="max-value" className="font-medium">
+                        Maximum value:
+                    </label>
                     <NumberInput
                         id="max-value"
                         min={0}
@@ -154,8 +161,14 @@ const Actions = () => {
                         {...register('maximumValue')}
                     />
                 </div>
-                <h2 className="mt-4 text-sm text-neutral-600">Viewport settings</h2>
-                <div className="flex items-center justify-between gap-2">
+            </div>
+            <div className="flex flex-col border-b border-b-neutral-200 p-5">
+                <h3 className="font-medium">Viewport settings</h3>
+                <p className="mt-2 text-neutral-400">
+                    Set the minimum and maximum screen sizes where the clamp expression takes
+                    effect.
+                </p>
+                <div className="mt-4 flex items-center justify-between gap-2">
                     <label htmlFor="viewport-min">Minimum viewport width: </label>
                     <NumberInput
                         id="viewport-min"
@@ -164,7 +177,7 @@ const Actions = () => {
                         {...register('minimumViewport')}
                     />
                 </div>
-                <div className="flex items-center justify-between gap-2">
+                <div className="mt-3 flex items-center justify-between gap-2">
                     <label htmlFor="viewport-max">Maximum viewport width: </label>
                     <NumberInput
                         id="viewport-max"
@@ -173,56 +186,19 @@ const Actions = () => {
                         {...register('maximumViewport')}
                     />
                 </div>
-                <h2 className="mt-4 text-sm text-neutral-600">Explained</h2>
-                {mode === 'tailwind' && (
-                    <p className="text-sm text-neutral-400">
-                        Mentioned values are according to the default Tailwind spacing scale.{' '}
-                        <Link
-                            href="https://tailwindcss.com/docs/customizing-spacing#default-spacing-scale"
-                            target="_blank"
-                            rel="noreferrer">
-                            See reference ↗
-                        </Link>
-                    </p>
-                )}
-
-                <p className="text-sm text-neutral-400">
-                    When resizing the viewport the clamped value will be at least{' '}
-                    <span className="text-neutral-100">
-                        {watch('minimumValue')} {mode !== 'tailwind' && mode}
-                    </span>{' '}
-                    and at most{' '}
-                    <span className="text-neutral-100">
-                        {watch('maximumValue')} {mode !== 'tailwind' && mode}
-                    </span>
-                    . Between viewport widths of{' '}
-                    <span className="text-neutral-100">
-                        {watch('minimumViewport')} {mode !== 'tailwind' && mode}
-                    </span>{' '}
-                    and{' '}
-                    <span className="text-neutral-100">
-                        {watch('maximumViewport')} {mode !== 'tailwind' && mode}
-                    </span>{' '}
-                    the value will be clamped (fluid) between{' '}
-                    <span className="text-neutral-100">
-                        {watch('minimumValue')} {mode !== 'tailwind' && mode}
-                    </span>{' '}
-                    and{' '}
-                    <span className="text-neutral-100">
-                        {watch('maximumValue')} {mode !== 'tailwind' && mode}
-                    </span>{' '}
-                    linearly.
-                </p>
-                <h2 className="mt-4 text-sm text-neutral-600">Output</h2>
-                <p className="text-sm text-neutral-400">
-                    The following CSS will be generated:
-                    <br />
-                    <span className="my-2 block w-fit rounded-md border border-neutral-700 bg-neutral-900 px-2 py-1 text-neutral-100">
-                        {clamp}
-                    </span>
-                </p>
             </div>
-        </>
+
+            <div className="flex flex-1 flex-col justify-between p-5">
+                <p className="mb-16 text-sm text-neutral-600">
+                    The clamped value will be between {watch('minimumValue')}{' '}
+                    {mode !== 'tailwind' && mode} and {watch('maximumValue')}{' '}
+                    {mode !== 'tailwind' && mode}, applied linearly between the viewport sizes of{' '}
+                    {watch('minimumViewport')} {mode !== 'tailwind' && mode} and{' '}
+                    {watch('maximumViewport')} {mode !== 'tailwind' && mode}.
+                </p>
+                <p className="font-medium">{clamp}</p>
+            </div>
+        </div>
     );
 };
 

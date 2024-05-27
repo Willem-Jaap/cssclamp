@@ -2,14 +2,23 @@
 
 import { useEffect, useRef, useState, type ChangeEvent } from 'react';
 import { animated, useSpring } from '@react-spring/web';
-import { useFormContext } from 'react-hook-form';
 
-import { type Settings } from '~/hooks/useSettings';
-import cn from '~/utils/cn';
+import useSettings from '~/hooks/useSettings';
 
 const Clamped = () => {
-    const { watch } = useFormContext<Settings>();
+    const { watch } = useSettings();
     const clamp = watch('clamp').replace('vw', '%');
+    if (watch('previewMode') === 'text') {
+        return (
+            <div
+                className="h-20 border border-dashed border-neutral-400 bg-neutral-400 px-2 py-1"
+                style={{
+                    fontSize: clamp,
+                }}>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+            </div>
+        );
+    }
 
     return (
         <div
@@ -31,6 +40,7 @@ const Preview = () => {
     }));
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         api.start({ width: Number(e.target.value) });
         setCurrentPercentage(Number(e.target.value));
     };
@@ -42,12 +52,7 @@ const Preview = () => {
         const previewBoundingBox = previewRef.current.getBoundingClientRect();
         const screenBoundingBox = screenRef.current.getBoundingClientRect();
 
-        const translateXRequiredForCentering =
-            (previewBoundingBox.width - screenBoundingBox.width) / 2;
-
-        screenContainerRef.current.style.transform = `translateX(${
-            previewBoundingBox.x + translateXRequiredForCentering
-        }px)`;
+        screenRef.current.style.left = `${(previewBoundingBox.width - screenBoundingBox.width) / 2}px`;
     };
 
     useEffect(() => {
@@ -72,25 +77,30 @@ const Preview = () => {
 
     return (
         <div
-            className="flex min-h-[50vh] flex-col items-center overflow-hidden py-4"
+            className="relative flex min-h-[50vh] flex-col items-center overflow-hidden"
             ref={previewRef}>
-            <input
-                className="mx-auto mb-4 w-40"
-                type="range"
-                min="0"
-                max="100"
-                step="1"
-                defaultValue="60"
-                onChange={onChange}
-            />
-            <div className="mx-auto mb-4 inline whitespace-nowrap text-xs 2xl:hidden">
-                Emulated screen width: {Math.round((1920 / 100) * currentPercentage)}px
+            <div className="flex w-full items-center justify-between gap-4 border-b border-b-neutral-100 p-5">
+                <h2 className="text-lg font-medium">Emulated screen width</h2>
+                <div className="flex items-center gap-4">
+                    <input
+                        className="w-40 decoration-neutral-800"
+                        type="range"
+                        min="0"
+                        max="100"
+                        step="1"
+                        defaultValue="60"
+                        onChange={onChange}
+                    />
+                    <div className="w-[calc(1.2rem_+_6ch)] rounded-lg border border-neutral-100 px-3 py-2 text-right font-medium text-neutral-600">
+                        {Math.round((1920 / 100) * currentPercentage)}px
+                    </div>
+                </div>
             </div>
             <div
-                className="pointer-events-none absolute left-0 mt-16 w-[1920px] overflow-hidden 2xl:mt-12"
+                className="pointer-events-none absolute left-0 mt-32 w-[1920px] overflow-hidden 2xl:mt-40"
                 ref={screenContainerRef}>
                 <animated.div
-                    className="relative h-full origin-top-left scale-0 overflow-hidden rounded-lg border border-neutral-700 bg-neutral-800 pb-8 pt-12"
+                    className="relative h-full origin-top-left scale-0 overflow-hidden rounded-lg border border-neutral-100 bg-neutral-50 pb-8 pt-12"
                     style={{
                         width: width.to(w => {
                             centerPreviewScreen();
@@ -104,18 +114,6 @@ const Preview = () => {
                             <div className="h-4 w-4 rounded-full bg-yellow-500" />
                             <div className="h-4 w-4 rounded-full bg-green-500" />
                         </div>
-                    </div>
-                    <div
-                        className={cn(
-                            'absolute top-2 whitespace-nowrap text-lg max-2xl:hidden',
-                            currentPercentage > 30 ? 'left-1/2 -translate-x-1/2' : 'right-4',
-                        )}>
-                        {currentPercentage > 30
-                            ? 'Emulated screen width: '
-                            : currentPercentage > 15
-                              ? 'Screen width: '
-                              : ''}
-                        {Math.round((1920 / 100) * currentPercentage)}px
                     </div>
                     <Clamped />
                 </animated.div>

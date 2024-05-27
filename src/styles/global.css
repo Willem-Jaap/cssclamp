@@ -3,7 +3,30 @@
 @tailwind utilities;
 
 @layer base {
-    input[type='number']::-webkit-inner-spin-button {
+    [debug] * {
+        @apply outline-primary-500/20 outline-dashed outline-1;
+    }
+
+    ::selection {
+        @apply bg-primary-500/80 text-neutral-50;
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply bg-neutral-50;
+    }
+
+    ::-webkit-scrollbar {
+        width: 1rem;
+        @apply bg-neutral-50;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply rounded-full border-4 border-solid border-neutral-50 bg-neutral-100;
+    }
+
+    input[type='number']::-webkit-inner-spin-button,
+    input[type='number']::-webkit-outer-spin-button {
         -webkit-appearance: none;
+        margin: 0;
     }
 }

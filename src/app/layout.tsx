@@ -2,22 +2,22 @@ import type { PropsWithChildren } from 'react';
 import type { Metadata } from 'next';
 import { Analytics } from '@vercel/analytics/react';
 
-import Footer from '~/components/layout/footer';
+import Footer from '~/components/layout/footer/footer';
 import Header from '~/components/layout/header';
 
-import { robotoMonoFont, satoshiFont } from '~/fonts';
+import { albertSansFont } from '~/fonts';
 
 import '~/styles/global.css';
 
 const RootLayout = ({ children }: PropsWithChildren) => {
     return (
-        <html className={`${satoshiFont.variable} ${robotoMonoFont.variable}`}>
-            <body className="overflow-x-hidden bg-neutral-950 font-sans text-neutral-50">
-                <div className="mt-[clamp(1rem,_0.8rem_+_1vw,_2rem)] flex flex-col gap-4 px-[clamp(1rem,_0.6rem_+_2vw,_3rem)] md:mx-auto md:max-w-[120rem] md:gap-8">
-                    <Header />
+        <html className={`${albertSansFont.variable}`}>
+            <body className="overflow-x-hidden bg-neutral-50 font-sans text-neutral-950">
+                <Header />
+                <div className="mt-20 flex flex-col gap-4 px-[clamp(1rem,_0.25rem_+_3.125vw,_4rem)] md:mx-auto md:max-w-[120rem] md:gap-8">
                     {children}
-                    <Footer />
                 </div>
+                <Footer />
                 <Analytics />
             </body>
         </html>
@@ -25,9 +25,12 @@ const RootLayout = ({ children }: PropsWithChildren) => {
 };
 
 export const metadata: Metadata = {
-    title: 'CSS Clamp - The best CSS clamping tool for spacing and typography',
+    title: {
+        default: 'CSS Clamp - Responsive spacing and typography',
+        template: '%s | CSS Clamp',
+    },
     description:
-        'Create easy clamping for margins, paddings and typography with CSS & Tailwind output',
+        'A tool to help you visualize, understand and generate CSS Clamp() values for padding, margin, and font size. See a live preview, copy the code, and take control of your responsive layouts.',
     keywords: ['css', 'clamp', 'tailwind', 'spacing', 'typography'],
 };
 
