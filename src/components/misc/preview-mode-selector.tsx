@@ -40,7 +40,7 @@ const PreviewModeSelector = () => {
                 <Icon
                     name={`typography-${watch('previewMode') === 'container' ? 'dark' : 'light'}`}
                 />
-                Font Resizing Mode
+                Font Sizing Mode
             </button>
         </div>
     );
