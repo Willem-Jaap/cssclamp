@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+import { CopyCheckIcon, CopyIcon } from 'lucide-react';
 import Link from 'next/link';
 
 import NumberInput from '~/components/form/number-input';
@@ -18,6 +20,7 @@ import { getTailwindByValue } from '~/utils/getTailwindValue';
 
 const Actions = () => {
     const { register, watch, getValues, setValue } = useSettings();
+    const [copied, setCopied] = useState(false);
 
     const remify = (px: number) => px / 16;
 
@@ -59,6 +62,12 @@ const Actions = () => {
         }
 
         setValue('mode', mode as Mode);
+    };
+
+    const handleCopy = async () => {
+        await navigator.clipboard.writeText(watch('clamp'));
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
     };
 
     return (
@@ -153,14 +162,25 @@ const Actions = () => {
             </div>
 
             <div className="flex flex-1 flex-col justify-between p-5">
-                <p className="mb-16 text-sm text-neutral-600">
+                <p className="mb-4 text-sm text-neutral-600">
                     The clamped value will be between {watch('minimumValue')}{' '}
                     {mode !== 'tailwind' && mode} and {watch('maximumValue')}{' '}
                     {mode !== 'tailwind' && mode}, applied linearly between the viewport sizes of{' '}
                     {watch('minimumViewport')} {mode !== 'tailwind' && mode} and{' '}
                     {watch('maximumViewport')} {mode !== 'tailwind' && mode}.
                 </p>
-                {/* <p className="font-medium">{clamp}</p> */}
+                <div className="flex items-center justify-between gap-4">
+                    <p className="font-medium">{watch('clamp')}</p>
+                    <Button className="h-10 min-w-10 p-2" variant="outline" onClick={handleCopy}>
+                        {copied ? (
+                            <span className="flex items-center gap-2 text-sm">
+                                <CopyCheckIcon size={16} /> Copied
+                            </span>
+                        ) : (
+                            <CopyIcon size={16} />
+                        )}
+                    </Button>
+                </div>
             </div>
         </div>
     );
