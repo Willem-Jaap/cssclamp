@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import { useForm, useFormContext } from 'react-hook-form';
 
@@ -31,7 +32,7 @@ const useSettingsProvider = () => {
         },
     });
 
-    const { getValues, setValue, watch } = methods;
+    const { setValue, watch } = methods;
 
     const remify = (px: number) => px / 16;
     const toFixed = (num: number) => parseFloat(num.toFixed(3));
@@ -49,16 +50,16 @@ const useSettingsProvider = () => {
     };
 
     useEffect(() => {
-        let maximumValue = remify(getValues('maximumValue'));
-        let minimumValue = remify(getValues('minimumValue'));
-        let maximumViewport = remify(getValues('maximumViewport'));
-        let minimumViewport = remify(getValues('minimumViewport'));
+        let maximumValue = remify(watch('maximumValue'));
+        let minimumValue = remify(watch('minimumValue'));
+        let maximumViewport = remify(watch('maximumViewport'));
+        let minimumViewport = remify(watch('minimumViewport'));
 
-        if (getValues('mode') === 'rem') {
-            maximumValue = getValues('maximumValue');
-            minimumValue = getValues('minimumValue');
-            maximumViewport = getValues('maximumViewport');
-            minimumViewport = getValues('minimumViewport');
+        if (watch('mode') === 'rem') {
+            maximumValue = watch('maximumValue');
+            minimumValue = watch('minimumValue');
+            maximumViewport = watch('maximumViewport');
+            minimumViewport = watch('minimumViewport');
         }
 
         const slope = (maximumValue - minimumValue) / (maximumViewport - minimumViewport);
@@ -70,8 +71,13 @@ const useSettingsProvider = () => {
         )}rem + ${toFixed(slope * 100)}vw, ${getValue(watch('maximumValue'), mode)}rem)`;
 
         setValue('clamp', clamp);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [watch]);
+    }, [
+        watch('minimumValue'),
+        watch('maximumValue'),
+        watch('minimumViewport'),
+        watch('maximumViewport'),
+        watch('mode'),
+    ]);
 
     return methods;
 };
