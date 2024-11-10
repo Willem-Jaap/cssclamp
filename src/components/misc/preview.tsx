@@ -38,7 +38,7 @@ const Preview = () => {
                 className="pointer-events-none absolute left-0 mt-32 2xl:mt-40"
                 ref={screenContainerRef}>
                 <animated.div
-                    className="border-neutral-10 relative h-full origin-top-left overflow-hidden rounded-lg border bg-neutral-50 pb-8 pt-12"
+                    className="relative h-full origin-top-left overflow-hidden rounded-lg border border-neutral-100 bg-neutral-50 py-5"
                     style={{
                         width: width.to(w => {
                             centerPreviewScreen();
