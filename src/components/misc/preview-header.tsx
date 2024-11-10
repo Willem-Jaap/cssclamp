@@ -20,6 +20,7 @@ const PreviewHeader = ({ api, percentage, setPercentage }: Props) => {
         api.start({ width: value });
         setPercentage(value);
     };
+
     return (
         <div className="flex w-full items-center justify-between gap-4 border-b border-b-neutral-100 p-5">
             <h2 className="text-lg font-medium">Emulated screen width</h2>

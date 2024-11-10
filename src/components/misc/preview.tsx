@@ -5,6 +5,7 @@ import { animated, useSpring } from '@react-spring/web';
 
 import PreviewElement from '~/components/misc/preview-element';
 import PreviewHeader from '~/components/misc/preview-header';
+import PreviewText from '~/components/misc/preview-text';
 import useSettings from '~/hooks/useSettings';
 
 const Preview = () => {
@@ -38,7 +39,7 @@ const Preview = () => {
                 className="pointer-events-none absolute left-0 mt-32 2xl:mt-40"
                 ref={screenContainerRef}>
                 <animated.div
-                    className="relative h-full origin-top-left overflow-hidden rounded-lg border border-neutral-100 bg-neutral-50 py-5"
+                    className="relative h-full origin-top-left overflow-hidden rounded-xl border border-neutral-100 bg-neutral-50 pb-5"
                     style={{
                         width: width.to(w => {
                             centerPreviewScreen();
@@ -49,14 +50,15 @@ const Preview = () => {
                         }),
                     }}
                     ref={screenRef}>
-                    {watch('previewMode') === 'container' ? (
-                        <PreviewElement />
-                    ) : (
-                        <div className="h-20 border border-dashed border-neutral-400 bg-neutral-400 px-2 py-1">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-                            tempor
+                    <div className="mb-5 flex items-center justify-between gap-4 border-b border-b-neutral-100 px-4 py-4">
+                        <div className="flex items-center space-x-2">
+                            <div className="size-3 rounded-full bg-[#F05454]" />
+                            <div className="size-3 rounded-full bg-[#F0C454]" />
+                            <div className="size-3 rounded-full bg-[#48DD23]" />
                         </div>
-                    )}
+                        <div className="flex-1">{/* <Tabs /> */}</div>
+                    </div>
+                    {watch('previewMode') === 'container' ? <PreviewElement /> : <PreviewText />}
                 </animated.div>
             </div>
         </div>
