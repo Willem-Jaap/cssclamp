@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import Link from 'next/link';
 
 import NumberInput from '~/components/form/number-input';
@@ -15,49 +14,14 @@ import {
     DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
 import useSettings, { type Mode } from '~/hooks/useSettings';
-import { getTailwindByValue, getTailwindValue } from '~/utils/getTailwindValue';
+import { getTailwindByValue } from '~/utils/getTailwindValue';
 
 const Actions = () => {
     const { register, watch, getValues, setValue } = useSettings();
 
     const remify = (px: number) => px / 16;
-    const toFixed = (num: number) => parseFloat(num.toFixed(3));
-
-    const getValue = (value: number, mode: Mode) => {
-        if (mode === 'rem') {
-            return value;
-        }
-
-        if (mode === 'tailwind') {
-            return getTailwindValue(value);
-        }
-
-        return remify(value);
-    };
-
-    let maximumValue = remify(watch('maximumValue'));
-    let minimumValue = remify(watch('minimumValue'));
-    let maximumViewport = remify(watch('maximumViewport'));
-    let minimumViewport = remify(watch('minimumViewport'));
-
-    if (watch('mode') === 'rem') {
-        maximumValue = watch('maximumValue');
-        minimumValue = watch('minimumValue');
-        maximumViewport = watch('maximumViewport');
-        minimumViewport = watch('minimumViewport');
-    }
-
-    const slope = (maximumValue - minimumValue) / (maximumViewport - minimumViewport);
-    const intersection = maximumValue - slope * maximumViewport;
 
     const mode = watch('mode');
-    const clamp = `clamp(${getValue(watch('minimumValue'), mode)}rem, ${toFixed(
-        intersection,
-    )}rem + ${toFixed(slope * 100)}vw, ${getValue(watch('maximumValue'), mode)}rem)`;
-
-    useEffect(() => {
-        setValue('clamp', clamp);
-    }, [clamp, setValue]);
 
     const onModeChange = (mode: string) => {
         const previousValue = getValues('mode');
@@ -196,7 +160,7 @@ const Actions = () => {
                     {watch('minimumViewport')} {mode !== 'tailwind' && mode} and{' '}
                     {watch('maximumViewport')} {mode !== 'tailwind' && mode}.
                 </p>
-                <p className="font-medium">{clamp}</p>
+                {/* <p className="font-medium">{clamp}</p> */}
             </div>
         </div>
     );
