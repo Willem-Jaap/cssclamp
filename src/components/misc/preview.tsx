@@ -1,121 +1,64 @@
 'use client';
 
-import { useEffect, useRef, useState, type ChangeEvent } from 'react';
+import { useRef } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 
+import PreviewElement from '~/components/misc/preview-element';
+import PreviewHeader from '~/components/misc/preview-header';
+import PreviewText from '~/components/misc/preview-text';
 import useSettings from '~/hooks/useSettings';
 
-const Clamped = () => {
-    const { watch } = useSettings();
-    const clamp = watch('clamp').replace('vw', '%');
-    if (watch('previewMode') === 'text') {
-        return (
-            <div
-                className="h-20 border border-dashed border-neutral-400 bg-neutral-400 px-2 py-1"
-                style={{
-                    fontSize: clamp,
-                }}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-            </div>
-        );
-    }
-
-    return (
-        <div
-            className="h-20 border border-dashed border-neutral-400 bg-neutral-400 px-2 py-1 text-lg"
-            style={{
-                margin: `0 ${clamp}`,
-            }}
-        />
-    );
-};
-
 const Preview = () => {
+    const { watch, setValue } = useSettings();
     const previewRef = useRef<HTMLDivElement>(null);
     const screenContainerRef = useRef<HTMLDivElement>(null);
     const screenRef = useRef<HTMLDivElement>(null);
-    const [currentPercentage, setCurrentPercentage] = useState<number>(60);
     const [{ width }, api] = useSpring(() => ({
         width: 60,
     }));
 
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        api.start({ width: Number(e.target.value) });
-        setCurrentPercentage(Number(e.target.value));
-    };
-
     const centerPreviewScreen = () => {
         if (!screenRef.current || !previewRef.current || !screenContainerRef.current) return;
 
-        // Get position of the preview
         const previewBoundingBox = previewRef.current.getBoundingClientRect();
         const screenBoundingBox = screenRef.current.getBoundingClientRect();
 
         screenRef.current.style.left = `${(previewBoundingBox.width - screenBoundingBox.width) / 2}px`;
     };
 
-    useEffect(() => {
-        // Set the initial screen scale
-        const onResize = () => {
-            const width = previewRef.current?.clientWidth;
-            const scale = width ? width / 1920 : 0;
-            if (!screenRef.current || !previewRef.current || !screenContainerRef.current) {
-                return;
-            }
-            screenRef.current.style.transform = `scale(${scale})`;
-            centerPreviewScreen();
-        };
-        onResize();
-        window.addEventListener('resize', onResize);
-        centerPreviewScreen();
-
-        return () => {
-            window.removeEventListener('resize', onResize);
-        };
-    }, []);
-
     return (
         <div
             className="relative flex min-h-[50vh] flex-col items-center overflow-hidden"
             ref={previewRef}>
-            <div className="flex w-full items-center justify-between gap-4 border-b border-b-neutral-100 p-5">
-                <h2 className="text-lg font-medium">Emulated screen width</h2>
-                <div className="flex items-center gap-4">
-                    <input
-                        className="w-40 decoration-neutral-800"
-                        type="range"
-                        min="0"
-                        max="100"
-                        step="1"
-                        defaultValue="60"
-                        onChange={onChange}
-                    />
-                    <div className="w-[calc(1.2rem_+_6ch)] rounded-lg border border-neutral-100 px-3 py-2 text-right font-medium text-neutral-600">
-                        {Math.round((1920 / 100) * currentPercentage)}px
-                    </div>
-                </div>
-            </div>
+            <PreviewHeader
+                api={api}
+                percentage={watch('percentage')}
+                setPercentage={value => setValue('percentage', Number(value))}
+            />
             <div
-                className="pointer-events-none absolute left-0 mt-32 w-[1920px] overflow-hidden 2xl:mt-40"
+                className="pointer-events-none absolute left-0 mt-32 2xl:mt-40"
                 ref={screenContainerRef}>
                 <animated.div
-                    className="relative h-full origin-top-left scale-0 overflow-hidden rounded-lg border border-neutral-100 bg-neutral-50 pb-8 pt-12"
+                    className="relative h-full origin-top-left overflow-hidden rounded-xl border border-neutral-100 bg-neutral-50 pb-5"
                     style={{
                         width: width.to(w => {
                             centerPreviewScreen();
-                            return `${(w * 1920) / 100}px`;
+                            const previewWidth = previewRef.current?.getBoundingClientRect().width;
+                            if (!previewWidth) return '100%';
+
+                            return `${(previewWidth / 100) * w}px`;
                         }),
                     }}
                     ref={screenRef}>
-                    <div className="absolute left-4 top-4">
-                        <div className="flex items-center gap-2">
-                            <div className="h-4 w-4 rounded-full bg-red-500" />
-                            <div className="h-4 w-4 rounded-full bg-yellow-500" />
-                            <div className="h-4 w-4 rounded-full bg-green-500" />
+                    <div className="mb-5 flex items-center justify-between gap-4 border-b border-b-neutral-100 px-4 py-4">
+                        <div className="flex items-center space-x-2">
+                            <div className="size-3 rounded-full bg-[#F05454]" />
+                            <div className="size-3 rounded-full bg-[#F0C454]" />
+                            <div className="size-3 rounded-full bg-[#48DD23]" />
                         </div>
+                        <div className="flex-1">{/* <Tabs /> */}</div>
                     </div>
-                    <Clamped />
+                    {watch('previewMode') === 'container' ? <PreviewElement /> : <PreviewText />}
                 </animated.div>
             </div>
         </div>

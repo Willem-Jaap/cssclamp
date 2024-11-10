@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useState } from 'react';
+import { CopyCheckIcon, CopyIcon } from 'lucide-react';
 import Link from 'next/link';
 
 import NumberInput from '~/components/form/number-input';
@@ -15,49 +16,15 @@ import {
     DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
 import useSettings, { type Mode } from '~/hooks/useSettings';
-import { getTailwindByValue, getTailwindValue } from '~/utils/getTailwindValue';
+import { getTailwindByValue } from '~/utils/getTailwindValue';
 
 const Actions = () => {
     const { register, watch, getValues, setValue } = useSettings();
+    const [copied, setCopied] = useState(false);
 
     const remify = (px: number) => px / 16;
-    const toFixed = (num: number) => parseFloat(num.toFixed(3));
-
-    const getValue = (value: number, mode: Mode) => {
-        if (mode === 'rem') {
-            return value;
-        }
-
-        if (mode === 'tailwind') {
-            return getTailwindValue(value);
-        }
-
-        return remify(value);
-    };
-
-    let maximumValue = remify(watch('maximumValue'));
-    let minimumValue = remify(watch('minimumValue'));
-    let maximumViewport = remify(watch('maximumViewport'));
-    let minimumViewport = remify(watch('minimumViewport'));
-
-    if (watch('mode') === 'rem') {
-        maximumValue = watch('maximumValue');
-        minimumValue = watch('minimumValue');
-        maximumViewport = watch('maximumViewport');
-        minimumViewport = watch('minimumViewport');
-    }
-
-    const slope = (maximumValue - minimumValue) / (maximumViewport - minimumViewport);
-    const intersection = maximumValue - slope * maximumViewport;
 
     const mode = watch('mode');
-    const clamp = `clamp(${getValue(watch('minimumValue'), mode)}rem, ${toFixed(
-        intersection,
-    )}rem + ${toFixed(slope * 100)}vw, ${getValue(watch('maximumValue'), mode)}rem)`;
-
-    useEffect(() => {
-        setValue('clamp', clamp);
-    }, [clamp, setValue]);
 
     const onModeChange = (mode: string) => {
         const previousValue = getValues('mode');
@@ -95,6 +62,12 @@ const Actions = () => {
         }
 
         setValue('mode', mode as Mode);
+    };
+
+    const handleCopy = async () => {
+        await navigator.clipboard.writeText(watch('clamp'));
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
     };
 
     return (
@@ -189,14 +162,25 @@ const Actions = () => {
             </div>
 
             <div className="flex flex-1 flex-col justify-between p-5">
-                <p className="mb-16 text-sm text-neutral-600">
+                <p className="mb-4 text-sm text-neutral-600">
                     The clamped value will be between {watch('minimumValue')}{' '}
                     {mode !== 'tailwind' && mode} and {watch('maximumValue')}{' '}
                     {mode !== 'tailwind' && mode}, applied linearly between the viewport sizes of{' '}
                     {watch('minimumViewport')} {mode !== 'tailwind' && mode} and{' '}
                     {watch('maximumViewport')} {mode !== 'tailwind' && mode}.
                 </p>
-                <p className="font-medium">{clamp}</p>
+                <div className="flex items-center justify-between gap-4">
+                    <p className="font-medium">{watch('clamp')}</p>
+                    <Button className="h-10 min-w-10 p-2" variant="outline" onClick={handleCopy}>
+                        {copied ? (
+                            <span className="flex items-center gap-2 text-sm">
+                                <CopyCheckIcon size={16} /> Copied
+                            </span>
+                        ) : (
+                            <CopyIcon size={16} />
+                        )}
+                    </Button>
+                </div>
             </div>
         </div>
     );
