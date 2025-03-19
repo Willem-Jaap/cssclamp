@@ -1,6 +1,11 @@
-import { useForm } from 'react-hook-form';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from 'react';
+import { useForm, useFormContext } from 'react-hook-form';
+
+import { getTailwindValue } from '~/utils/getTailwindValue';
 
 type Mode = 'rem' | 'px' | 'tailwind';
+type PreviewMode = 'container' | 'text';
 
 interface Settings {
     minimumValue: number;
@@ -8,23 +13,79 @@ interface Settings {
     minimumViewport: number;
     maximumViewport: number;
     mode: Mode;
+    previewMode: PreviewMode;
+    percentage: number;
     clamp: string;
 }
 
-const useSettings = () => {
+const useSettingsProvider = () => {
     const methods = useForm<Settings>({
         defaultValues: {
             minimumValue: 1,
             maximumValue: 8,
-            minimumViewport: 20,
+            minimumViewport: 24,
             maximumViewport: 120,
             mode: 'rem',
+            previewMode: 'container',
+            percentage: 60,
             clamp: '',
         },
     });
 
+    const { setValue, watch } = methods;
+
+    const remify = (px: number) => px / 16;
+    const toFixed = (num: number) => parseFloat(num.toFixed(3));
+
+    const getValue = (value: number, mode: Mode) => {
+        if (mode === 'rem') {
+            return value;
+        }
+
+        if (mode === 'tailwind') {
+            return getTailwindValue(value);
+        }
+
+        return remify(value);
+    };
+
+    useEffect(() => {
+        let maximumValue = remify(watch('maximumValue'));
+        let minimumValue = remify(watch('minimumValue'));
+        let maximumViewport = remify(watch('maximumViewport'));
+        let minimumViewport = remify(watch('minimumViewport'));
+
+        if (watch('mode') === 'rem') {
+            maximumValue = watch('maximumValue');
+            minimumValue = watch('minimumValue');
+            maximumViewport = watch('maximumViewport');
+            minimumViewport = watch('minimumViewport');
+        }
+
+        const slope = (maximumValue - minimumValue) / (maximumViewport - minimumViewport);
+        const intersection = maximumValue - slope * maximumViewport;
+
+        const mode = watch('mode');
+        const clamp = `clamp(${getValue(watch('minimumValue'), mode)}rem, ${toFixed(
+            intersection,
+        )}rem + ${toFixed(slope * 100)}vw, ${getValue(watch('maximumValue'), mode)}rem)`;
+
+        setValue('clamp', clamp);
+    }, [
+        watch('minimumValue'),
+        watch('maximumValue'),
+        watch('minimumViewport'),
+        watch('maximumViewport'),
+        watch('mode'),
+    ]);
+
     return methods;
 };
 
-export type { Settings, Mode };
+const useSettings = () => {
+    return useFormContext<Settings>();
+};
+
+export type { Settings, Mode, PreviewMode };
+export { useSettingsProvider };
 export default useSettings;
