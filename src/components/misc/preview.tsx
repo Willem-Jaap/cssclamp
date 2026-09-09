@@ -58,7 +58,10 @@ const Preview = () => {
             if (!screenRef.current || !previewRef.current || !screenContainerRef.current) {
                 return;
             }
-            screenRef.current.style.transform = `scale(${scale})`;
+            // Tailwind v4's `scale-0` sets the standalone `scale` property, so
+            // the override has to target `scale` too - writing `transform` here
+            // would compose with it and collapse the screen to zero.
+            screenRef.current.style.scale = String(scale);
             centerPreviewScreen();
         };
         onResize();
