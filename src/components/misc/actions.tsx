@@ -106,7 +106,7 @@ const Actions = () => {
                     <DropdownMenuTrigger asChild>
                         <Button variant="secondary">Mode: {watch('mode')}</Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="mr-[clamp(2rem,_1.6rem_+_2vw,_4rem)] w-56">
+                    <DropdownMenuContent className="mr-[clamp(2rem,1.6rem+2vw,4rem)] w-56">
                         <DropdownMenuLabel>Sizing mode</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuRadioGroup

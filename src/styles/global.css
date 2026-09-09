@@ -1,6 +1,58 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@import 'tw-animate-css';
+
+@plugin '@tailwindcss/typography';
+
+@theme {
+    --color-neutral-50: #f3f3f4;
+    --color-neutral-100: #e4e4e7;
+    --color-neutral-200: #c7c7cc;
+    --color-neutral-300: #a9a9b1;
+    --color-neutral-400: #8c8c97;
+    --color-neutral-500: #6f6f7b;
+    --color-neutral-600: #55555e;
+    --color-neutral-700: #333340;
+    --color-neutral-800: #191924;
+    --color-neutral-900: #0e0e14;
+    --color-neutral-950: #07070a;
+
+    --color-primary-50: #e7e3ff;
+    --color-primary-100: #dad3f8;
+    --color-primary-200: #c0b4f4;
+    --color-primary-300: #a895ef;
+    --color-primary-400: #9176eb;
+    --color-primary-500: #7b57e6;
+    --color-primary-600: #5c2bdf;
+    --color-primary-700: #4a1cbb;
+    --color-primary-800: #3b158f;
+    --color-primary-900: #2a0f62;
+    --color-primary-950: #210b4c;
+
+    --font-sans: var(--font-satoshi);
+    --font-mono: var(--font-roboto-mono);
+
+    --animate-accordion-down: accordion-down 0.2s ease-out;
+    --animate-accordion-up: accordion-up 0.2s ease-out;
+
+    @keyframes accordion-down {
+        from {
+            height: 0;
+        }
+        to {
+            height: var(--radix-accordion-content-height);
+        }
+    }
+
+    @keyframes accordion-up {
+        from {
+            height: var(--radix-accordion-content-height);
+        }
+        to {
+            height: 0;
+        }
+    }
+}
 
 @layer base {
     input[type='number']::-webkit-inner-spin-button {
