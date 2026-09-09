@@ -1,10 +1,16 @@
-// @ts-check
-/** @type {import("@ianvs/prettier-plugin-sort-imports").PrettierConfig} */
+/** @type {import("prettier").Config & import("@ianvs/prettier-plugin-sort-imports").PluginConfig} */
 module.exports = {
-    // @ts-ignore
-    ...require('eslint-config-pixel/prettier/base'),
+    bracketSpacing: true,
+    bracketSameLine: true,
+    singleQuote: true,
+    trailingComma: 'all',
+    arrowParens: 'avoid',
+    tabWidth: 4,
+    printWidth: 100,
+    quoteProps: 'consistent',
     plugins: ['@ianvs/prettier-plugin-sort-imports', 'prettier-plugin-tailwindcss'],
     tailwindFunctions: ['cn'],
+    tailwindStylesheet: './src/styles/global.css',
     importOrder: [
         '^react$',
         '^next$',

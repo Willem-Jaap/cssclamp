@@ -14,11 +14,11 @@ Documentation is written in [Markdown](https://www.markdownguide.org/). This is 
 
 The **public** folder contains all static files. This includes files like:
 
--   Images
--   Fonts
--   Favicon
--   robots.txt
--   sitemap.xml
+- Images
+- Fonts
+- Favicon
+- robots.txt
+- sitemap.xml
 
 <br>
 
@@ -58,9 +58,9 @@ If a component is used in multiple modules, it should be placed in the **/compon
 
 The **core** components of the application. This folder contains all components that are used in multiple modules. These components are **generic** and **reusable**. They are **not** specific to a module. Examples of these components are:
 
--   Buttons
--   Inputs
--   Cards
+- Buttons
+- Inputs
+- Cards
 
 Think of this folder as the **scoped design-system** of the application.
 If a [design system](https://leerob.io/blog/style-guides-component-libraries-design-systems) is used across multiple projects, create a separate repository & package for it, and import it as a dependency.
@@ -71,8 +71,8 @@ If a [design system](https://leerob.io/blog/style-guides-component-libraries-des
 The **hooks** folder contains all the custom hooks that are not specific to a module / feature.
 Examples of these hooks are:
 
--   useDebounce
--   useLocalStorage
+- useDebounce
+- useLocalStorage
 
 ### **/locales**
 

@@ -50,9 +50,7 @@ const getTailwindValue = (value: number) => {
 };
 
 const getTailwindByValue = (value: number) => {
-    return Number(
-        Object.keys(spacingScale).find(key => spacingScale[Number(key)] === Number(value)),
-    );
+    return Number(Object.keys(spacingScale).find(key => spacingScale[Number(key)] === value));
 };
 
 export { getTailwindValue, getTailwindByValue };

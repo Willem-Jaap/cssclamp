@@ -4,7 +4,7 @@ import Example from '~/app/guide/example';
 
 const Page = () => {
     return (
-        <article className="prose prose-invert mx-[clamp(0rem,_-6.915rem_+_26.596vw,_25rem)] my-24 max-w-none">
+        <article className="mx-[clamp(0rem,-6.915rem+26.596vw,25rem)] my-24 prose max-w-none prose-invert">
             <h1>CSS Clamp Guide</h1>
             <p>
                 <code>clamp()</code>is a CSS function that allows you to clamp a value between a

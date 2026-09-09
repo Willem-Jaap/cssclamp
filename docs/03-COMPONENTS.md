@@ -4,16 +4,16 @@ Components hypen-case as a filename and end with `.tsx`.
 
 All NPM packages are also lowercase and hypen-case, to keep all imports consistent the project uses the same naming convention.
 
--   `button.tsx`
--   `menu-foldout.tsx`
+- `button.tsx`
+- `menu-foldout.tsx`
 
 In principle a file should only contain one component with a single responsibility. If a (sub)component is directly related to the component in the file, it may be placed in the same file.
 
--   `table.tsx`
-    -   `Table`
-    -   `TableHeader`
-    -   `TableAction`
-    -   `TableFilters`
+- `table.tsx`
+    - `Table`
+    - `TableHeader`
+    - `TableAction`
+    - `TableFilters`
 
 You should only do this when you are sure that the component can only be used in the context of the component in the file.
 
@@ -27,8 +27,8 @@ Components which belong to a module should be placed in the `src/app/(<module-na
 
 Props should be named in camelCase.
 
--   `isDisabled`
--   `onSubmit`
+- `isDisabled`
+- `onSubmit`
 
 You should declare props in an interface called `Props`. `children` should be defined using the `ReactNode` type.
 

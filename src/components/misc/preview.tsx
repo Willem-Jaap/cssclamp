@@ -31,7 +31,7 @@ const Preview = () => {
     }));
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-        api.start({ width: Number(e.target.value) });
+        void api.start({ width: Number(e.target.value) });
         setCurrentPercentage(Number(e.target.value));
     };
 
@@ -83,22 +83,26 @@ const Preview = () => {
                 defaultValue="60"
                 onChange={onChange}
             />
-            <div className="mx-auto mb-4 inline whitespace-nowrap text-xs 2xl:hidden">
+            <div className="mx-auto mb-4 inline text-xs whitespace-nowrap 2xl:hidden">
                 Emulated screen width: {Math.round((1920 / 100) * currentPercentage)}px
             </div>
             <div
                 className="pointer-events-none absolute left-0 mt-16 w-[1920px] overflow-hidden 2xl:mt-12"
                 ref={screenContainerRef}>
                 <animated.div
-                    className="relative h-full origin-top-left scale-0 overflow-hidden rounded-lg border border-neutral-700 bg-neutral-800 pb-8 pt-12"
+                    className="relative h-full origin-top-left scale-0 overflow-hidden rounded-lg border border-neutral-700 bg-neutral-800 pt-12 pb-8"
                     style={{
+                        // react-spring runs this interpolator on animation
+                        // frames rather than during React's render pass, so
+                        // reading refs here is safe.
+                        // eslint-disable-next-line react-hooks/refs
                         width: width.to(w => {
                             centerPreviewScreen();
                             return `${(w * 1920) / 100}px`;
                         }),
                     }}
                     ref={screenRef}>
-                    <div className="absolute left-4 top-4">
+                    <div className="absolute top-4 left-4">
                         <div className="flex items-center gap-2">
                             <div className="h-4 w-4 rounded-full bg-red-500" />
                             <div className="h-4 w-4 rounded-full bg-yellow-500" />
@@ -107,7 +111,7 @@ const Preview = () => {
                     </div>
                     <div
                         className={cn(
-                            'absolute top-2 whitespace-nowrap text-lg max-2xl:hidden',
+                            'absolute top-2 text-lg whitespace-nowrap max-2xl:hidden',
                             currentPercentage > 30 ? 'left-1/2 -translate-x-1/2' : 'right-4',
                         )}>
                         {currentPercentage > 30

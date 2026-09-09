@@ -4,7 +4,7 @@ import Logo from '~/components/misc/logo';
 
 const Header = () => {
     return (
-        <header className="flex items-center justify-between gap-4 rounded-xl border border-neutral-800 py-4 pl-8 pr-4">
+        <header className="flex items-center justify-between gap-4 rounded-xl border border-neutral-800 py-4 pr-4 pl-8">
             <Link href="/">
                 <Logo />
             </Link>
