@@ -3,18 +3,10 @@
 import { useState } from 'react';
 
 import CopyButton from '~/components/ui/copy-button';
-import { Slider } from '~/components/ui/slider';
 import cn from '~/utils/cn';
 import { resolveFluid, toClamp } from '~/utils/fluid';
 
-const MOBILE = 360;
-const DESKTOP = 1440;
-
-const presets = [
-    { label: 'Mobile', width: MOBILE },
-    { label: 'Tablet', width: 768 },
-    { label: 'Desktop', width: DESKTOP },
-];
+import ScreenWidthControl, { DESKTOP, MOBILE } from '~/app/examples/screen-width-control';
 
 const scale = [
     { tag: 'h1', mobile: 36, desktop: 64, lineHeight: 1.1, weight: 500, sample: 'Fluid type' },
@@ -52,41 +44,7 @@ const TypeScale = () => {
     return (
         <div className="flex flex-col gap-10">
             <section className="overflow-hidden rounded-xl border border-line">
-                <div className="flex flex-wrap items-center justify-between gap-4 border-b border-b-line px-4 py-3">
-                    <div className="flex rounded-lg bg-canvas p-1 ring-1 ring-line">
-                        {presets.map(preset => (
-                            <button
-                                key={preset.label}
-                                type="button"
-                                onClick={() => {
-                                    setWidth(preset.width);
-                                }}
-                                className={cn(
-                                    'h-7 rounded-md px-3 text-sm font-medium transition-colors',
-                                    width === preset.width
-                                        ? 'bg-white text-neutral-950 shadow-xs ring-1 ring-line'
-                                        : 'text-neutral-500 hover:text-neutral-950',
-                                )}>
-                                {preset.label}
-                            </button>
-                        ))}
-                    </div>
-                    <div className="flex min-w-64 flex-1 items-center gap-3 sm:max-w-sm">
-                        <Slider
-                            aria-label="Screen width"
-                            min={MOBILE}
-                            max={DESKTOP}
-                            step={1}
-                            value={[width]}
-                            onValueChange={([value]) => {
-                                setWidth(value);
-                            }}
-                        />
-                        <span className="w-16 rounded-md bg-canvas px-2 py-1 text-right font-mono text-xs text-neutral-700 tabular-nums ring-1 ring-line">
-                            {width}px
-                        </span>
-                    </div>
-                </div>
+                <ScreenWidthControl width={width} onChange={setWidth} />
                 <div className="divide-y divide-line">
                     {scale.map(({ tag, mobile, desktop, lineHeight, weight, sample }) => {
                         const size = resolveFluid(withRange(mobile, desktop), width);
@@ -159,9 +117,9 @@ const TypeScale = () => {
 
             <section className="flex flex-col gap-3">
                 <div>
-                    <h2 className="text-lg font-medium tracking-tight text-neutral-950">
+                    <h3 className="text-lg font-medium tracking-tight text-neutral-950">
                         Copy the whole scale
-                    </h2>
+                    </h3>
                     <p className="mt-1 text-sm text-neutral-500">
                         Custom properties that scale from {MOBILE}px to {DESKTOP}px. Using Tailwind
                         CSS v4? Put them in <code className="font-mono text-xs">@theme</code>{' '}
