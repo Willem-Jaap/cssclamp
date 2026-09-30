@@ -4,6 +4,8 @@
 
 @plugin '@tailwindcss/typography';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
     --text-xs: clamp(0.625rem, 0.59rem + 0.133vw, 0.75rem);
     --text-xs--line-height: 1.33;
@@ -50,7 +52,11 @@
     --color-primary-900: #2a0319;
     --color-primary-950: #200213;
 
+    --color-line: #e7e9ec;
+    --color-canvas: #f7f8f9;
+
     --font-sans: var(--font-albert-sans);
+    --font-mono: var(--font-jetbrains-mono);
 
     --animate-accordion-down: accordion-down 0.2s ease-out;
     --animate-accordion-up: accordion-up 0.2s ease-out;
@@ -84,16 +90,16 @@
     }
 
     ::-webkit-scrollbar-track {
-        @apply bg-neutral-50;
+        @apply bg-white;
     }
 
     ::-webkit-scrollbar {
-        width: 1rem;
-        @apply bg-neutral-50;
+        width: 0.75rem;
+        @apply bg-white;
     }
 
     ::-webkit-scrollbar-thumb {
-        @apply rounded-full border-4 border-solid border-neutral-50 bg-neutral-100;
+        @apply rounded-full border-3 border-solid border-white bg-neutral-100;
     }
 
     input[type='number']::-webkit-inner-spin-button,
