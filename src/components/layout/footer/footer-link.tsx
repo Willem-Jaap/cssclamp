@@ -20,10 +20,8 @@ const FooterLink = ({ children, className, href, ...props }: Props) => {
         <Link
             href={href}
             className={cn(
-                'underline-offset-2 hover:text-neutral-400 hover:underline',
-                {
-                    'text-primary-500 hover:text-primary-400': pathname === href,
-                },
+                'transition-colors hover:text-neutral-50',
+                pathname === href && 'text-neutral-50',
                 className,
             )}
             {...props}>
