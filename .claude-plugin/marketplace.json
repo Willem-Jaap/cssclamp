@@ -11,7 +11,6 @@
             "name": "css-clamp",
             "source": ".",
             "description": "Generate fluid CSS clamp() values for font sizes, spacing and type scales, for plain CSS and Tailwind CSS.",
-            "version": "1.0.0",
             "author": { "name": "Willem-Jaap", "url": "https://willemjaap.com" },
             "homepage": "https://cssclamp.com",
             "repository": "https://github.com/Willem-Jaap/cssclamp",
