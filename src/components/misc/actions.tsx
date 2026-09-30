@@ -1,8 +1,10 @@
 'use client';
 
+import { SparklesIcon } from 'lucide-react';
 import Link from 'next/link';
 
 import NumberInput from '~/components/form/number-input';
+import SkillPopover from '~/components/misc/skill-popover';
 import { Button } from '~/components/ui/button';
 import CopyButton from '~/components/ui/copy-button';
 import {
@@ -168,7 +170,7 @@ const Actions = () => {
                     {mode !== 'tailwind' && mode} and {watch('maximumViewport')}
                     {mode !== 'tailwind' && mode}.
                 </p>
-                <div className="relative rounded-lg bg-neutral-950 py-3.5 pr-12 pl-4">
+                <div className="relative rounded-lg bg-neutral-950 py-3.5 pr-12 pl-4 scheme-fixed dark:ring-1 dark:ring-white/10">
                     <code className="block font-mono text-[0.8125rem] leading-relaxed break-words text-neutral-50">
                         {watch('clamp')}
                     </code>
@@ -178,6 +180,14 @@ const Actions = () => {
                         className="absolute top-2.5 right-2.5 text-neutral-400 hover:bg-white/10 hover:text-neutral-50"
                     />
                 </div>
+                <SkillPopover align="start">
+                    <button
+                        type="button"
+                        className="flex items-center gap-1.5 self-start text-xs text-neutral-500 transition-colors hover:text-neutral-950">
+                        <SparklesIcon size={12} />
+                        Install the agent skill
+                    </button>
+                </SkillPopover>
             </div>
         </div>
     );

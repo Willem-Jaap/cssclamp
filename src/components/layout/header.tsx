@@ -1,7 +1,10 @@
+import { SparklesIcon } from 'lucide-react';
 import Link from 'next/link';
 
 import NavLink from '~/components/layout/nav-link';
+import ThemeToggle from '~/components/layout/theme-toggle';
 import Logo from '~/components/misc/logo';
+import SkillPopover from '~/components/misc/skill-popover';
 
 const links = [
     { href: '/guide', label: 'Guide' },
@@ -15,15 +18,28 @@ const Header = () => {
             <Link href="/">
                 <Logo />
             </Link>
-            <nav>
-                <menu className="flex items-center gap-1">
-                    {links.map(link => (
-                        <li key={link.href}>
-                            <NavLink href={link.href}>{link.label}</NavLink>
-                        </li>
-                    ))}
-                </menu>
-            </nav>
+            <div className="flex items-center gap-2">
+                <nav className="max-sm:hidden">
+                    <menu className="flex items-center gap-1">
+                        {links.map(link => (
+                            <li key={link.href}>
+                                <NavLink href={link.href}>{link.label}</NavLink>
+                            </li>
+                        ))}
+                    </menu>
+                </nav>
+                <div className="flex items-center gap-1 border-l border-l-line pl-2">
+                    <SkillPopover>
+                        <button
+                            type="button"
+                            className="flex h-8 items-center gap-2 rounded-md bg-neutral-950 px-3 text-sm font-medium text-white transition-colors hover:bg-neutral-800">
+                            <SparklesIcon size={14} />
+                            Agent skill
+                        </button>
+                    </SkillPopover>
+                    <ThemeToggle />
+                </div>
+            </div>
         </header>
     );
 };
