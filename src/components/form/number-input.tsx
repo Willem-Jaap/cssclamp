@@ -18,6 +18,7 @@ const NumberInput = forwardRef<HTMLInputElement, Props>(({ className, ...props }
                     className,
                 )}
                 min={0}
+                step="any"
                 ref={ref}
                 {...props}
             />
