@@ -7,8 +7,8 @@ const PreviewElement = () => {
 
     return (
         <div
-            className="h-20 rounded-lg border border-dashed border-neutral-400 bg-neutral-200 px-2 py-1"
-            style={{ margin: `0 ${watch('clamp').replace('vw', '%')}` }}
+            className="h-64 rounded-2xl border-4 border-dashed border-primary-200 bg-primary-50"
+            style={{ margin: `0 ${watch('clamp').replace('vw', 'cqw')}` }}
         />
     );
 };

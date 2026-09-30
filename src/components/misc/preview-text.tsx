@@ -6,11 +6,11 @@ const PreviewText = () => {
     const { watch } = useSettings();
 
     return (
-        <div
-            className="h-20 rounded-lg border border-dashed border-neutral-400 bg-neutral-200 px-2 py-1"
-            style={{ margin: `0 ${watch('clamp').replace('vw', '%')}` }}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-        </div>
+        <p
+            className="px-16 leading-tight font-medium text-neutral-950"
+            style={{ fontSize: watch('clamp').replace('vw', 'cqw') }}>
+            The quick brown fox jumps over the lazy dog
+        </p>
     );
 };
 
