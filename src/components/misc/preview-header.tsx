@@ -3,6 +3,7 @@
 import { type Dispatch, type SetStateAction } from 'react';
 import { type SpringRef } from '@react-spring/web';
 
+import PreviewModeSelector from '~/components/misc/preview-mode-selector';
 import { Slider } from '~/components/ui/slider';
 
 interface Props {
@@ -22,18 +23,20 @@ const PreviewHeader = ({ api, percentage, setPercentage }: Props) => {
     };
 
     return (
-        <div className="flex w-full items-center justify-between gap-4 border-b border-b-neutral-100 p-5">
-            <h2 className="text-lg font-medium">Emulated screen width</h2>
-            <div className="flex items-center gap-4">
+        <div className="flex w-full items-center justify-between gap-4 border-b border-b-line px-3 py-2.5">
+            <PreviewModeSelector />
+            <div className="flex items-center gap-3">
+                <span className="text-sm text-neutral-500 max-lg:sr-only">Screen width</span>
                 <Slider
                     className="w-40"
+                    aria-label="Emulated screen width"
                     min={0}
                     max={100}
                     step={1}
                     defaultValue={[60]}
                     onValueChange={onChange}
                 />
-                <div className="w-[calc(1.2rem_+_6ch)] rounded-lg border border-neutral-100 px-3 py-2 text-right font-medium text-neutral-600">
+                <div className="w-[calc(1.5rem+6ch)] rounded-md bg-canvas px-2 py-1 text-right font-mono text-xs text-neutral-700 tabular-nums ring-1 ring-line">
                     {Math.round((1920 / 100) * percentage)}px
                 </div>
             </div>
