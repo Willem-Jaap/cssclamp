@@ -29,11 +29,11 @@ const Footer = () => {
     return (
         <footer
             id="footer"
-            className="mt-24 max-w-[100vw] overflow-hidden bg-neutral-950 text-neutral-400">
+            className="mt-24 max-w-[100vw] overflow-hidden bg-neutral-950 text-neutral-400 scheme-fixed dark:border-t dark:border-white/10">
             <div className="flex flex-col justify-between gap-12 px-[clamp(1rem,_0.25rem_+_3.125vw,_4rem)] pt-20 pb-16 md:flex-row">
                 <div className="flex max-w-sm flex-col items-start gap-6">
                     <div className="text-neutral-50">
-                        <Logo />
+                        <Logo inverted />
                     </div>
                     <p className="leading-relaxed">
                         Generate responsive clamp() values for spacing and typography. See a live
