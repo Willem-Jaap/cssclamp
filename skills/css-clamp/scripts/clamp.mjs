@@ -35,14 +35,18 @@ if (!['vw', 'cqi', 'cqw'].includes(unit)) {
 const toPx = value => {
     const match = /^(-?\d*\.?\d+)(px|rem)?$/.exec(String(value).trim());
     if (!match) {
-        console.error(`Could not parse "${value}". Use a number with px or rem, e.g. 16px or 1rem.`);
+        console.error(
+            `Could not parse "${value}". Use a number with px or rem, e.g. 16px or 1rem.`,
+        );
         process.exit(1);
     }
     return match[2] === 'rem' ? Number(match[1]) * root : Number(match[1]);
 };
 
 if (positional.length < 2) {
-    console.error('Usage: node clamp.mjs <minSize> <maxSize> [minViewport] [maxViewport] [--unit vw|cqi] [--root 16]');
+    console.error(
+        'Usage: node clamp.mjs <minSize> <maxSize> [minViewport] [maxViewport] [--unit vw|cqi] [--root 16]',
+    );
     process.exit(1);
 }
 
@@ -69,4 +73,6 @@ const upper = Math.max(minSize, maxSize);
 const vw = round(slope * 100);
 const operator = vw < 0 ? '-' : '+';
 
-console.log(`clamp(${rem(lower)}, ${rem(intercept)} ${operator} ${Math.abs(vw)}${unit}, ${rem(upper)})`);
+console.log(
+    `clamp(${rem(lower)}, ${rem(intercept)} ${operator} ${Math.abs(vw)}${unit}, ${rem(upper)})`,
+);
