@@ -35,6 +35,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      eyes-next:
+        specifier: ^0.3.0
+        version: 0.3.0(next@16.3.7(@babel/core@7.29.7)(@types/node@26.6.3)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)
       gsap:
         specifier: ^3.15.0
         version: 3.15.0
@@ -1630,6 +1633,20 @@ packages:
   esutils@2.0.3:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
     engines: {node: '>=0.10.0'}
+
+  eyes-next@0.3.0:
+    resolution: {integrity: sha512-W8cqSWjtz+kLYblv4cCFJ5NMe81WKDAhrfuAolPgRH098LRObfmHDlmmoTLO4o5MIUQ5fzpZEjAEqvdbhwzy8A==}
+    peerDependencies:
+      next: '>=14'
+      react: '>=18'
+
+  eyes-react@0.3.0:
+    resolution: {integrity: sha512-jglxZyvSRv7VNPMSGMC9NYQOV95BrKlj67IssrMfqvPWoYfxnJTgUt1di5cwOyBTui3pStsB+N3/gQ5pI6br5Q==}
+    peerDependencies:
+      react: '>=18'
+
+  eyes-types@0.3.0:
+    resolution: {integrity: sha512-P8RkfmEkIyYyNGAdmAv+5Enu5DK9HfVW2gLqxmYFhE1rh27a2UgEP+xJV/4BewOWkgYKHxdPxik5zn+40u+/bg==}
 
   fast-deep-equal@3.1.3:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
@@ -4235,6 +4252,19 @@ snapshots:
   estraverse@5.3.0: {}
 
   esutils@2.0.3: {}
+
+  eyes-next@0.3.0(next@16.3.7(@babel/core@7.29.7)(@types/node@26.6.3)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0):
+    dependencies:
+      eyes-react: 0.3.0(react@19.3.0)
+      next: 16.3.7(@babel/core@7.29.7)(@types/node@26.6.3)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      react: 19.3.0
+
+  eyes-react@0.3.0(react@19.3.0):
+    dependencies:
+      eyes-types: 0.3.0
+      react: 19.3.0
+
+  eyes-types@0.3.0: {}
 
   fast-deep-equal@3.1.3: {}
 
