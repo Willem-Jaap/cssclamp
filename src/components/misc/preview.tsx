@@ -82,10 +82,11 @@ const Preview = () => {
                                 transform: `scale(${scale})`,
                                 marginBottom: contentHeight.to(h => h * (scale - 1)),
                             }}>
-                            {watch('previewMode') === 'container' ? (
-                                <PreviewElement />
-                            ) : (
+                            {watch('property') === 'line-height' ||
+                            (!watch('property') && watch('previewMode') === 'text') ? (
                                 <PreviewText />
+                            ) : (
+                                <PreviewElement />
                             )}
                         </animated.div>
                     </animated.div>

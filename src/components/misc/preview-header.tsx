@@ -5,6 +5,7 @@ import { type SpringRef } from '@react-spring/web';
 
 import PreviewModeSelector from '~/components/misc/preview-mode-selector';
 import { Slider } from '~/components/ui/slider';
+import useSettings from '~/hooks/useSettings';
 
 interface Props {
     api: SpringRef<{
@@ -15,6 +16,8 @@ interface Props {
 }
 
 const PreviewHeader = ({ api, percentage, setPercentage }: Props) => {
+    const { watch } = useSettings();
+    const property = watch('property');
     const onChange = (values: number[]) => {
         const [value] = values;
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -24,7 +27,13 @@ const PreviewHeader = ({ api, percentage, setPercentage }: Props) => {
 
     return (
         <div className="flex w-full items-center justify-between gap-4 border-b border-b-line px-3 py-2.5">
-            <PreviewModeSelector />
+            {property ? (
+                <span className="rounded-lg bg-canvas px-3 py-1.5 font-mono text-sm text-neutral-700 ring-1 ring-line">
+                    {property}
+                </span>
+            ) : (
+                <PreviewModeSelector />
+            )}
             <div className="flex items-center gap-3">
                 <span className="text-sm text-neutral-500 max-lg:sr-only">Screen width</span>
                 <Slider
