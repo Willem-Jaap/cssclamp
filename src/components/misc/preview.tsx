@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 
 import PreviewElement from '~/components/misc/preview-element';
@@ -8,28 +8,49 @@ import PreviewHeader from '~/components/misc/preview-header';
 import PreviewText from '~/components/misc/preview-text';
 import useSettings from '~/hooks/useSettings';
 
+// The emulated screen is rendered at its real pixel width (a percentage of
+// this width) and scaled down to fit the preview, so rem and container units
+// inside it behave exactly like they would on a real screen of that size.
+const MAX_SCREEN_WIDTH = 1920;
+const CHROME_HEIGHT = 36;
+const SCREEN_MARGIN = 48;
+// Screens keep a 16:10 ratio, with a floor so narrow (mobile) widths stay usable.
+const SCREEN_ASPECT_RATIO = 10 / 16;
+const MIN_SCREEN_HEIGHT = 480;
+
 const Preview = () => {
     const { watch, setValue } = useSettings();
-    const previewRef = useRef<HTMLDivElement>(null);
-    const screenContainerRef = useRef<HTMLDivElement>(null);
-    const screenRef = useRef<HTMLDivElement>(null);
+    const areaRef = useRef<HTMLDivElement>(null);
+    const [area, setArea] = useState({ width: 0, height: 0 });
     const [{ width }, api] = useSpring(() => ({
-        width: 60,
+        width: watch('percentage'),
     }));
 
-    const centerPreviewScreen = () => {
-        if (!screenRef.current || !previewRef.current || !screenContainerRef.current) return;
+    useEffect(() => {
+        const element = areaRef.current;
+        if (!element) return;
 
-        const previewBoundingBox = previewRef.current.getBoundingClientRect();
-        const screenBoundingBox = screenRef.current.getBoundingClientRect();
+        const observer = new ResizeObserver(([entry]) => {
+            setArea({ width: entry.contentRect.width, height: entry.contentRect.height });
+        });
+        observer.observe(element);
 
-        screenRef.current.style.left = `${(previewBoundingBox.width - screenBoundingBox.width) / 2}px`;
-    };
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
+
+    const scale = area.width / MAX_SCREEN_WIDTH;
+    const maxContentHeight = scale ? (area.height - SCREEN_MARGIN - CHROME_HEIGHT) / scale : 0;
+    const contentHeight = width.to(w =>
+        Math.min(
+            Math.max((MAX_SCREEN_WIDTH / 100) * w * SCREEN_ASPECT_RATIO, MIN_SCREEN_HEIGHT),
+            maxContentHeight,
+        ),
+    );
 
     return (
-        <div
-            className="relative flex min-h-[50vh] flex-col items-center overflow-hidden"
-            ref={previewRef}>
+        <div className="flex h-full flex-col">
             <PreviewHeader
                 api={api}
                 percentage={watch('percentage')}
@@ -38,34 +59,37 @@ const Preview = () => {
                 }}
             />
             <div
-                className="pointer-events-none absolute left-0 mt-32 2xl:mt-40"
-                ref={screenContainerRef}>
-                <animated.div
-                    className="relative h-full origin-top-left overflow-hidden rounded-xl border border-neutral-100 bg-neutral-50 pb-5"
-                    style={{
-                        // react-spring runs this interpolator on animation
-                        // frames rather than during React's render pass, so
-                        // reading refs here is safe.
-                        // eslint-disable-next-line react-hooks/refs
-                        width: width.to(w => {
-                            centerPreviewScreen();
-                            const previewWidth = previewRef.current?.getBoundingClientRect().width;
-                            if (!previewWidth) return '100%';
-
-                            return `${(previewWidth / 100) * w}px`;
-                        }),
-                    }}
-                    ref={screenRef}>
-                    <div className="mb-5 flex items-center justify-between gap-4 border-b border-b-neutral-100 px-4 py-4">
-                        <div className="flex items-center space-x-2">
-                            <div className="size-3 rounded-full bg-[#F05454]" />
-                            <div className="size-3 rounded-full bg-[#F0C454]" />
-                            <div className="size-3 rounded-full bg-[#48DD23]" />
+                className="pointer-events-none relative flex min-h-0 flex-1 items-start justify-center overflow-hidden bg-canvas bg-[radial-gradient(#dde0e4_1px,transparent_1px)] bg-size-[16px_16px] px-6 pt-6"
+                ref={areaRef}>
+                {scale > 0 && (
+                    <animated.div
+                        className="h-fit overflow-hidden rounded-xl border border-line bg-white shadow-[0_12px_32px_-12px_rgb(0_0_0/0.12)]"
+                        style={{
+                            width: width.to(w => (MAX_SCREEN_WIDTH / 100) * w * scale),
+                        }}>
+                        <div
+                            className="flex items-center gap-1.5 border-b border-b-line px-3"
+                            style={{ height: CHROME_HEIGHT }}>
+                            <div className="size-2.5 rounded-full bg-[#F05454]" />
+                            <div className="size-2.5 rounded-full bg-[#F0C454]" />
+                            <div className="size-2.5 rounded-full bg-[#48DD23]" />
                         </div>
-                        <div className="flex-1">{/* <Tabs /> */}</div>
-                    </div>
-                    {watch('previewMode') === 'container' ? <PreviewElement /> : <PreviewText />}
-                </animated.div>
+                        <animated.div
+                            className="@container origin-top-left overflow-hidden py-8"
+                            style={{
+                                width: width.to(w => (MAX_SCREEN_WIDTH / 100) * w),
+                                height: contentHeight,
+                                transform: `scale(${scale})`,
+                                marginBottom: contentHeight.to(h => h * (scale - 1)),
+                            }}>
+                            {watch('previewMode') === 'container' ? (
+                                <PreviewElement />
+                            ) : (
+                                <PreviewText />
+                            )}
+                        </animated.div>
+                    </animated.div>
+                )}
             </div>
         </div>
     );
