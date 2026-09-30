@@ -28,7 +28,7 @@ const FooterText = () => {
 
     return (
         <span
-            className="mt-24 block translate-y-[20%] whitespace-nowrap px-[clamp(1rem,_0.25rem_+_3.125vw,_4rem)] text-[clamp(4rem,_3rem_+_4.167vw,_8rem)] font-medium leading-none"
+            className="mt-24 block translate-y-[20%] px-[clamp(1rem,_0.25rem_+_3.125vw,_4rem)] text-[clamp(4rem,_3rem_+_4.167vw,_8rem)] leading-none font-medium whitespace-nowrap"
             style={{ letterSpacing: '2rem' }}
             ref={textRef}>
             CSS Clamp

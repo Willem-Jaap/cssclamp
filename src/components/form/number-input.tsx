@@ -14,7 +14,7 @@ const NumberInput = forwardRef<HTMLInputElement, Props>(({ className, ...props }
             <input
                 type="number"
                 className={cn(
-                    'w-24 rounded-md border border-neutral-200 bg-neutral-50 px-4 py-2 pr-12 outline-none focus:border-neutral-300',
+                    'w-24 rounded-md border border-neutral-200 bg-neutral-50 px-4 py-2 pr-12 outline-hidden focus:border-neutral-300',
                     className,
                 )}
                 min={0}
@@ -22,7 +22,7 @@ const NumberInput = forwardRef<HTMLInputElement, Props>(({ className, ...props }
                 {...props}
             />
             {mode !== 'tailwind' && (
-                <span className="pointer-events-none absolute inset-y-0 right-0 top-0 flex items-center pr-4 text-neutral-300">
+                <span className="pointer-events-none absolute inset-y-0 top-0 right-0 flex items-center pr-4 text-neutral-300">
                     {mode}
                 </span>
             )}

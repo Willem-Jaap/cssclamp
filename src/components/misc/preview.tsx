@@ -33,7 +33,9 @@ const Preview = () => {
             <PreviewHeader
                 api={api}
                 percentage={watch('percentage')}
-                setPercentage={value => setValue('percentage', Number(value))}
+                setPercentage={value => {
+                    setValue('percentage', Number(value));
+                }}
             />
             <div
                 className="pointer-events-none absolute left-0 mt-32 2xl:mt-40"
@@ -41,6 +43,10 @@ const Preview = () => {
                 <animated.div
                     className="relative h-full origin-top-left overflow-hidden rounded-xl border border-neutral-100 bg-neutral-50 pb-5"
                     style={{
+                        // react-spring runs this interpolator on animation
+                        // frames rather than during React's render pass, so
+                        // reading refs here is safe.
+                        // eslint-disable-next-line react-hooks/refs
                         width: width.to(w => {
                             centerPreviewScreen();
                             const previewWidth = previewRef.current?.getBoundingClientRect().width;

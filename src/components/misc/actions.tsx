@@ -67,18 +67,20 @@ const Actions = () => {
     const handleCopy = async () => {
         await navigator.clipboard.writeText(watch('clamp'));
         setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+        setTimeout(() => {
+            setCopied(false);
+        }, 2000);
     };
 
     return (
         <div className="flex h-full flex-col">
             <div className="flex items-center justify-between gap-4 border-b border-b-neutral-200 p-5">
-                <h2 className="whitespace-nowrap text-lg font-medium">Actions</h2>
+                <h2 className="text-lg font-medium whitespace-nowrap">Actions</h2>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="secondary">Mode: {watch('mode')}</Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="mr-[clamp(2rem,_1.6rem_+_2vw,_4rem)] w-56">
+                    <DropdownMenuContent className="mr-[clamp(2rem,1.6rem+2vw,4rem)] w-56">
                         <DropdownMenuLabel>Sizing mode</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuRadioGroup

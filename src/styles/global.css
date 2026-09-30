@@ -1,10 +1,82 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@import 'tw-animate-css';
+
+@plugin '@tailwindcss/typography';
+
+@theme {
+    --text-xs: clamp(0.625rem, 0.59rem + 0.133vw, 0.75rem);
+    --text-xs--line-height: 1.33;
+    --text-sm: clamp(0.75rem, 0.715rem + 0.133vw, 0.875rem);
+    --text-sm--line-height: 1.33;
+    --text-base: clamp(0.925rem, 0.904rem + 0.08vw, 1rem);
+    --text-base--line-height: 1.33;
+    --text-lg: clamp(1rem, 0.965rem + 0.133vw, 1.125rem);
+    --text-lg--line-height: 1.33;
+    --text-xl: clamp(1.125rem, 1.09rem + 0.133vw, 1.25rem);
+    --text-xl--line-height: 1.33;
+    --text-2xl: clamp(1.25rem, 1.164rem + 0.332vw, 1.5625rem);
+    --text-2xl--line-height: 1.33;
+    --text-3xl: clamp(1.375rem, 1.219rem + 0.598vw, 1.9375rem);
+    --text-3xl--line-height: 1.4;
+    --text-4xl: clamp(1.5625rem, 1.32rem + 0.931vw, 2.4375rem);
+    --text-4xl--line-height: 1.4;
+    --text-5xl: clamp(2rem, 1.723rem + 1.064vw, 3rem);
+    --text-5xl--line-height: 1.4;
+    --text-6xl: clamp(2.625rem, 2.297rem + 1.263vw, 3.8125rem);
+    --text-6xl--line-height: 1.4;
+
+    --color-neutral-50: #f1f3f5;
+    --color-neutral-100: #d1d3d6;
+    --color-neutral-200: #c2c8cd;
+    --color-neutral-300: #a6aeb6;
+    --color-neutral-400: #8a959f;
+    --color-neutral-500: #6f7b88;
+    --color-neutral-600: #58626c;
+    --color-neutral-700: #41484f;
+    --color-neutral-800: #2a2f33;
+    --color-neutral-900: #131517;
+    --color-neutral-950: #080809;
+
+    --color-primary-50: #fee8f4;
+    --color-primary-100: #fcc9e6;
+    --color-primary-200: #f88ac9;
+    --color-primary-300: #f44cac;
+    --color-primary-400: #ee0f8e;
+    --color-primary-500: #b00b69;
+    --color-primary-600: #8e0955;
+    --color-primary-700: #6d0741;
+    --color-primary-800: #4b052d;
+    --color-primary-900: #2a0319;
+    --color-primary-950: #200213;
+
+    --font-sans: var(--font-albert-sans);
+
+    --animate-accordion-down: accordion-down 0.2s ease-out;
+    --animate-accordion-up: accordion-up 0.2s ease-out;
+
+    @keyframes accordion-down {
+        from {
+            height: 0;
+        }
+        to {
+            height: var(--radix-accordion-content-height);
+        }
+    }
+
+    @keyframes accordion-up {
+        from {
+            height: var(--radix-accordion-content-height);
+        }
+        to {
+            height: 0;
+        }
+    }
+}
 
 @layer base {
     [debug] * {
-        @apply outline-primary-500/20 outline-dashed outline-1;
+        @apply outline-1 outline-primary-500/20 outline-dashed;
     }
 
     ::selection {

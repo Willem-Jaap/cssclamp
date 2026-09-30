@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 const Page = () => {
     return (
-        <article className="prose prose-invert mx-[clamp(0rem,_-6.915rem_+_26.596vw,_25rem)] mb-64 max-w-none">
+        <article className="mx-[clamp(0rem,-6.915rem+26.596vw,25rem)] prose mb-64 max-w-none prose-invert">
             <h1>Oops</h1>
             <p>
                 I haven&apos;t written the deepdive yet. If you&apos;re interested in the technical
