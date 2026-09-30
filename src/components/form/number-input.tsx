@@ -8,23 +8,22 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const NumberInput = forwardRef<HTMLInputElement, Props>(({ className, ...props }, ref) => {
-    'w-24 px-2 py-1 bg-neutral-900 border border-neutral-700 rounded-md';
-
     const { mode = 'px' } = props;
     return (
         <div className="relative">
             <input
                 type="number"
                 className={cn(
-                    'w-24 rounded-md border border-neutral-700 bg-neutral-900 py-1 pr-8 pl-2 outline-hidden focus:border-neutral-600',
+                    'h-8 w-24 rounded-md border border-line bg-canvas px-2.5 pr-10 text-sm tabular-nums outline-hidden transition-shadow focus:border-neutral-300 focus:bg-white focus:ring-4 focus:ring-neutral-950/5',
                     className,
                 )}
                 min={0}
+                step="any"
                 ref={ref}
                 {...props}
             />
             {mode !== 'tailwind' && (
-                <span className="pointer-events-none absolute inset-y-0 top-0 right-0 flex items-center pr-2 text-neutral-600">
+                <span className="pointer-events-none absolute inset-y-0 top-0 right-0 flex items-center pr-2.5 text-xs text-neutral-400">
                     {mode}
                 </span>
             )}

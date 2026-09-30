@@ -1,131 +1,96 @@
 'use client';
 
-import { useEffect, useRef, useState, type ChangeEvent } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { animated, useSpring } from '@react-spring/web';
-import { useFormContext } from 'react-hook-form';
 
-import { type Settings } from '~/hooks/useSettings';
-import cn from '~/utils/cn';
+import PreviewElement from '~/components/misc/preview-element';
+import PreviewHeader from '~/components/misc/preview-header';
+import PreviewText from '~/components/misc/preview-text';
+import useSettings from '~/hooks/useSettings';
 
-const Clamped = () => {
-    const { watch } = useFormContext<Settings>();
-    const clamp = watch('clamp').replace('vw', '%');
-
-    return (
-        <div
-            className="h-20 border border-dashed border-neutral-400 bg-neutral-400 px-2 py-1 text-lg"
-            style={{
-                margin: `0 ${clamp}`,
-            }}
-        />
-    );
-};
+// The emulated screen is rendered at its real pixel width (a percentage of
+// this width) and scaled down to fit the preview, so rem and container units
+// inside it behave exactly like they would on a real screen of that size.
+const MAX_SCREEN_WIDTH = 1920;
+const CHROME_HEIGHT = 36;
+const SCREEN_MARGIN = 48;
+// Screens keep a 16:10 ratio, with a floor so narrow (mobile) widths stay usable.
+const SCREEN_ASPECT_RATIO = 10 / 16;
+const MIN_SCREEN_HEIGHT = 480;
 
 const Preview = () => {
-    const previewRef = useRef<HTMLDivElement>(null);
-    const screenContainerRef = useRef<HTMLDivElement>(null);
-    const screenRef = useRef<HTMLDivElement>(null);
-    const [currentPercentage, setCurrentPercentage] = useState<number>(60);
+    const { watch, setValue } = useSettings();
+    const areaRef = useRef<HTMLDivElement>(null);
+    const [area, setArea] = useState({ width: 0, height: 0 });
     const [{ width }, api] = useSpring(() => ({
-        width: 60,
+        width: watch('percentage'),
     }));
 
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-        void api.start({ width: Number(e.target.value) });
-        setCurrentPercentage(Number(e.target.value));
-    };
-
-    const centerPreviewScreen = () => {
-        if (!screenRef.current || !previewRef.current || !screenContainerRef.current) return;
-
-        // Get position of the preview
-        const previewBoundingBox = previewRef.current.getBoundingClientRect();
-        const screenBoundingBox = screenRef.current.getBoundingClientRect();
-
-        const translateXRequiredForCentering =
-            (previewBoundingBox.width - screenBoundingBox.width) / 2;
-
-        screenContainerRef.current.style.transform = `translateX(${
-            previewBoundingBox.x + translateXRequiredForCentering
-        }px)`;
-    };
-
     useEffect(() => {
-        // Set the initial screen scale
-        const onResize = () => {
-            const width = previewRef.current?.clientWidth;
-            const scale = width ? width / 1920 : 0;
-            if (!screenRef.current || !previewRef.current || !screenContainerRef.current) {
-                return;
-            }
-            // Tailwind v4's `scale-0` sets the standalone `scale` property, so
-            // the override has to target `scale` too - writing `transform` here
-            // would compose with it and collapse the screen to zero.
-            screenRef.current.style.scale = String(scale);
-            centerPreviewScreen();
-        };
-        onResize();
-        window.addEventListener('resize', onResize);
-        centerPreviewScreen();
+        const element = areaRef.current;
+        if (!element) return;
+
+        const observer = new ResizeObserver(([entry]) => {
+            setArea({ width: entry.contentRect.width, height: entry.contentRect.height });
+        });
+        observer.observe(element);
 
         return () => {
-            window.removeEventListener('resize', onResize);
+            observer.disconnect();
         };
     }, []);
 
+    const scale = area.width / MAX_SCREEN_WIDTH;
+    const maxContentHeight = scale ? (area.height - SCREEN_MARGIN - CHROME_HEIGHT) / scale : 0;
+    const contentHeight = width.to(w =>
+        Math.min(
+            Math.max((MAX_SCREEN_WIDTH / 100) * w * SCREEN_ASPECT_RATIO, MIN_SCREEN_HEIGHT),
+            maxContentHeight,
+        ),
+    );
+
     return (
-        <div
-            className="flex min-h-[50vh] flex-col items-center overflow-hidden py-4"
-            ref={previewRef}>
-            <input
-                className="mx-auto mb-4 w-40"
-                type="range"
-                min="0"
-                max="100"
-                step="1"
-                defaultValue="60"
-                onChange={onChange}
+        <div className="flex h-full flex-col">
+            <PreviewHeader
+                api={api}
+                percentage={watch('percentage')}
+                setPercentage={value => {
+                    setValue('percentage', Number(value));
+                }}
             />
-            <div className="mx-auto mb-4 inline text-xs whitespace-nowrap 2xl:hidden">
-                Emulated screen width: {Math.round((1920 / 100) * currentPercentage)}px
-            </div>
             <div
-                className="pointer-events-none absolute left-0 mt-16 w-[1920px] overflow-hidden 2xl:mt-12"
-                ref={screenContainerRef}>
-                <animated.div
-                    className="relative h-full origin-top-left scale-0 overflow-hidden rounded-lg border border-neutral-700 bg-neutral-800 pt-12 pb-8"
-                    style={{
-                        // react-spring runs this interpolator on animation
-                        // frames rather than during React's render pass, so
-                        // reading refs here is safe.
-                        // eslint-disable-next-line react-hooks/refs
-                        width: width.to(w => {
-                            centerPreviewScreen();
-                            return `${(w * 1920) / 100}px`;
-                        }),
-                    }}
-                    ref={screenRef}>
-                    <div className="absolute top-4 left-4">
-                        <div className="flex items-center gap-2">
-                            <div className="h-4 w-4 rounded-full bg-red-500" />
-                            <div className="h-4 w-4 rounded-full bg-yellow-500" />
-                            <div className="h-4 w-4 rounded-full bg-green-500" />
+                className="pointer-events-none relative flex min-h-0 flex-1 items-start justify-center overflow-hidden bg-canvas bg-[radial-gradient(var(--color-dot)_1px,transparent_1px)] bg-size-[16px_16px] px-6 pt-6"
+                ref={areaRef}>
+                {scale > 0 && (
+                    <animated.div
+                        className="h-fit overflow-hidden rounded-xl border border-line bg-white shadow-[0_12px_32px_-12px_rgb(0_0_0/0.12)]"
+                        style={{
+                            width: width.to(w => (MAX_SCREEN_WIDTH / 100) * w * scale),
+                        }}>
+                        <div
+                            className="flex items-center gap-1.5 border-b border-b-line px-3"
+                            style={{ height: CHROME_HEIGHT }}>
+                            <div className="size-2.5 rounded-full bg-[#F05454]" />
+                            <div className="size-2.5 rounded-full bg-[#F0C454]" />
+                            <div className="size-2.5 rounded-full bg-[#48DD23]" />
                         </div>
-                    </div>
-                    <div
-                        className={cn(
-                            'absolute top-2 text-lg whitespace-nowrap max-2xl:hidden',
-                            currentPercentage > 30 ? 'left-1/2 -translate-x-1/2' : 'right-4',
-                        )}>
-                        {currentPercentage > 30
-                            ? 'Emulated screen width: '
-                            : currentPercentage > 15
-                              ? 'Screen width: '
-                              : ''}
-                        {Math.round((1920 / 100) * currentPercentage)}px
-                    </div>
-                    <Clamped />
-                </animated.div>
+                        <animated.div
+                            className="@container origin-top-left overflow-hidden py-8"
+                            style={{
+                                width: width.to(w => (MAX_SCREEN_WIDTH / 100) * w),
+                                height: contentHeight,
+                                transform: `scale(${scale})`,
+                                marginBottom: contentHeight.to(h => h * (scale - 1)),
+                            }}>
+                            {watch('property') === 'line-height' ||
+                            (!watch('property') && watch('previewMode') === 'text') ? (
+                                <PreviewText />
+                            ) : (
+                                <PreviewElement />
+                            )}
+                        </animated.div>
+                    </animated.div>
+                )}
             </div>
         </div>
     );

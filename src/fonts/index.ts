@@ -1,15 +1,15 @@
-import { Roboto_Mono } from 'next/font/google';
-import localFont from 'next/font/local';
+import { Albert_Sans, JetBrains_Mono } from 'next/font/google';
 
-const satoshiFont = localFont({
-    src: 'Satoshi.woff2',
-    display: 'swap',
-    variable: '--font-satoshi',
-});
-const robotoMonoFont = Roboto_Mono({
+const albertSansFont = Albert_Sans({
     subsets: ['latin'],
     display: 'swap',
-    variable: '--font-roboto-mono',
+    variable: '--font-albert-sans',
 });
 
-export { satoshiFont, robotoMonoFont };
+const jetBrainsMonoFont = JetBrains_Mono({
+    subsets: ['latin'],
+    display: 'swap',
+    variable: '--font-jetbrains-mono',
+});
+
+export { albertSansFont, jetBrainsMonoFont };

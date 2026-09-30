@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
+import { SparklesIcon } from 'lucide-react';
 import Link from 'next/link';
-import { useFormContext } from 'react-hook-form';
 
 import NumberInput from '~/components/form/number-input';
+import SkillPopover from '~/components/misc/skill-popover';
 import { Button } from '~/components/ui/button';
+import CopyButton from '~/components/ui/copy-button';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -15,50 +16,30 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
-import { type Mode, type Settings } from '~/hooks/useSettings';
-import { getTailwindByValue, getTailwindValue } from '~/utils/getTailwindValue';
+import useSettings, { type Mode, type Output } from '~/hooks/useSettings';
+import cn from '~/utils/cn';
+import { getTailwindByValue } from '~/utils/getTailwindValue';
+import { formatOutput, getTarget } from '~/utils/output';
+
+const outputs: { value: Output; label: string }[] = [
+    { value: 'css', label: 'CSS' },
+    { value: 'tailwind-v4', label: 'Tailwind v4' },
+    { value: 'tailwind-v3', label: 'Tailwind v3' },
+    { value: 'tailwind-class', label: 'Class' },
+];
 
 const Actions = () => {
-    const { register, watch, getValues, setValue } = useFormContext<Settings>();
+    const { register, watch, getValues, setValue } = useSettings();
 
     const remify = (px: number) => px / 16;
-    const toFixed = (num: number) => parseFloat(num.toFixed(3));
-
-    const getValue = (value: number, mode: Mode) => {
-        if (mode === 'rem') {
-            return value;
-        }
-
-        if (mode === 'tailwind') {
-            return getTailwindValue(value);
-        }
-
-        return remify(value);
-    };
-
-    let maximumValue = remify(watch('maximumValue'));
-    let minimumValue = remify(watch('minimumValue'));
-    let maximumViewport = remify(watch('maximumViewport'));
-    let minimumViewport = remify(watch('minimumViewport'));
-
-    if (watch('mode') === 'rem') {
-        maximumValue = watch('maximumValue');
-        minimumValue = watch('minimumValue');
-        maximumViewport = watch('maximumViewport');
-        minimumViewport = watch('minimumViewport');
-    }
-
-    const slope = (maximumValue - minimumValue) / (maximumViewport - minimumViewport);
-    const intersection = maximumValue - slope * maximumViewport;
 
     const mode = watch('mode');
-    const clamp = `clamp(${getValue(watch('minimumValue'), mode)}rem, ${toFixed(
-        intersection,
-    )}rem + ${toFixed(slope * 100)}vw, ${getValue(watch('maximumValue'), mode)}rem)`;
-
-    useEffect(() => {
-        setValue('clamp', clamp);
-    }, [clamp, setValue]);
+    const output = watch('output');
+    const formatted = formatOutput(
+        watch('clamp'),
+        output,
+        getTarget(watch('previewMode'), watch('property')),
+    );
 
     const onModeChange = (mode: string) => {
         const previousValue = getValues('mode');
@@ -99,12 +80,14 @@ const Actions = () => {
     };
 
     return (
-        <>
-            <div className="flex items-center justify-between gap-4 p-4">
-                <span className="whitespace-nowrap">Actions</span>
+        <div className="flex h-full flex-col">
+            <div className="flex items-center justify-between gap-4 border-b border-b-line px-4 py-3">
+                <h2 className="text-sm font-medium whitespace-nowrap">Actions</h2>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="secondary">Mode: {watch('mode')}</Button>
+                        <Button variant="secondary" className="h-8 rounded-md px-3 text-sm">
+                            Mode: {watch('mode')}
+                        </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="mr-[clamp(2rem,1.6rem+2vw,4rem)] w-56">
                         <DropdownMenuLabel>Sizing mode</DropdownMenuLabel>
@@ -134,10 +117,15 @@ const Actions = () => {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="flex max-w-fit flex-col gap-2 px-4">
-                <h2 className="text-sm text-neutral-600">Clamp sizes</h2>
-                <div className="flex items-center justify-between gap-2">
-                    <label htmlFor="min-value">Minimum value: </label>
+            <div className="flex flex-col border-b border-b-line px-4 py-3">
+                <h3 className="text-sm font-medium">Clamp sizes</h3>
+                <p className="mt-0.5 max-w-80 text-sm text-pretty text-neutral-500">
+                    The smallest and largest size, for padding, margin or font size.
+                </p>
+                <div className="mt-3 flex items-center justify-between gap-2">
+                    <label htmlFor="min-value" className="text-sm text-neutral-700">
+                        Minimum value
+                    </label>
                     <NumberInput
                         id="min-value"
                         min={0}
@@ -145,8 +133,10 @@ const Actions = () => {
                         {...register('minimumValue')}
                     />
                 </div>
-                <div className="flex items-center justify-between gap-2">
-                    <label htmlFor="max-value">Maximum value: </label>
+                <div className="mt-2 flex items-center justify-between gap-2">
+                    <label htmlFor="max-value" className="text-sm text-neutral-700">
+                        Maximum value
+                    </label>
                     <NumberInput
                         id="max-value"
                         min={0}
@@ -154,9 +144,16 @@ const Actions = () => {
                         {...register('maximumValue')}
                     />
                 </div>
-                <h2 className="mt-4 text-sm text-neutral-600">Viewport settings</h2>
-                <div className="flex items-center justify-between gap-2">
-                    <label htmlFor="viewport-min">Minimum viewport width: </label>
+            </div>
+            <div className="flex flex-col border-b border-b-line px-4 py-3">
+                <h3 className="text-sm font-medium">Viewport settings</h3>
+                <p className="mt-0.5 max-w-80 text-sm text-pretty text-neutral-500">
+                    The screen widths where the value starts and stops growing.
+                </p>
+                <div className="mt-3 flex items-center justify-between gap-2">
+                    <label htmlFor="viewport-min" className="text-sm text-neutral-700">
+                        Minimum viewport
+                    </label>
                     <NumberInput
                         id="viewport-min"
                         min={0}
@@ -164,8 +161,10 @@ const Actions = () => {
                         {...register('minimumViewport')}
                     />
                 </div>
-                <div className="flex items-center justify-between gap-2">
-                    <label htmlFor="viewport-max">Maximum viewport width: </label>
+                <div className="mt-2 flex items-center justify-between gap-2">
+                    <label htmlFor="viewport-max" className="text-sm text-neutral-700">
+                        Maximum viewport
+                    </label>
                     <NumberInput
                         id="viewport-max"
                         min={0}
@@ -173,56 +172,71 @@ const Actions = () => {
                         {...register('maximumViewport')}
                     />
                 </div>
-                <h2 className="mt-4 text-sm text-neutral-600">Explained</h2>
-                {mode === 'tailwind' && (
-                    <p className="text-sm text-neutral-400">
-                        Mentioned values are according to the default Tailwind spacing scale.{' '}
-                        <Link
-                            href="https://tailwindcss.com/docs/customizing-spacing#default-spacing-scale"
-                            target="_blank"
-                            rel="noreferrer">
-                            See reference ↗
-                        </Link>
-                    </p>
-                )}
-
-                <p className="text-sm text-neutral-400">
-                    When resizing the viewport the clamped value will be at least{' '}
-                    <span className="text-neutral-100">
-                        {watch('minimumValue')} {mode !== 'tailwind' && mode}
-                    </span>{' '}
-                    and at most{' '}
-                    <span className="text-neutral-100">
-                        {watch('maximumValue')} {mode !== 'tailwind' && mode}
-                    </span>
-                    . Between viewport widths of{' '}
-                    <span className="text-neutral-100">
-                        {watch('minimumViewport')} {mode !== 'tailwind' && mode}
-                    </span>{' '}
-                    and{' '}
-                    <span className="text-neutral-100">
-                        {watch('maximumViewport')} {mode !== 'tailwind' && mode}
-                    </span>{' '}
-                    the value will be clamped (fluid) between{' '}
-                    <span className="text-neutral-100">
-                        {watch('minimumValue')} {mode !== 'tailwind' && mode}
-                    </span>{' '}
-                    and{' '}
-                    <span className="text-neutral-100">
-                        {watch('maximumValue')} {mode !== 'tailwind' && mode}
-                    </span>{' '}
-                    linearly.
-                </p>
-                <h2 className="mt-4 text-sm text-neutral-600">Output</h2>
-                <p className="text-sm text-neutral-400">
-                    The following CSS will be generated:
-                    <br />
-                    <span className="my-2 block w-fit rounded-md border border-neutral-700 bg-neutral-900 px-2 py-1 text-neutral-100">
-                        {clamp}
-                    </span>
-                </p>
             </div>
-        </>
+
+            <div className="flex flex-col gap-3 p-4">
+                <p className="max-w-96 text-sm text-pretty text-neutral-500">
+                    The clamped value will be between {watch('minimumValue')}
+                    {mode !== 'tailwind' && mode} and {watch('maximumValue')}
+                    {mode !== 'tailwind' && mode}, applied linearly between viewports of{' '}
+                    {watch('minimumViewport')}
+                    {mode !== 'tailwind' && mode} and {watch('maximumViewport')}
+                    {mode !== 'tailwind' && mode}.
+                </p>
+                <div className="flex flex-col gap-2">
+                    <div
+                        role="radiogroup"
+                        aria-label="Output format"
+                        className="flex self-start rounded-lg bg-canvas p-0.5 ring-1 ring-line">
+                        {outputs.map(option => (
+                            <button
+                                key={option.value}
+                                type="button"
+                                role="radio"
+                                aria-checked={output === option.value}
+                                onClick={() => {
+                                    setValue('output', option.value);
+                                }}
+                                className={cn(
+                                    'h-6 rounded-md px-2 text-xs font-medium whitespace-nowrap transition-colors',
+                                    output === option.value
+                                        ? 'bg-white text-neutral-950 shadow-xs ring-1 ring-line'
+                                        : 'text-neutral-500 hover:text-neutral-950',
+                                )}>
+                                {option.label}
+                            </button>
+                        ))}
+                    </div>
+                    <div className="relative rounded-lg bg-neutral-950 py-3.5 pr-12 pl-4 scheme-fixed dark:ring-1 dark:ring-white/10">
+                        <code className="block font-mono text-[0.8125rem] leading-relaxed break-words whitespace-pre-wrap text-neutral-50">
+                            {formatted.code}
+                        </code>
+                        <CopyButton
+                            value={formatted.code}
+                            label="Copy clamp value"
+                            className="absolute top-2.5 right-2.5 text-neutral-400 hover:bg-white/10 hover:text-neutral-50"
+                        />
+                    </div>
+                    {formatted.usage && (
+                        <p className="text-xs text-neutral-500">
+                            Use it as{' '}
+                            <code className="rounded bg-canvas px-1 py-0.5 font-mono text-neutral-800 ring-1 ring-line">
+                                {formatted.usage}
+                            </code>
+                            .
+                        </p>
+                    )}
+                </div>
+                <SkillPopover align="start">
+                    <button
+                        type="button"
+                        className="flex items-center gap-1.5 self-start text-xs text-neutral-500 transition-colors hover:text-neutral-950">
+                        <SparklesIcon size={12} />
+                        Install the agent skill
+                    </button>
+                </SkillPopover>
+            </div>
+        </div>
     );
 };
 
