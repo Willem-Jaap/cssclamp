@@ -80,6 +80,51 @@
     }
 }
 
+/*
+ * Dark mode swaps the colour tokens instead of adding dark: variants everywhere.
+ * The neutral scale is mirrored, so "neutral-950 text on a white surface" keeps
+ * its meaning: strong text on the page background.
+ */
+.dark {
+    color-scheme: dark;
+    --color-neutral-50: #16181b;
+    --color-neutral-100: #2a2f33;
+    --color-neutral-200: #41484f;
+    --color-neutral-300: #58626c;
+    --color-neutral-400: #6f7b88;
+    --color-neutral-500: #8a959f;
+    --color-neutral-600: #a6aeb6;
+    --color-neutral-700: #c2c8cd;
+    --color-neutral-800: #d9dcdf;
+    --color-neutral-900: #eceef0;
+    --color-neutral-950: #f7f8f9;
+    --color-white: #0c0d0f;
+    --color-line: #24282d;
+    --color-canvas: #131518;
+    --color-primary-50: #2a0a1c;
+    --color-primary-200: #6d0741;
+}
+
+/* Pins the original palette for surfaces that are dark in both themes (footer, code). */
+@utility scheme-fixed {
+    --color-neutral-50: #f1f3f5;
+    --color-neutral-100: #d1d3d6;
+    --color-neutral-200: #c2c8cd;
+    --color-neutral-300: #a6aeb6;
+    --color-neutral-400: #8a959f;
+    --color-neutral-500: #6f7b88;
+    --color-neutral-600: #58626c;
+    --color-neutral-700: #41484f;
+    --color-neutral-800: #2a2f33;
+    --color-neutral-900: #131517;
+    --color-neutral-950: #080809;
+    --color-white: #ffffff;
+    --color-line: #e7e9ec;
+    --color-canvas: #f7f8f9;
+    --color-primary-50: #fee8f4;
+    --color-primary-200: #f88ac9;
+}
+
 @layer base {
     [debug] * {
         @apply outline-1 outline-primary-500/20 outline-dashed;

@@ -170,7 +170,7 @@ const TypeScale = () => {
                         <code className="font-mono text-xs">text-p</code> and so on.
                     </p>
                 </div>
-                <div className="relative rounded-lg bg-neutral-950 py-4 pr-12 pl-5">
+                <div className="relative rounded-lg bg-neutral-950 py-4 pr-12 pl-5 scheme-fixed dark:ring-1 dark:ring-white/10">
                     <pre className="overflow-x-auto font-mono text-[0.8125rem] leading-relaxed text-neutral-100">
                         {css}
                     </pre>

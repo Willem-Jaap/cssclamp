@@ -29,7 +29,7 @@ const Prose = ({ eyebrow, title, lede, children, className }: Props) => {
                     'prose-strong:font-medium prose-strong:text-neutral-950',
                     'prose-a:font-normal prose-a:text-neutral-950 prose-a:decoration-neutral-300 prose-a:underline-offset-4 hover:prose-a:decoration-neutral-950',
                     'prose-code:rounded-md prose-code:bg-canvas prose-code:px-1.5 prose-code:py-0.5 prose-code:text-[0.8125em] prose-code:font-normal prose-code:text-neutral-800 prose-code:ring-1 prose-code:ring-line prose-code:before:content-none prose-code:after:content-none',
-                    'prose-pre:rounded-lg prose-pre:bg-neutral-950 prose-pre:px-5 prose-pre:py-4 prose-pre:text-[0.8125rem] prose-pre:leading-relaxed',
+                    'prose-pre:rounded-lg prose-pre:bg-neutral-950 prose-pre:px-5 prose-pre:py-4 prose-pre:text-[0.8125rem] prose-pre:leading-relaxed prose-pre:scheme-fixed dark:prose-pre:ring-1 dark:prose-pre:ring-white/10',
                     '[&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:text-neutral-100 [&_pre_code]:ring-0',
                     'prose-hr:border-line',
                 )}>
