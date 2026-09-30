@@ -1,0 +1,14 @@
+{
+    "name": "css-clamp",
+    "displayName": "CSS Clamp",
+    "version": "1.0.0",
+    "description": "Generate fluid CSS clamp() values for font sizes, spacing and type scales. Includes a script that does the maths, so values are exact and accessible (rem-based, zoom-safe). Works with plain CSS and Tailwind CSS.",
+    "author": {
+        "name": "Willem-Jaap",
+        "url": "https://willemjaap.com"
+    },
+    "homepage": "https://cssclamp.com",
+    "repository": "https://github.com/Willem-Jaap/cssclamp",
+    "license": "MIT",
+    "keywords": ["css", "clamp", "fluid-typography", "responsive-design", "tailwind", "frontend", "design-tokens"]
+}
