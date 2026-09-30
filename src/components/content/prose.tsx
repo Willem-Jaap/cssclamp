@@ -1,6 +1,9 @@
 import { type ReactNode } from 'react';
 
+import JsonLd from '~/components/content/json-ld';
 import cn from '~/utils/cn';
+
+import { absoluteUrl, site } from '~/lib/site';
 
 interface Props {
     eyebrow: string;
@@ -8,9 +11,11 @@ interface Props {
     lede: ReactNode;
     children: ReactNode;
     className?: string;
+    /** Adds TechArticle structured data for the page at this path. */
+    article?: { path: string; description: string };
 }
 
-const Prose = ({ eyebrow, title, lede, children, className }: Props) => {
+const Prose = ({ eyebrow, title, lede, children, className, article }: Props) => {
     return (
         <article className={cn('mx-auto w-full max-w-2xl py-16 md:py-24', className)}>
             <header className="mb-12 border-b border-b-line pb-10">
@@ -35,6 +40,23 @@ const Prose = ({ eyebrow, title, lede, children, className }: Props) => {
                 )}>
                 {children}
             </div>
+            {article && (
+                <JsonLd
+                    data={{
+                        '@type': 'TechArticle',
+                        'headline': title,
+                        'description': article.description,
+                        'url': absoluteUrl(article.path),
+                        'inLanguage': 'en',
+                        'author': { '@type': 'Person', ...site.author },
+                        'publisher': {
+                            '@type': 'Organization',
+                            'name': site.name,
+                            'url': site.url,
+                        },
+                    }}
+                />
+            )}
         </article>
     );
 };

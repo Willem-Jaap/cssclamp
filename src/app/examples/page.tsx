@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 
 import DashboardLayout from '~/app/examples/dashboard-layout';
 import TypeScale from '~/app/examples/type-scale';
+import { pageMetadata } from '~/lib/site';
 
 const Page = () => {
     return (
@@ -48,10 +49,11 @@ const Page = () => {
     );
 };
 
-export const metadata: Metadata = {
-    title: 'Examples',
+export const metadata: Metadata = pageMetadata({
+    title: 'CSS clamp() Examples: Fluid Type Scale & Dashboard Layout',
     description:
-        'Examples of CSS clamp() in real layouts: a fluid type scale for h1 to h6 and body text, and a dashboard with fluid page gutters, gaps and card padding.',
-};
+        'Real CSS clamp() examples: a fluid type scale for h1 to h6 and body text, and a dashboard with fluid page gutters, gaps and card padding. Copy the CSS.',
+    path: '/examples',
+});
 
 export default Page;

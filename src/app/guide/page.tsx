@@ -4,10 +4,16 @@ import Link from 'next/link';
 import Prose from '~/components/content/prose';
 
 import Example from '~/app/guide/example';
+import { pageMetadata } from '~/lib/site';
 
 const Page = () => {
     return (
         <Prose
+            article={{
+                path: '/guide',
+                description:
+                    'Learn how CSS clamp() works, how to read a clamp value, when to use it instead of media queries, and how to create fluid spacing and typography.',
+            }}
             eyebrow="Guide"
             title="How to use CSS clamp()"
             lede="One line of CSS that scales spacing and type smoothly between two screen sizes. No breakpoints, no jumps.">
@@ -149,10 +155,11 @@ const Page = () => {
     );
 };
 
-export const metadata: Metadata = {
-    title: 'Guide',
+export const metadata: Metadata = pageMetadata({
+    title: 'How to Use CSS clamp() – A Practical Guide',
     description:
-        'Learn how CSS clamp() works, how to read a clamp value and when to use fluid spacing and typography instead of media queries.',
-};
+        'Learn how CSS clamp() works, how to read a clamp value, when to use it instead of media queries, and how to create fluid spacing and typography.',
+    path: '/guide',
+});
 
 export default Page;

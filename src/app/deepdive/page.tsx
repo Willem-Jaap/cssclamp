@@ -3,9 +3,16 @@ import Link from 'next/link';
 
 import Prose from '~/components/content/prose';
 
+import { pageMetadata } from '~/lib/site';
+
 const Page = () => {
     return (
         <Prose
+            article={{
+                path: '/deepdive',
+                description:
+                    'The maths behind CSS clamp(): how the slope and intercept are calculated, how the browser resolves it, zoom and accessibility, container query units and Tailwind CSS.',
+            }}
             eyebrow="Deep dive"
             title="The maths and mechanics behind clamp()"
             lede="Where the numbers in a fluid value come from, how the browser resolves them, and what to watch out for with zoom, units and design tokens.">
@@ -175,10 +182,11 @@ result    = clamp(1rem, -0.75rem + 7.292vw, 8rem)`}</code>
     );
 };
 
-export const metadata: Metadata = {
-    title: 'Deep dive',
+export const metadata: Metadata = pageMetadata({
+    title: 'CSS clamp() Formula Explained: Slope, Intercept & Accessibility',
     description:
-        'The maths behind CSS clamp(): how the slope and intercept are calculated, how the browser resolves it, zoom and accessibility, container units and Tailwind CSS.',
-};
+        'The maths behind CSS clamp(): how the slope and intercept are calculated, how the browser resolves it, zoom and accessibility, container query units and Tailwind CSS.',
+    path: '/deepdive',
+});
 
 export default Page;
