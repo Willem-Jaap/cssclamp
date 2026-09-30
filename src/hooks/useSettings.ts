@@ -18,7 +18,7 @@ interface Settings {
     clamp: string;
 }
 
-const useSettingsProvider = () => {
+const useSettingsProvider = (defaults: Partial<Settings> = {}) => {
     const methods = useForm<Settings>({
         defaultValues: {
             minimumValue: 1,
@@ -29,6 +29,7 @@ const useSettingsProvider = () => {
             previewMode: 'container',
             percentage: 60,
             clamp: '',
+            ...defaults,
         },
     });
 
