@@ -54,6 +54,7 @@
 
     --color-line: #e7e9ec;
     --color-canvas: #f7f8f9;
+    --color-dot: #dde0e4;
 
     --font-sans: var(--font-albert-sans);
     --font-mono: var(--font-jetbrains-mono);
@@ -101,6 +102,7 @@
     --color-white: #0c0d0f;
     --color-line: #24282d;
     --color-canvas: #131518;
+    --color-dot: #2a2e33;
     --color-primary-50: #2a0a1c;
     --color-primary-200: #6d0741;
 }
@@ -121,6 +123,7 @@
     --color-white: #ffffff;
     --color-line: #e7e9ec;
     --color-canvas: #f7f8f9;
+    --color-dot: #dde0e4;
     --color-primary-50: #fee8f4;
     --color-primary-200: #f88ac9;
 }

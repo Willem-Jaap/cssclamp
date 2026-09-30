@@ -59,7 +59,7 @@ const Preview = () => {
                 }}
             />
             <div
-                className="pointer-events-none relative flex min-h-0 flex-1 items-start justify-center overflow-hidden bg-canvas bg-[radial-gradient(#dde0e4_1px,transparent_1px)] bg-size-[16px_16px] px-6 pt-6"
+                className="pointer-events-none relative flex min-h-0 flex-1 items-start justify-center overflow-hidden bg-canvas bg-[radial-gradient(var(--color-dot)_1px,transparent_1px)] bg-size-[16px_16px] px-6 pt-6"
                 ref={areaRef}>
                 {scale > 0 && (
                     <animated.div

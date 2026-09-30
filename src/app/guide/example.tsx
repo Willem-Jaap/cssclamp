@@ -34,7 +34,7 @@ const Screen = ({ label, code, width, scale, padding }: ScreenProps) => {
                 <span className="font-medium text-neutral-950">{label}</span>
                 <code className="font-mono text-xs text-neutral-500">{code}</code>
             </figcaption>
-            <div className="flex justify-center rounded-lg bg-canvas bg-[radial-gradient(#dde0e4_1px,transparent_1px)] bg-size-[16px_16px] p-4 ring-1 ring-line">
+            <div className="flex justify-center rounded-lg bg-canvas bg-[radial-gradient(var(--color-dot)_1px,transparent_1px)] bg-size-[16px_16px] p-4 ring-1 ring-line">
                 <div
                     className="overflow-hidden rounded-md bg-white shadow-sm ring-1 ring-line"
                     style={{ width: width * scale, height: SCREEN_HEIGHT * scale }}>
