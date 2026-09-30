@@ -7,6 +7,7 @@ import Header from '~/components/layout/header';
 import ThemeProvider from '~/components/layout/theme-provider';
 
 import { albertSansFont, jetBrainsMonoFont } from '~/fonts';
+import { site } from '~/lib/site';
 
 import '~/styles/global.css';
 
@@ -31,13 +32,25 @@ const RootLayout = ({ children }: PropsWithChildren) => {
 };
 
 export const metadata: Metadata = {
+    metadataBase: new URL(site.url),
     title: {
-        default: 'CSS Clamp - Responsive spacing and typography',
+        default: 'CSS Clamp Generator – Fluid Typography & Spacing Calculator',
         template: '%s | CSS Clamp',
     },
-    description:
-        'A tool to help you visualize, understand and generate CSS Clamp() values for padding, margin, and font size. See a live preview, copy the code, and take control of your responsive layouts.',
-    keywords: ['css', 'clamp', 'tailwind', 'spacing', 'typography'],
+    description: site.description,
+    applicationName: site.name,
+    authors: [site.author],
+    creator: site.author.name,
+    openGraph: {
+        type: 'website',
+        siteName: site.name,
+        locale: 'en_US',
+        url: '/',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        creator: '@WillemJaap_',
+    },
 };
 
 export default RootLayout;
