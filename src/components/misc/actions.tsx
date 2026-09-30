@@ -104,9 +104,8 @@ const Actions = () => {
             </div>
             <div className="flex flex-col border-b border-b-line px-4 py-3">
                 <h3 className="text-sm font-medium">Clamp sizes</h3>
-                <p className="mt-0.5 text-sm text-neutral-500">
-                    Define the minimum and maximum size (padding/margin or font size) for responsive
-                    elements.
+                <p className="mt-0.5 max-w-80 text-sm text-balance text-neutral-500">
+                    The smallest and largest size, for padding, margin or font size.
                 </p>
                 <div className="mt-3 flex items-center justify-between gap-2">
                     <label htmlFor="min-value" className="text-sm text-neutral-700">
@@ -133,9 +132,8 @@ const Actions = () => {
             </div>
             <div className="flex flex-col border-b border-b-line px-4 py-3">
                 <h3 className="text-sm font-medium">Viewport settings</h3>
-                <p className="mt-0.5 text-sm text-neutral-500">
-                    Set the minimum and maximum screen sizes where the clamp expression takes
-                    effect.
+                <p className="mt-0.5 max-w-80 text-sm text-balance text-neutral-500">
+                    The screen widths where the value starts and stops growing.
                 </p>
                 <div className="mt-3 flex items-center justify-between gap-2">
                     <label htmlFor="viewport-min" className="text-sm text-neutral-700">
@@ -162,7 +160,7 @@ const Actions = () => {
             </div>
 
             <div className="flex flex-col gap-3 p-4">
-                <p className="text-sm text-neutral-500">
+                <p className="max-w-96 text-sm text-balance text-neutral-500">
                     The clamped value will be between {watch('minimumValue')}
                     {mode !== 'tailwind' && mode} and {watch('maximumValue')}
                     {mode !== 'tailwind' && mode}, applied linearly between viewports of{' '}
