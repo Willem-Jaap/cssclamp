@@ -16,8 +16,17 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu';
-import useSettings, { type Mode } from '~/hooks/useSettings';
+import useSettings, { type Mode, type Output } from '~/hooks/useSettings';
+import cn from '~/utils/cn';
 import { getTailwindByValue } from '~/utils/getTailwindValue';
+import { formatOutput, getTarget } from '~/utils/output';
+
+const outputs: { value: Output; label: string }[] = [
+    { value: 'css', label: 'CSS' },
+    { value: 'tailwind-v4', label: 'Tailwind v4' },
+    { value: 'tailwind-v3', label: 'Tailwind v3' },
+    { value: 'tailwind-class', label: 'Class' },
+];
 
 const Actions = () => {
     const { register, watch, getValues, setValue } = useSettings();
@@ -25,6 +34,12 @@ const Actions = () => {
     const remify = (px: number) => px / 16;
 
     const mode = watch('mode');
+    const output = watch('output');
+    const formatted = formatOutput(
+        watch('clamp'),
+        output,
+        getTarget(watch('previewMode'), watch('property')),
+    );
 
     const onModeChange = (mode: string) => {
         const previousValue = getValues('mode');
@@ -168,15 +183,49 @@ const Actions = () => {
                     {mode !== 'tailwind' && mode} and {watch('maximumViewport')}
                     {mode !== 'tailwind' && mode}.
                 </p>
-                <div className="relative rounded-lg bg-neutral-950 py-3.5 pr-12 pl-4 scheme-fixed dark:ring-1 dark:ring-white/10">
-                    <code className="block font-mono text-[0.8125rem] leading-relaxed break-words text-neutral-50">
-                        {watch('clamp')}
-                    </code>
-                    <CopyButton
-                        value={watch('clamp')}
-                        label="Copy clamp value"
-                        className="absolute top-2.5 right-2.5 text-neutral-400 hover:bg-white/10 hover:text-neutral-50"
-                    />
+                <div className="flex flex-col gap-2">
+                    <div
+                        role="radiogroup"
+                        aria-label="Output format"
+                        className="flex self-start rounded-lg bg-canvas p-0.5 ring-1 ring-line">
+                        {outputs.map(option => (
+                            <button
+                                key={option.value}
+                                type="button"
+                                role="radio"
+                                aria-checked={output === option.value}
+                                onClick={() => {
+                                    setValue('output', option.value);
+                                }}
+                                className={cn(
+                                    'h-6 rounded-md px-2 text-xs font-medium whitespace-nowrap transition-colors',
+                                    output === option.value
+                                        ? 'bg-white text-neutral-950 shadow-xs ring-1 ring-line'
+                                        : 'text-neutral-500 hover:text-neutral-950',
+                                )}>
+                                {option.label}
+                            </button>
+                        ))}
+                    </div>
+                    <div className="relative rounded-lg bg-neutral-950 py-3.5 pr-12 pl-4 scheme-fixed dark:ring-1 dark:ring-white/10">
+                        <code className="block font-mono text-[0.8125rem] leading-relaxed break-words whitespace-pre-wrap text-neutral-50">
+                            {formatted.code}
+                        </code>
+                        <CopyButton
+                            value={formatted.code}
+                            label="Copy clamp value"
+                            className="absolute top-2.5 right-2.5 text-neutral-400 hover:bg-white/10 hover:text-neutral-50"
+                        />
+                    </div>
+                    {formatted.usage && (
+                        <p className="text-xs text-neutral-500">
+                            Use it as{' '}
+                            <code className="rounded bg-canvas px-1 py-0.5 font-mono text-neutral-800 ring-1 ring-line">
+                                {formatted.usage}
+                            </code>
+                            .
+                        </p>
+                    )}
                 </div>
                 <SkillPopover align="start">
                     <button

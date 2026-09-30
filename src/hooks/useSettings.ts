@@ -6,6 +6,9 @@ import { getTailwindValue } from '~/utils/getTailwindValue';
 
 type Mode = 'rem' | 'px' | 'tailwind';
 type PreviewMode = 'container' | 'text';
+type Output = 'css' | 'tailwind-v4' | 'tailwind-v3' | 'tailwind-class';
+// Presets for one property replace the container / text preview with a dedicated one.
+type Property = 'gap' | 'border-radius' | 'line-height';
 
 interface Settings {
     minimumValue: number;
@@ -14,6 +17,8 @@ interface Settings {
     maximumViewport: number;
     mode: Mode;
     previewMode: PreviewMode;
+    property?: Property;
+    output: Output;
     percentage: number;
     clamp: string;
 }
@@ -27,6 +32,7 @@ const useSettingsProvider = (defaults: Partial<Settings> = {}) => {
             maximumViewport: 120,
             mode: 'rem',
             previewMode: 'container',
+            output: 'css',
             percentage: 60,
             clamp: '',
             ...defaults,
@@ -87,6 +93,6 @@ const useSettings = () => {
     return useFormContext<Settings>();
 };
 
-export type { Settings, Mode, PreviewMode };
+export type { Settings, Mode, PreviewMode, Output, Property };
 export { useSettingsProvider };
 export default useSettings;
