@@ -8,6 +8,7 @@ import SkillPopover from '~/components/misc/skill-popover';
 
 const links = [
     { href: '/guide', label: 'Guide' },
+    { href: '/tailwind', label: 'Tailwind' },
     { href: '/deepdive', label: 'Deep dive' },
     { href: '/examples', label: 'Examples' },
 ];

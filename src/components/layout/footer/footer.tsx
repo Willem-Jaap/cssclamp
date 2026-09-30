@@ -11,7 +11,10 @@ const columns = [
         title: 'Learn',
         links: [
             { href: '/', label: 'Generator' },
+            { href: '/font-size-clamp-generator', label: 'Font size generator' },
+            { href: '/spacing-clamp-generator', label: 'Spacing generator' },
             { href: '/guide', label: 'Guide' },
+            { href: '/tailwind', label: 'Tailwind CSS' },
             { href: '/deepdive', label: 'Deep dive' },
             { href: '/examples', label: 'Examples' },
         ],
