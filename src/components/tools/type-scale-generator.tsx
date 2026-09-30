@@ -7,6 +7,7 @@ import cn from '~/utils/cn';
 import { resolveFluid, toClamp } from '~/utils/fluid';
 
 import ScreenWidthControl, { DESKTOP } from '~/app/examples/screen-width-control';
+import { track } from '~/lib/eyes';
 
 const ratios = [
     { value: 1.067, label: 'Minor second' },
@@ -294,6 +295,9 @@ const TypeScaleGenerator = () => {
                     <CopyButton
                         value={code}
                         label="Copy type scale"
+                        onCopy={() => {
+                            track('Type Scale Copied', { output, steps: stepsUp + stepsDown + 1 });
+                        }}
                         className="absolute top-3 right-3 text-neutral-400 hover:bg-white/10 hover:text-neutral-50"
                     />
                 </div>

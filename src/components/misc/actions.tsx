@@ -21,6 +21,8 @@ import cn from '~/utils/cn';
 import { getTailwindByValue } from '~/utils/getTailwindValue';
 import { formatOutput, getTarget } from '~/utils/output';
 
+import { track } from '~/lib/eyes';
+
 const outputs: { value: Output; label: string }[] = [
     { value: 'css', label: 'CSS' },
     { value: 'tailwind-v4', label: 'Tailwind v4' },
@@ -214,6 +216,13 @@ const Actions = () => {
                         <CopyButton
                             value={formatted.code}
                             label="Copy clamp value"
+                            onCopy={() => {
+                                track('Clamp Copied', {
+                                    output,
+                                    mode,
+                                    property: getValues('property') ?? 'none',
+                                });
+                            }}
                             className="absolute top-2.5 right-2.5 text-neutral-400 hover:bg-white/10 hover:text-neutral-50"
                         />
                     </div>

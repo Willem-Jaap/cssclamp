@@ -7,6 +7,8 @@ import Link from 'next/link';
 
 import CopyButton from '~/components/ui/copy-button';
 
+import { track } from '~/lib/eyes';
+
 const INSTALL_COMMAND = 'npx skills add Willem-Jaap/cssclamp';
 
 interface Props {
@@ -38,6 +40,9 @@ const SkillPopover = ({ children, align = 'end' }: Props) => {
                         <CopyButton
                             value={INSTALL_COMMAND}
                             label="Copy install command"
+                            onCopy={() => {
+                                track('Agent Skill Copied');
+                            }}
                             className="text-neutral-400 hover:bg-white/10 hover:text-neutral-50"
                         />
                     </div>

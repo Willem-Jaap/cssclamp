@@ -9,14 +9,16 @@ interface Props {
     value: string;
     label?: string;
     className?: string;
+    onCopy?: () => void;
 }
 
-const CopyButton = ({ value, label = 'Copy', className }: Props) => {
+const CopyButton = ({ value, label = 'Copy', className, onCopy }: Props) => {
     const [copied, setCopied] = useState(false);
 
     const handleCopy = async () => {
         await navigator.clipboard.writeText(value);
         setCopied(true);
+        onCopy?.();
         setTimeout(() => {
             setCopied(false);
         }, 2000);
