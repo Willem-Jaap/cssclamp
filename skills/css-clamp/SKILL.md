@@ -52,7 +52,7 @@ Check the result: at `minViewport` the preferred value must equal `minSize`, and
 
 1. **Use rem for the bounds and the intercept, never px.** rem respects the user's
    font size setting and browser zoom.
-2. **Never use a bare viewport unit for text** (`font-size: 4vw`). It shrinks when
+2. **Never use a bare viewport unit for text** (`font-size: 4vw`). It does not grow when
    the user zooms in. The rem intercept is what keeps fluid text zoomable.
 3. **Keep text ranges moderate.** For text, keep the maximum within about 2.5× the
    minimum so it still reaches 200% on zoom (WCAG 1.4.4). Body text should barely
