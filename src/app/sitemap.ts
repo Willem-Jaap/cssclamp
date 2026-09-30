@@ -1,15 +1,12 @@
 import type { MetadataRoute } from 'next';
 
+import { guides, tools } from '~/lib/pages';
 import { absoluteUrl } from '~/lib/site';
 
-const routes: { path: string; priority: number }[] = [
+const routes = [
     { path: '/', priority: 1 },
-    { path: '/font-size-clamp-generator', priority: 0.9 },
-    { path: '/spacing-clamp-generator', priority: 0.9 },
-    { path: '/tailwind', priority: 0.9 },
-    { path: '/guide', priority: 0.8 },
-    { path: '/deepdive', priority: 0.7 },
-    { path: '/examples', priority: 0.7 },
+    ...tools.map(tool => ({ path: tool.href, priority: 0.9 })),
+    ...guides.map(guide => ({ path: guide.href, priority: 0.8 })),
 ];
 
 const sitemap = (): MetadataRoute.Sitemap =>

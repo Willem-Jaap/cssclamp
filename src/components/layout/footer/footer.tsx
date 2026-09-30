@@ -6,18 +6,16 @@ import FooterText from '~/components/layout/footer/footer-text';
 import Logo from '~/components/misc/logo';
 import SponsorTag from '~/components/misc/sponsor-tag';
 
+import { guides, tools } from '~/lib/pages';
+
 const columns = [
     {
-        title: 'Learn',
-        links: [
-            { href: '/', label: 'Generator' },
-            { href: '/font-size-clamp-generator', label: 'Font size generator' },
-            { href: '/spacing-clamp-generator', label: 'Spacing generator' },
-            { href: '/guide', label: 'Guide' },
-            { href: '/tailwind', label: 'Tailwind CSS' },
-            { href: '/deepdive', label: 'Deep dive' },
-            { href: '/examples', label: 'Examples' },
-        ],
+        title: 'Tools',
+        links: [{ href: '/', label: 'Clamp generator' }, ...tools],
+    },
+    {
+        title: 'Guides',
+        links: guides,
     },
     {
         title: 'Connect',
@@ -52,8 +50,8 @@ const Footer = () => {
                         />
                     </Link>
                 </div>
-                <div className="flex w-full flex-col gap-12 md:max-w-md">
-                    <div className="flex gap-16 sm:gap-24 md:justify-end">
+                <div className="flex w-full flex-col gap-12 md:max-w-2xl">
+                    <div className="grid grid-cols-2 gap-x-12 gap-y-10 sm:flex sm:gap-16 md:justify-end">
                         {columns.map(column => (
                             <div key={column.title} className="flex flex-col gap-4">
                                 <p className="text-sm font-medium text-neutral-50">

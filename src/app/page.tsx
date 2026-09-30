@@ -6,6 +6,7 @@ import Faq, { type FaqItem } from '~/components/content/faq';
 import JsonLd from '~/components/content/json-ld';
 import Generator from '~/components/misc/generator';
 
+import { guides, tools, type PageLink } from '~/lib/pages';
 import { pageMetadata, site } from '~/lib/site';
 
 const features = [
@@ -27,29 +28,6 @@ const steps = [
     'Enter the smallest and largest size you want, for example 1rem and 3rem.',
     'Set the viewport range where the value should grow, for example 24rem (384px) to 120rem (1920px).',
     'Check the result in the preview and copy the clamp() value into your CSS or Tailwind theme.',
-];
-
-const guides = [
-    {
-        href: '/guide',
-        title: 'How to use CSS clamp()',
-        text: 'The syntax, how to read a clamp value and when to use it instead of media queries.',
-    },
-    {
-        href: '/tailwind',
-        title: 'Tailwind CSS clamp() guide',
-        text: 'Fluid font sizes and spacing in Tailwind CSS v4 and v3, with copy-ready theme tokens.',
-    },
-    {
-        href: '/deepdive',
-        title: 'The maths behind clamp()',
-        text: 'Slope, intercept, zoom and accessibility, and container query units.',
-    },
-    {
-        href: '/examples',
-        title: 'Examples',
-        text: 'A fluid type scale for h1 to h6 and a dashboard layout with fluid gutters.',
-    },
 ];
 
 const faq: FaqItem[] = [
@@ -90,6 +68,29 @@ const faq: FaqItem[] = [
         answer: 'Use the smallest and largest widths your design is made for. A common range is 360px to 1440px, or 24rem to 120rem if you want the value to keep growing on large monitors. Outside that range the value stays at the minimum or maximum.',
     },
 ];
+
+const LinkGrid = ({ title, links }: { title: string; links: PageLink[] }) => (
+    <section className="flex flex-col gap-6">
+        <h2 className="text-2xl font-medium tracking-tight text-neutral-950">{title}</h2>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {links.map(link => (
+                <Link
+                    key={link.href}
+                    href={link.href}
+                    className="group flex flex-col gap-2 rounded-xl border border-line p-5 transition-colors hover:bg-canvas">
+                    <span className="flex items-center justify-between gap-2 font-medium text-neutral-950">
+                        {link.title}
+                        <ArrowUpRightIcon
+                            size={16}
+                            className="shrink-0 text-neutral-400 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                        />
+                    </span>
+                    <span className="text-sm leading-relaxed text-neutral-500">{link.text}</span>
+                </Link>
+            ))}
+        </div>
+    </section>
+);
 
 const Page = () => {
     return (
@@ -153,30 +154,8 @@ const Page = () => {
                     </div>
                 </section>
 
-                <section className="flex flex-col gap-6">
-                    <h2 className="text-2xl font-medium tracking-tight text-neutral-950">
-                        Learn more about clamp()
-                    </h2>
-                    <div className="grid gap-4 sm:grid-cols-2">
-                        {guides.map(guide => (
-                            <Link
-                                key={guide.href}
-                                href={guide.href}
-                                className="group flex flex-col gap-2 rounded-xl border border-line p-5 transition-colors hover:bg-canvas">
-                                <span className="flex items-center justify-between font-medium text-neutral-950">
-                                    {guide.title}
-                                    <ArrowUpRightIcon
-                                        size={16}
-                                        className="text-neutral-400 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                                    />
-                                </span>
-                                <span className="text-sm leading-relaxed text-neutral-500">
-                                    {guide.text}
-                                </span>
-                            </Link>
-                        ))}
-                    </div>
-                </section>
+                <LinkGrid title="More clamp() tools" links={tools} />
+                <LinkGrid title="Learn more about clamp()" links={guides} />
 
                 <Faq items={faq} />
             </div>
