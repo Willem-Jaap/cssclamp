@@ -1,11 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-import { CopyCheckIcon, CopyIcon } from 'lucide-react';
 import Link from 'next/link';
 
 import NumberInput from '~/components/form/number-input';
 import { Button } from '~/components/ui/button';
+import CopyButton from '~/components/ui/copy-button';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -20,7 +19,6 @@ import { getTailwindByValue } from '~/utils/getTailwindValue';
 
 const Actions = () => {
     const { register, watch, getValues, setValue } = useSettings();
-    const [copied, setCopied] = useState(false);
 
     const remify = (px: number) => px / 16;
 
@@ -64,21 +62,15 @@ const Actions = () => {
         setValue('mode', mode as Mode);
     };
 
-    const handleCopy = async () => {
-        await navigator.clipboard.writeText(watch('clamp'));
-        setCopied(true);
-        setTimeout(() => {
-            setCopied(false);
-        }, 2000);
-    };
-
     return (
         <div className="flex h-full flex-col">
-            <div className="flex items-center justify-between gap-4 border-b border-b-neutral-200 p-5">
-                <h2 className="text-lg font-medium whitespace-nowrap">Actions</h2>
+            <div className="flex items-center justify-between gap-4 border-b border-b-line px-4 py-3">
+                <h2 className="text-sm font-medium whitespace-nowrap">Actions</h2>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="secondary">Mode: {watch('mode')}</Button>
+                        <Button variant="secondary" className="h-8 rounded-md px-3 text-sm">
+                            Mode: {watch('mode')}
+                        </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="mr-[clamp(2rem,1.6rem+2vw,4rem)] w-56">
                         <DropdownMenuLabel>Sizing mode</DropdownMenuLabel>
@@ -108,15 +100,15 @@ const Actions = () => {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="flex flex-col border-b border-b-neutral-200 p-5">
-                <h3 className="font-medium">Clamp sizes</h3>
-                <p className="mt-2 text-neutral-400">
+            <div className="flex flex-col border-b border-b-line px-4 py-3">
+                <h3 className="text-sm font-medium">Clamp sizes</h3>
+                <p className="mt-0.5 text-sm text-neutral-500">
                     Define the minimum and maximum size (padding/margin or font size) for responsive
                     elements.
                 </p>
-                <div className="mt-4 flex items-center justify-between gap-2">
-                    <label htmlFor="min-value" className="font-medium">
-                        Minimum value:
+                <div className="mt-3 flex items-center justify-between gap-2">
+                    <label htmlFor="min-value" className="text-sm text-neutral-700">
+                        Minimum value
                     </label>
                     <NumberInput
                         id="min-value"
@@ -125,9 +117,9 @@ const Actions = () => {
                         {...register('minimumValue')}
                     />
                 </div>
-                <div className="mt-3 flex items-center justify-between gap-2">
-                    <label htmlFor="max-value" className="font-medium">
-                        Maximum value:
+                <div className="mt-2 flex items-center justify-between gap-2">
+                    <label htmlFor="max-value" className="text-sm text-neutral-700">
+                        Maximum value
                     </label>
                     <NumberInput
                         id="max-value"
@@ -137,14 +129,16 @@ const Actions = () => {
                     />
                 </div>
             </div>
-            <div className="flex flex-col border-b border-b-neutral-200 p-5">
-                <h3 className="font-medium">Viewport settings</h3>
-                <p className="mt-2 text-neutral-400">
+            <div className="flex flex-col border-b border-b-line px-4 py-3">
+                <h3 className="text-sm font-medium">Viewport settings</h3>
+                <p className="mt-0.5 text-sm text-neutral-500">
                     Set the minimum and maximum screen sizes where the clamp expression takes
                     effect.
                 </p>
-                <div className="mt-4 flex items-center justify-between gap-2">
-                    <label htmlFor="viewport-min">Minimum viewport width: </label>
+                <div className="mt-3 flex items-center justify-between gap-2">
+                    <label htmlFor="viewport-min" className="text-sm text-neutral-700">
+                        Minimum viewport
+                    </label>
                     <NumberInput
                         id="viewport-min"
                         min={0}
@@ -152,8 +146,10 @@ const Actions = () => {
                         {...register('minimumViewport')}
                     />
                 </div>
-                <div className="mt-3 flex items-center justify-between gap-2">
-                    <label htmlFor="viewport-max">Maximum viewport width: </label>
+                <div className="mt-2 flex items-center justify-between gap-2">
+                    <label htmlFor="viewport-max" className="text-sm text-neutral-700">
+                        Maximum viewport
+                    </label>
                     <NumberInput
                         id="viewport-max"
                         min={0}
@@ -163,25 +159,24 @@ const Actions = () => {
                 </div>
             </div>
 
-            <div className="flex flex-1 flex-col justify-between p-5">
-                <p className="mb-4 text-sm text-neutral-600">
-                    The clamped value will be between {watch('minimumValue')}{' '}
-                    {mode !== 'tailwind' && mode} and {watch('maximumValue')}{' '}
-                    {mode !== 'tailwind' && mode}, applied linearly between the viewport sizes of{' '}
-                    {watch('minimumViewport')} {mode !== 'tailwind' && mode} and{' '}
-                    {watch('maximumViewport')} {mode !== 'tailwind' && mode}.
+            <div className="flex flex-col gap-3 p-4">
+                <p className="text-sm text-neutral-500">
+                    The clamped value will be between {watch('minimumValue')}
+                    {mode !== 'tailwind' && mode} and {watch('maximumValue')}
+                    {mode !== 'tailwind' && mode}, applied linearly between viewports of{' '}
+                    {watch('minimumViewport')}
+                    {mode !== 'tailwind' && mode} and {watch('maximumViewport')}
+                    {mode !== 'tailwind' && mode}.
                 </p>
-                <div className="flex items-center justify-between gap-4">
-                    <p className="font-medium">{watch('clamp')}</p>
-                    <Button className="h-10 min-w-10 p-2" variant="outline" onClick={handleCopy}>
-                        {copied ? (
-                            <span className="flex items-center gap-2 text-sm">
-                                <CopyCheckIcon size={16} /> Copied
-                            </span>
-                        ) : (
-                            <CopyIcon size={16} />
-                        )}
-                    </Button>
+                <div className="relative rounded-lg bg-neutral-950 py-3.5 pr-12 pl-4">
+                    <code className="block font-mono text-[0.8125rem] leading-relaxed break-words text-neutral-50">
+                        {watch('clamp')}
+                    </code>
+                    <CopyButton
+                        value={watch('clamp')}
+                        label="Copy clamp value"
+                        className="absolute top-2.5 right-2.5 text-neutral-400 hover:bg-white/10 hover:text-neutral-50"
+                    />
                 </div>
             </div>
         </div>
