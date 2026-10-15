@@ -38,4 +38,24 @@ const EyesLogo = ({ className }: Props) => {
     );
 };
 
-export { PixelPerfectLogo, EyesLogo };
+// Mark taken from the Tencil landing (logo.tsx and favicon.svg): the overlay's pin with a cursor in it, in brand colours.
+const TencilLogo = ({ className }: Props) => {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            className={className}>
+            <path d="M3 21V9a6 6 0 0 1 6-6h6a6 6 0 0 1 6 6v6a6 6 0 0 1-6 6Z" fill="#3b8dff" />
+            <path
+                d="M9.25 7.5 16.5 12.6l-3.55.75-1.75 3.4Z"
+                fill="#fff"
+                stroke="#fff"
+                strokeWidth="1"
+                strokeLinejoin="round"
+            />
+        </svg>
+    );
+};
+
+export { PixelPerfectLogo, EyesLogo, TencilLogo };
