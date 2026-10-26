@@ -72,12 +72,38 @@ const FloatingSponsor = () => {
                 setPaused(false);
             }}
             className={cn(
-                'fixed right-[calc(clamp(1rem,_0.25rem_+_3.125vw,_4rem)+0.75rem)] bottom-7 z-40 w-80 animate-in rounded-xl border border-line bg-white/90 p-1.5 shadow-[0_12px_32px_-12px_rgb(0_0_0/0.18)] backdrop-blur transition-[opacity,translate] duration-300 fade-in slide-in-from-bottom-2 max-lg:hidden',
+                // A one-row bar along the bottom on small screens, a card in the corner from lg up.
+                'fixed inset-x-[clamp(1rem,_0.25rem_+_3.125vw,_4rem)] bottom-3 z-40 flex animate-in items-center gap-2 rounded-xl border border-line bg-white/90 p-1.5 shadow-[0_12px_32px_-12px_rgb(0_0_0/0.18)] backdrop-blur transition-[opacity,translate] duration-300 fade-in slide-in-from-bottom-2 lg:right-[calc(clamp(1rem,_0.25rem_+_3.125vw,_4rem)+0.75rem)] lg:bottom-7 lg:left-auto lg:w-80 lg:flex-col-reverse lg:items-stretch lg:gap-0',
                 footerVisible && 'pointer-events-none translate-y-2 opacity-0',
             )}>
-            <div className="flex items-center justify-between gap-2 px-1.5 pt-0.5 pb-1.5">
-                <p className="text-xs text-neutral-500">Sponsored by</p>
-                <div className="flex items-center gap-1">
+            <Link
+                key={sponsor.name}
+                href={withUtm(sponsor.href, 'floating')}
+                target="_blank"
+                rel="noreferrer"
+                className="group flex min-w-0 flex-1 animate-in items-center gap-3 rounded-lg p-1.5 transition-colors duration-500 fade-in hover:bg-canvas">
+                <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-canvas text-neutral-950 ring-1 ring-line">
+                    {sponsor.logo}
+                </span>
+                <span className="flex min-w-0 flex-col">
+                    <span className="flex items-center gap-1 text-sm font-medium text-neutral-950">
+                        {sponsor.name}
+                        <ArrowUpRightIcon
+                            size={14}
+                            className="text-neutral-400 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-neutral-950"
+                        />
+                    </span>
+                    <span className="text-xs leading-snug text-neutral-500 max-lg:hidden">
+                        {sponsor.tagline}
+                    </span>
+                    <span className="text-xs leading-snug text-neutral-500 lg:hidden">
+                        Sponsored
+                    </span>
+                </span>
+            </Link>
+            <div className="flex shrink-0 items-center justify-between gap-2 lg:px-1.5 lg:pt-0.5 lg:pb-1.5">
+                <p className="text-xs text-neutral-500 max-lg:hidden">Sponsored by</p>
+                <div className="flex items-center gap-1 max-lg:gap-0">
                     {sponsors.map((item, itemIndex) => (
                         <button
                             key={item.name}
@@ -87,7 +113,7 @@ const FloatingSponsor = () => {
                             onClick={() => {
                                 setIndex(itemIndex);
                             }}
-                            className="flex size-4 items-center justify-center">
+                            className="flex size-4 items-center justify-center max-lg:size-7">
                             <span
                                 className={cn(
                                     'size-1.5 rounded-full transition-colors',
@@ -103,31 +129,11 @@ const FloatingSponsor = () => {
                             sessionStorage.setItem(STORAGE_KEY, '1');
                             setDismissed(true);
                         }}
-                        className="ml-1 flex size-5 items-center justify-center rounded-md text-neutral-400 transition-colors hover:bg-canvas hover:text-neutral-950">
+                        className="ml-1 flex size-5 items-center justify-center rounded-md text-neutral-400 transition-colors hover:bg-canvas hover:text-neutral-950 max-lg:size-8">
                         <XIcon size={12} />
                     </button>
                 </div>
             </div>
-            <Link
-                key={sponsor.name}
-                href={withUtm(sponsor.href, 'floating')}
-                target="_blank"
-                rel="noreferrer"
-                className="group flex animate-in items-center gap-3 rounded-lg p-1.5 transition-colors duration-500 fade-in hover:bg-canvas">
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-canvas text-neutral-950 ring-1 ring-line">
-                    {sponsor.logo}
-                </span>
-                <span className="flex min-w-0 flex-col">
-                    <span className="flex items-center gap-1 text-sm font-medium text-neutral-950">
-                        {sponsor.name}
-                        <ArrowUpRightIcon
-                            size={14}
-                            className="text-neutral-400 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-neutral-950"
-                        />
-                    </span>
-                    <span className="text-xs leading-snug text-neutral-500">{sponsor.tagline}</span>
-                </span>
-            </Link>
         </aside>
     );
 };
