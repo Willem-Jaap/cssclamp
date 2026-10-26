@@ -6,6 +6,7 @@ import { EyesNextProvider } from 'eyes-next';
 import Footer from '~/components/layout/footer/footer';
 import Header from '~/components/layout/header';
 import ThemeProvider from '~/components/layout/theme-provider';
+import FloatingSponsor from '~/components/misc/floating-sponsor';
 
 import { albertSansFont, jetBrainsMonoFont } from '~/fonts';
 import { site } from '~/lib/site';
@@ -26,6 +27,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
                             {children}
                         </div>
                         <Footer />
+                        <FloatingSponsor />
                         <Analytics />
                     </ThemeProvider>
                 </EyesNextProvider>

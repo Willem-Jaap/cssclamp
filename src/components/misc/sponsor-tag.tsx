@@ -1,38 +1,7 @@
 import { ArrowUpRightIcon } from 'lucide-react';
 import Link from 'next/link';
 
-import { EyesLogo, PixelPerfectLogo, TencilLogo } from '~/components/misc/brand-logos';
-
-import { site } from '~/lib/site';
-
-const sponsors = [
-    {
-        name: 'Pixel Perfect',
-        tagline: 'Strategy, design and code in one team',
-        href: 'https://pixelperfect.agency',
-        logo: <PixelPerfectLogo className="size-4" />,
-    },
-    {
-        name: 'Eyes',
-        tagline: 'Agentic data intelligence for everyone',
-        href: 'https://eyes.dev',
-        logo: <EyesLogo className="h-3.5 w-auto" />,
-    },
-    {
-        name: 'Tencil',
-        tagline: 'Point at your app, tell your agent what to fix',
-        href: 'https://tencil.dev',
-        logo: <TencilLogo className="size-5" />,
-    },
-];
-
-const withUtm = (href: string) => {
-    const url = new URL(href);
-    url.searchParams.set('utm_source', new URL(site.url).hostname);
-    url.searchParams.set('utm_medium', 'referral');
-    url.searchParams.set('utm_campaign', 'sponsor');
-    return url.toString();
-};
+import { sponsors, withUtm } from '~/lib/sponsors';
 
 const SponsorTag = () => {
     return (
@@ -45,7 +14,7 @@ const SponsorTag = () => {
                 {sponsors.map(sponsor => (
                     <Link
                         key={sponsor.name}
-                        href={withUtm(sponsor.href)}
+                        href={withUtm(sponsor.href, 'footer')}
                         target="_blank"
                         rel="noreferrer"
                         className="group relative flex items-center gap-3 overflow-hidden rounded-xl bg-white/[0.03] p-3 ring-1 ring-white/10 transition-colors hover:bg-white/[0.06] hover:ring-white/20">
