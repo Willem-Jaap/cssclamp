@@ -150,8 +150,8 @@ const TypeScaleGenerator = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="grid gap-4 md:grid-cols-15">
-                <div className="flex min-w-0 flex-col overflow-hidden rounded-xl border border-line bg-white md:col-span-10">
+            <div className="grid gap-4 lg:grid-cols-15">
+                <div className="flex min-w-0 flex-col overflow-hidden rounded-xl border border-line bg-white lg:col-span-10">
                     <ScreenWidthControl width={width} onChange={setWidth} />
                     <div className="flex flex-col divide-y divide-line">
                         {steps.map(({ step, cssName, range }) => {
@@ -189,7 +189,7 @@ const TypeScaleGenerator = () => {
                     </div>
                 </div>
 
-                <div className="flex flex-col overflow-hidden rounded-xl border border-line bg-white md:col-span-5">
+                <div className="flex flex-col overflow-hidden rounded-xl border border-line bg-white lg:col-span-5">
                     <Group title="Base size">
                         <NumberField
                             id="min-base"

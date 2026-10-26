@@ -189,7 +189,7 @@ const Actions = () => {
                     <div
                         role="radiogroup"
                         aria-label="Output format"
-                        className="flex self-start rounded-lg bg-canvas p-0.5 ring-1 ring-line">
+                        className="grid grid-cols-4 rounded-lg bg-canvas p-0.5 ring-1 ring-line sm:flex sm:self-start">
                         {outputs.map(option => (
                             <button
                                 key={option.value}

@@ -26,7 +26,7 @@ const PreviewHeader = ({ api, percentage, setPercentage }: Props) => {
     };
 
     return (
-        <div className="flex w-full items-center justify-between gap-4 border-b border-b-line px-3 py-2.5">
+        <div className="flex w-full flex-wrap items-center justify-between gap-x-4 gap-y-2.5 border-b border-b-line px-3 py-2.5">
             {property ? (
                 <span className="rounded-lg bg-canvas px-3 py-1.5 font-mono text-sm text-neutral-700 ring-1 ring-line">
                     {property}
@@ -34,10 +34,10 @@ const PreviewHeader = ({ api, percentage, setPercentage }: Props) => {
             ) : (
                 <PreviewModeSelector />
             )}
-            <div className="flex items-center gap-3">
+            <div className="flex min-w-48 flex-1 items-center justify-end gap-3">
                 <span className="text-sm text-neutral-500 max-lg:sr-only">Screen width</span>
                 <Slider
-                    className="w-40"
+                    className="w-full sm:w-40"
                     aria-label="Emulated screen width"
                     min={0}
                     max={100}
@@ -45,7 +45,7 @@ const PreviewHeader = ({ api, percentage, setPercentage }: Props) => {
                     defaultValue={[60]}
                     onValueChange={onChange}
                 />
-                <div className="w-[calc(1.5rem+6ch)] rounded-md bg-canvas px-2 py-1 text-right font-mono text-xs text-neutral-700 tabular-nums ring-1 ring-line">
+                <div className="w-[calc(1.5rem+6ch)] shrink-0 rounded-md bg-canvas px-2 py-1 text-right font-mono text-xs text-neutral-700 tabular-nums ring-1 ring-line">
                     {Math.round((1920 / 100) * percentage)}px
                 </div>
             </div>

@@ -1,6 +1,7 @@
 import { SparklesIcon } from 'lucide-react';
 import Link from 'next/link';
 
+import MobileNav from '~/components/layout/mobile-nav';
 import NavLink from '~/components/layout/nav-link';
 import ThemeToggle from '~/components/layout/theme-toggle';
 import Logo from '~/components/misc/logo';
@@ -33,12 +34,15 @@ const Header = () => {
                     <SkillPopover>
                         <button
                             type="button"
-                            className="flex h-8 items-center gap-2 rounded-md bg-neutral-950 px-3 text-sm font-medium text-white transition-colors hover:bg-neutral-800">
+                            className="flex h-8 items-center gap-2 rounded-md bg-neutral-950 px-3 text-sm font-medium text-white transition-colors hover:bg-neutral-800 max-sm:w-8 max-sm:justify-center max-sm:px-0">
                             <SparklesIcon size={14} />
-                            Agent skill
+                            <span className="max-sm:sr-only">Agent skill</span>
                         </button>
                     </SkillPopover>
                     <ThemeToggle />
+                    <div className="sm:hidden">
+                        <MobileNav links={links} />
+                    </div>
                 </div>
             </div>
         </header>

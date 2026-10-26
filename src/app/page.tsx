@@ -95,7 +95,7 @@ const LinkGrid = ({ title, links }: { title: string; links: PageLink[] }) => (
 const Page = () => {
     return (
         <>
-            <div className="flex h-[calc(100dvh-4rem)] min-h-[36rem] flex-col gap-4 py-4">
+            <div className="flex flex-col gap-4 py-4 lg:h-[calc(100dvh-4rem)] lg:min-h-[36rem]">
                 <h1 className="sr-only">CSS clamp() generator for fluid typography and spacing</h1>
                 <Generator />
             </div>
