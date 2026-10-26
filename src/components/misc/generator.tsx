@@ -17,11 +17,15 @@ const Generator = ({ defaults, className }: Props) => {
 
     return (
         <FormProvider {...methods}>
-            <div className={cn('flex min-h-0 flex-1 grid-cols-15 gap-4 md:grid', className)}>
-                <div className="col-span-10 min-h-0 flex-1 overflow-hidden rounded-xl border border-line bg-white">
+            <div
+                className={cn(
+                    'flex min-h-0 flex-1 flex-col gap-4 lg:grid lg:grid-cols-15',
+                    className,
+                )}>
+                <div className="h-[28rem] shrink-0 overflow-hidden rounded-xl border border-line bg-white lg:col-span-10 lg:h-auto lg:min-h-0">
                     <Preview />
                 </div>
-                <div className="col-span-5 flex min-h-0 w-full flex-col overflow-y-auto rounded-xl border border-line bg-white">
+                <div className="flex w-full flex-col rounded-xl border border-line bg-white lg:col-span-5 lg:min-h-0 lg:overflow-y-auto">
                     <Actions />
                 </div>
             </div>

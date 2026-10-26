@@ -36,7 +36,7 @@ const GeneratorPage = ({
             <div
                 className={cn(
                     'flex flex-col gap-4 py-4',
-                    !tool && 'h-[calc(100dvh-4rem)] min-h-[40rem]',
+                    !tool && 'lg:h-[calc(100dvh-4rem)] lg:min-h-[40rem]',
                 )}>
                 <header className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
                     <h1 className="text-xl font-medium tracking-tight text-neutral-950">{title}</h1>
