@@ -20,7 +20,7 @@ export const sponsors: Sponsor[] = [
     },
     {
         name: 'Eyes',
-        tagline: 'Agentic data intelligence for everyone',
+        tagline: 'A powerful, privacy-friendly web and product analytics suite',
         href: 'https://eyes.dev',
         logo: <EyesLogo className="h-3.5 w-auto" />,
     },
