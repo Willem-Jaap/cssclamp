@@ -5,12 +5,12 @@ import { sponsors, withUtm } from '~/lib/sponsors';
 
 const SponsorTag = () => {
     return (
-        <div className="flex w-full flex-col gap-3">
+        <div className="@container flex w-full flex-col gap-3">
             <p className="flex items-center gap-3 text-xs text-neutral-500">
                 Sponsored by
                 <span className="h-px flex-1 bg-linear-to-r from-white/10 to-transparent" />
             </p>
-            <div className="grid gap-2 sm:grid-cols-3">
+            <div className="grid gap-2 @xl:grid-cols-3">
                 {sponsors.map(sponsor => (
                     <Link
                         key={sponsor.name}
